@@ -6,7 +6,7 @@
             <name>Vaccum_Cleaner</name>
             <creation-uuid>a273b5c6-a302-4dee-bf25-4241f394c86c</creation-uuid>
             <make-project-type>0</make-project-type>
-            <c-extensions/>
+            <c-extensions>c</c-extensions>
             <cpp-extensions/>
             <header-extensions>h</header-extensions>
             <asminc-extensions/>

@@ -125,8 +125,8 @@
 
 
 /* define some standard types does not depend on the machine */
-typedef unsigned char u8_t;
-typedef unsigned int  u16_t;
+typedef unsigned char uint8;
+typedef unsigned int  uint16;
 
 
 #endif	/* XC_HEADER_TEMPLATE_H */

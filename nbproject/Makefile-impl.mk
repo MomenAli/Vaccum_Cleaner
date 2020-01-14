@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=Vaccum_Cleaner.X
+PROJECTNAME=Vaccum_Cleaner
 
 # Active Configuration
 DEFAULTCONF=default
