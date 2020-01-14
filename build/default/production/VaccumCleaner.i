@@ -1751,7 +1751,7 @@ typedef enum
 {
     SW_PLUS,
     SW_MINUS,
-    SW_SET
+    SW_PRESSURE
 }SW_t;
 
 
@@ -1787,23 +1787,43 @@ uint8 GPIO_Init_Pin(uint8 * DirRegAddress ,uint8 pin_number,uint8 dir );
 # 1 "./Port.h" 1
 # 13 "VaccumCleaner.c" 2
 
+# 1 "./Led.h" 1
+# 18 "./Led.h"
+typedef enum
+{
+    LED_ALARM
+}LED_t;
+
+typedef enum{
+
+    LED_OFF = 0,
+    LED_ON = 1
+}LEDState_t;
+
+uint8 LED_Init(LED_t led, LEDState_t state);
+uint8 LED_GetState(LED_t led);
+void LED_SetState(LED_t led, LEDState_t state);
+void LED_update(void);
+void LED_Toggle(LED_t led);
+# 14 "VaccumCleaner.c" 2
+
 
 void main(void)
 {
     SW_Init();
-    GPIO_Init_Pin(&(TRISB),(3),(0));
+    LED_Init(LED_ALARM,LED_ON);
     while(1)
     {
-        _delay((unsigned long)((1000)*(8000000/4000.0)));
+        _delay((unsigned long)((5)*(8000000/4000.0)));
         SW_Update();
         if(SW_GetState(SW_PLUS) == SW_PRESSED)
         {
-            (((PORTB))=((PORTB) & ~(1<<(3)))|(0<<(3)));
+            LED_SetState(LED_ALARM,LED_OFF);
         }
         else
         {
-            (((PORTB))=((PORTB) & ~(1<<(3)))|(1<<(3)));
-        }
 
+            LED_SetState(LED_ALARM,LED_ON);
+        }
     }
 }

@@ -12,7 +12,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 "59 SW.c
 [; ;SW.c: 59:     SW_DATA[SW_PLUS].state = SW_RELEASED;
 [c E859 0 1 2 .. ]
-[n E859 . SW_PLUS SW_MINUS SW_SET  ]
+[n E859 . SW_PLUS SW_MINUS SW_PRESSURE  ]
 [c E864 0 1 2 3 .. ]
 [n E864 . SW_RELEASED SW_PRE_PRESSED SW_PRESSED SW_PRE_RELEASED  ]
 "216 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h
@@ -256,13 +256,13 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;SW.c: 68:     GPIO_Init_Pin(&(TRISB),(2),(1));
 [e ( _GPIO_Init_Pin (3 , , -> &U _TRISB `*uc -> -> 2 `i `uc -> -> 1 `i `uc ]
 "69
-[; ;SW.c: 69:     SW_DATA[SW_SET].state = SW_RELEASED;
+[; ;SW.c: 69:     SW_DATA[SW_PRESSURE].state = SW_RELEASED;
 [e = . *U + &U _SW_DATA * -> . `E859 2 `ux -> -> # *U &U _SW_DATA `ui `ux 1 -> . `E864 0 `uc ]
 "70
-[; ;SW.c: 70:     SW_DATA[SW_SET].samples[0] = (1);
+[; ;SW.c: 70:     SW_DATA[SW_PRESSURE].samples[0] = (1);
 [e = *U + &U . *U + &U _SW_DATA * -> . `E859 2 `ux -> -> # *U &U _SW_DATA `ui `ux 0 * -> -> -> 0 `i `ui `ux -> -> # *U &U . *U + &U _SW_DATA * -> . `E859 2 `ux -> -> # *U &U _SW_DATA `ui `ux 0 `ui `ux -> -> 1 `i `uc ]
 "71
-[; ;SW.c: 71:     SW_DATA[SW_SET].samples[1] = (1);
+[; ;SW.c: 71:     SW_DATA[SW_PRESSURE].samples[1] = (1);
 [e = *U + &U . *U + &U _SW_DATA * -> . `E859 2 `ux -> -> # *U &U _SW_DATA `ui `ux 0 * -> -> -> 1 `i `ui `ux -> -> # *U &U . *U + &U _SW_DATA * -> . `E859 2 `ux -> -> # *U &U _SW_DATA `ui `ux 0 `ui `ux -> -> 1 `i `uc ]
 "73
 [; ;SW.c: 73: }
@@ -296,149 +296,149 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;SW.c: 82: }
 [e :UE 97 ]
 }
-"84
-[; ;SW.c: 84: void SW_Update(void)
+"83
+[; ;SW.c: 83: void SW_Update(void)
 [v _SW_Update `(v ~T0 @X0 1 ef ]
-"86
-[; ;SW.c: 86: {
+"84
+[; ;SW.c: 84: {
 {
 [e :U _SW_Update ]
 [f ]
-"90
-[; ;SW.c: 90:     static uint8 SW_Time_Counter = 15;
+"88
+[; ;SW.c: 88:     static uint8 SW_Time_Counter = 15;
 [v F886 `uc ~T0 @X0 1 s SW_Time_Counter ]
 [i F886
 -> -> 15 `i `uc
 ]
-"91
-[; ;SW.c: 91:     SW_Time_Counter += (5);
+"89
+[; ;SW.c: 89:     SW_Time_Counter += (5);
 [e =+ F886 -> -> 5 `i `uc ]
-"93
-[; ;SW.c: 93:     if(SW_Time_Counter != (20))
+"91
+[; ;SW.c: 91:     if(SW_Time_Counter != (20))
 [e $ ! != -> F886 `i -> 20 `i 99  ]
-"94
-[; ;SW.c: 94:     {
+"92
+[; ;SW.c: 92:     {
 {
-"95
-[; ;SW.c: 95:         return;
+"93
+[; ;SW.c: 93:         return;
 [e $UE 98  ]
-"96
-[; ;SW.c: 96:     }
+"94
+[; ;SW.c: 94:     }
 }
 [e :U 99 ]
-"97
-[; ;SW.c: 97:     SW_Time_Counter = 0;
+"95
+[; ;SW.c: 95:     SW_Time_Counter = 0;
 [e = F886 -> -> 0 `i `uc ]
-"99
-[; ;SW.c: 99:     SW_DATA[SW_PLUS].samples[0] = SW_DATA[SW_PLUS].samples[1];
+"97
+[; ;SW.c: 97:     SW_DATA[SW_PLUS].samples[0] = SW_DATA[SW_PLUS].samples[1];
 [e = *U + &U . *U + &U _SW_DATA * -> . `E859 0 `ux -> -> # *U &U _SW_DATA `ui `ux 0 * -> -> -> 0 `i `ui `ux -> -> # *U &U . *U + &U _SW_DATA * -> . `E859 0 `ux -> -> # *U &U _SW_DATA `ui `ux 0 `ui `ux *U + &U . *U + &U _SW_DATA * -> . `E859 0 `ux -> -> # *U &U _SW_DATA `ui `ux 0 * -> -> -> 1 `i `ui `ux -> -> # *U &U . *U + &U _SW_DATA * -> . `E859 0 `ux -> -> # *U &U _SW_DATA `ui `ux 0 `ui `ux ]
-"100
-[; ;SW.c: 100:     SW_DATA[SW_PLUS].samples[1] = (((PORTB) >> (0))& 1);
+"98
+[; ;SW.c: 98:     SW_DATA[SW_PLUS].samples[1] = (((PORTB) >> (0))& 1);
 [e = *U + &U . *U + &U _SW_DATA * -> . `E859 0 `ux -> -> # *U &U _SW_DATA `ui `ux 0 * -> -> -> 1 `i `ui `ux -> -> # *U &U . *U + &U _SW_DATA * -> . `E859 0 `ux -> -> # *U &U _SW_DATA `ui `ux 0 `ui `ux -> & >> -> _PORTB `i -> 0 `i -> 1 `i `uc ]
-"102
-[; ;SW.c: 102:     SW_UpdateState(SW_PLUS);
+"100
+[; ;SW.c: 100:     SW_UpdateState(SW_PLUS);
 [e ( _SW_UpdateState (1 . `E859 0 ]
-"104
-[; ;SW.c: 104:     SW_DATA[SW_MINUS].samples[0] = SW_DATA[SW_MINUS].samples[1];
+"102
+[; ;SW.c: 102:     SW_DATA[SW_MINUS].samples[0] = SW_DATA[SW_MINUS].samples[1];
 [e = *U + &U . *U + &U _SW_DATA * -> . `E859 1 `ux -> -> # *U &U _SW_DATA `ui `ux 0 * -> -> -> 0 `i `ui `ux -> -> # *U &U . *U + &U _SW_DATA * -> . `E859 1 `ux -> -> # *U &U _SW_DATA `ui `ux 0 `ui `ux *U + &U . *U + &U _SW_DATA * -> . `E859 1 `ux -> -> # *U &U _SW_DATA `ui `ux 0 * -> -> -> 1 `i `ui `ux -> -> # *U &U . *U + &U _SW_DATA * -> . `E859 1 `ux -> -> # *U &U _SW_DATA `ui `ux 0 `ui `ux ]
-"105
-[; ;SW.c: 105:     SW_DATA[SW_MINUS].samples[1] = (((PORTB) >> (1))& 1);
+"103
+[; ;SW.c: 103:     SW_DATA[SW_MINUS].samples[1] = (((PORTB) >> (1))& 1);
 [e = *U + &U . *U + &U _SW_DATA * -> . `E859 1 `ux -> -> # *U &U _SW_DATA `ui `ux 0 * -> -> -> 1 `i `ui `ux -> -> # *U &U . *U + &U _SW_DATA * -> . `E859 1 `ux -> -> # *U &U _SW_DATA `ui `ux 0 `ui `ux -> & >> -> _PORTB `i -> 1 `i -> 1 `i `uc ]
-"107
-[; ;SW.c: 107:     SW_UpdateState(SW_MINUS);
+"105
+[; ;SW.c: 105:     SW_UpdateState(SW_MINUS);
 [e ( _SW_UpdateState (1 . `E859 1 ]
-"110
-[; ;SW.c: 110:     SW_DATA[SW_SET].samples[0] = SW_DATA[SW_SET].samples[1];
+"108
+[; ;SW.c: 108:     SW_DATA[SW_PRESSURE].samples[0] = SW_DATA[SW_PRESSURE].samples[1];
 [e = *U + &U . *U + &U _SW_DATA * -> . `E859 2 `ux -> -> # *U &U _SW_DATA `ui `ux 0 * -> -> -> 0 `i `ui `ux -> -> # *U &U . *U + &U _SW_DATA * -> . `E859 2 `ux -> -> # *U &U _SW_DATA `ui `ux 0 `ui `ux *U + &U . *U + &U _SW_DATA * -> . `E859 2 `ux -> -> # *U &U _SW_DATA `ui `ux 0 * -> -> -> 1 `i `ui `ux -> -> # *U &U . *U + &U _SW_DATA * -> . `E859 2 `ux -> -> # *U &U _SW_DATA `ui `ux 0 `ui `ux ]
-"111
-[; ;SW.c: 111:     SW_DATA[SW_SET].samples[1] = (((PORTB) >> (2))& 1);
+"109
+[; ;SW.c: 109:     SW_DATA[SW_PRESSURE].samples[1] = (((PORTB) >> (2))& 1);
 [e = *U + &U . *U + &U _SW_DATA * -> . `E859 2 `ux -> -> # *U &U _SW_DATA `ui `ux 0 * -> -> -> 1 `i `ui `ux -> -> # *U &U . *U + &U _SW_DATA * -> . `E859 2 `ux -> -> # *U &U _SW_DATA `ui `ux 0 `ui `ux -> & >> -> _PORTB `i -> 2 `i -> 1 `i `uc ]
-"113
-[; ;SW.c: 113:     SW_UpdateState(SW_SET);
+"111
+[; ;SW.c: 111:     SW_UpdateState(SW_PRESSURE);
 [e ( _SW_UpdateState (1 . `E859 2 ]
-"114
-[; ;SW.c: 114: }
+"112
+[; ;SW.c: 112: }
 [e :UE 98 ]
 }
-"116
-[; ;SW.c: 116: void SW_UpdateState(SW_t sw)
+"114
+[; ;SW.c: 114: void SW_UpdateState(SW_t sw)
 [v _SW_UpdateState `(v ~T0 @X0 1 ef1`E859 ]
-"117
-[; ;SW.c: 117: {
+"115
+[; ;SW.c: 115: {
 {
 [e :U _SW_UpdateState ]
-"116
-[; ;SW.c: 116: void SW_UpdateState(SW_t sw)
+"114
+[; ;SW.c: 114: void SW_UpdateState(SW_t sw)
 [v _sw `E859 ~T0 @X0 1 r1 ]
-"117
-[; ;SW.c: 117: {
+"115
+[; ;SW.c: 115: {
 [f ]
-"133
-[; ;SW.c: 133:     switch(SW_DATA[sw].state)
+"131
+[; ;SW.c: 131:     switch(SW_DATA[sw].state)
 [e $U 102  ]
-"134
-[; ;SW.c: 134:     {
+"132
+[; ;SW.c: 132:     {
 {
-"136
-[; ;SW.c: 136:         case SW_PRE_RELEASED:
+"134
+[; ;SW.c: 134:         case SW_PRE_RELEASED:
 [e :U 103 ]
-"137
-[; ;SW.c: 137:             if(SW_DATA[sw].samples[0] == (1) && SW_DATA[sw].samples[1] == (1))
+"135
+[; ;SW.c: 135:             if(SW_DATA[sw].samples[0] == (1) && SW_DATA[sw].samples[1] == (1))
 [e $ ! && == -> *U + &U . *U + &U _SW_DATA * -> _sw `ux -> -> # *U &U _SW_DATA `ui `ux 0 * -> -> -> 0 `i `ui `ux -> -> # *U &U . *U + &U _SW_DATA * -> _sw `ux -> -> # *U &U _SW_DATA `ui `ux 0 `ui `ux `i -> 1 `i == -> *U + &U . *U + &U _SW_DATA * -> _sw `ux -> -> # *U &U _SW_DATA `ui `ux 0 * -> -> -> 1 `i `ui `ux -> -> # *U &U . *U + &U _SW_DATA * -> _sw `ux -> -> # *U &U _SW_DATA `ui `ux 0 `ui `ux `i -> 1 `i 104  ]
-"138
-[; ;SW.c: 138:                 SW_DATA[sw].state = SW_RELEASED;
+"136
+[; ;SW.c: 136:                 SW_DATA[sw].state = SW_RELEASED;
 [e = . *U + &U _SW_DATA * -> _sw `ux -> -> # *U &U _SW_DATA `ui `ux 1 -> . `E864 0 `uc ]
 [e :U 104 ]
-"139
-[; ;SW.c: 139:             break;
+"137
+[; ;SW.c: 137:             break;
 [e $U 101  ]
-"140
-[; ;SW.c: 140:         case SW_RELEASED:
+"138
+[; ;SW.c: 138:         case SW_RELEASED:
 [e :U 105 ]
-"141
-[; ;SW.c: 141:             if(SW_DATA[sw].samples[0] == (0) && SW_DATA[sw].samples[1] == (0))
+"139
+[; ;SW.c: 139:             if(SW_DATA[sw].samples[0] == (0) && SW_DATA[sw].samples[1] == (0))
 [e $ ! && == -> *U + &U . *U + &U _SW_DATA * -> _sw `ux -> -> # *U &U _SW_DATA `ui `ux 0 * -> -> -> 0 `i `ui `ux -> -> # *U &U . *U + &U _SW_DATA * -> _sw `ux -> -> # *U &U _SW_DATA `ui `ux 0 `ui `ux `i -> 0 `i == -> *U + &U . *U + &U _SW_DATA * -> _sw `ux -> -> # *U &U _SW_DATA `ui `ux 0 * -> -> -> 1 `i `ui `ux -> -> # *U &U . *U + &U _SW_DATA * -> _sw `ux -> -> # *U &U _SW_DATA `ui `ux 0 `ui `ux `i -> 0 `i 106  ]
-"142
-[; ;SW.c: 142:                 SW_DATA[sw].state = SW_PRE_PRESSED;
+"140
+[; ;SW.c: 140:                 SW_DATA[sw].state = SW_PRE_PRESSED;
 [e = . *U + &U _SW_DATA * -> _sw `ux -> -> # *U &U _SW_DATA `ui `ux 1 -> . `E864 1 `uc ]
 [e :U 106 ]
-"143
-[; ;SW.c: 143:             break;
+"141
+[; ;SW.c: 141:             break;
 [e $U 101  ]
-"144
-[; ;SW.c: 144:         case SW_PRE_PRESSED:
+"142
+[; ;SW.c: 142:         case SW_PRE_PRESSED:
 [e :U 107 ]
-"145
-[; ;SW.c: 145:             if(SW_DATA[sw].samples[0] == (0) && SW_DATA[sw].samples[1] == (0))
+"143
+[; ;SW.c: 143:             if(SW_DATA[sw].samples[0] == (0) && SW_DATA[sw].samples[1] == (0))
 [e $ ! && == -> *U + &U . *U + &U _SW_DATA * -> _sw `ux -> -> # *U &U _SW_DATA `ui `ux 0 * -> -> -> 0 `i `ui `ux -> -> # *U &U . *U + &U _SW_DATA * -> _sw `ux -> -> # *U &U _SW_DATA `ui `ux 0 `ui `ux `i -> 0 `i == -> *U + &U . *U + &U _SW_DATA * -> _sw `ux -> -> # *U &U _SW_DATA `ui `ux 0 * -> -> -> 1 `i `ui `ux -> -> # *U &U . *U + &U _SW_DATA * -> _sw `ux -> -> # *U &U _SW_DATA `ui `ux 0 `ui `ux `i -> 0 `i 108  ]
-"146
-[; ;SW.c: 146:                 SW_DATA[sw].state = SW_PRESSED;
+"144
+[; ;SW.c: 144:                 SW_DATA[sw].state = SW_PRESSED;
 [e = . *U + &U _SW_DATA * -> _sw `ux -> -> # *U &U _SW_DATA `ui `ux 1 -> . `E864 2 `uc ]
 [e :U 108 ]
-"147
-[; ;SW.c: 147:             break;
+"145
+[; ;SW.c: 145:             break;
 [e $U 101  ]
-"148
-[; ;SW.c: 148:         case SW_PRESSED:
+"146
+[; ;SW.c: 146:         case SW_PRESSED:
 [e :U 109 ]
-"149
-[; ;SW.c: 149:             if(SW_DATA[sw].samples[0] == (1) && SW_DATA[sw].samples[1] == (1))
+"147
+[; ;SW.c: 147:             if(SW_DATA[sw].samples[0] == (1) && SW_DATA[sw].samples[1] == (1))
 [e $ ! && == -> *U + &U . *U + &U _SW_DATA * -> _sw `ux -> -> # *U &U _SW_DATA `ui `ux 0 * -> -> -> 0 `i `ui `ux -> -> # *U &U . *U + &U _SW_DATA * -> _sw `ux -> -> # *U &U _SW_DATA `ui `ux 0 `ui `ux `i -> 1 `i == -> *U + &U . *U + &U _SW_DATA * -> _sw `ux -> -> # *U &U _SW_DATA `ui `ux 0 * -> -> -> 1 `i `ui `ux -> -> # *U &U . *U + &U _SW_DATA * -> _sw `ux -> -> # *U &U _SW_DATA `ui `ux 0 `ui `ux `i -> 1 `i 110  ]
-"150
-[; ;SW.c: 150:                 SW_DATA[sw].state = SW_PRE_RELEASED;
+"148
+[; ;SW.c: 148:                 SW_DATA[sw].state = SW_PRE_RELEASED;
 [e = . *U + &U _SW_DATA * -> _sw `ux -> -> # *U &U _SW_DATA `ui `ux 1 -> . `E864 3 `uc ]
 [e :U 110 ]
-"151
-[; ;SW.c: 151:             break;
+"149
+[; ;SW.c: 149:             break;
 [e $U 101  ]
-"152
-[; ;SW.c: 152:         default:
+"150
+[; ;SW.c: 150:         default:
 [e :U 111 ]
-"154
-[; ;SW.c: 154:             break;
+"152
+[; ;SW.c: 152:             break;
 [e $U 101  ]
-"155
-[; ;SW.c: 155:     }
+"153
+[; ;SW.c: 153:     }
 }
 [e $U 101  ]
 [e :U 102 ]
@@ -448,7 +448,7 @@ Version 4.0 HI-TECH Software Intermediate Code
  , $ . `E864 2 109
  111 ]
 [e :U 101 ]
-"156
-[; ;SW.c: 156: }
+"154
+[; ;SW.c: 154: }
 [e :UE 100 ]
 }

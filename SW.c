@@ -66,9 +66,9 @@ void SW_Init(void)
     SW_DATA[SW_MINUS].samples[1] = SW_RELEASED_LEVEL;
     // initialize the the SET switch
     GPIO_Init_Pin(&SW_PRESSURE_DIR,SW_PRESSURE_PIN,GPIO_IN);
-    SW_DATA[SW_SET].state = SW_RELEASED;
-    SW_DATA[SW_SET].samples[0] = SW_RELEASED_LEVEL;
-    SW_DATA[SW_SET].samples[1] = SW_RELEASED_LEVEL;
+    SW_DATA[SW_PRESSURE].state = SW_RELEASED;
+    SW_DATA[SW_PRESSURE].samples[0] = SW_RELEASED_LEVEL;
+    SW_DATA[SW_PRESSURE].samples[1] = SW_RELEASED_LEVEL;
     
 }
 uint8 SW_GetState(SW_t sw)
@@ -80,9 +80,7 @@ uint8 SW_GetState(SW_t sw)
     
     return ret;
 }
-// <editor-fold defaultstate="collapsed" desc="comment">
-void SW_Update(void)// </editor-fold>
-
+void SW_Update(void)
 {
     /*
      * create static variable to hold time
@@ -107,10 +105,10 @@ void SW_Update(void)// </editor-fold>
     SW_UpdateState(SW_MINUS);
     
     // update samples of set switch
-    SW_DATA[SW_SET].samples[0] = SW_DATA[SW_SET].samples[1];
-    SW_DATA[SW_SET].samples[1] = GPIO_Read_Pin(SW_PRESSURE_PORT,SW_PRESSURE_PIN);
+    SW_DATA[SW_PRESSURE].samples[0] = SW_DATA[SW_PRESSURE].samples[1];
+    SW_DATA[SW_PRESSURE].samples[1] = GPIO_Read_Pin(SW_PRESSURE_PORT,SW_PRESSURE_PIN);
     // update state of SET switch
-    SW_UpdateState(SW_SET);
+    SW_UpdateState(SW_PRESSURE);
 }
 
 void SW_UpdateState(SW_t sw)

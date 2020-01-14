@@ -1,4 +1,4 @@
-# 1 "SW.c"
+# 1 "Led.c"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
 # 288 "<built-in>" 3
@@ -6,7 +6,7 @@
 # 1 "<built-in>" 2
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\language_support.h" 1 3
 # 2 "<built-in>" 2
-# 1 "SW.c" 2
+# 1 "Led.c" 2
 
 
 
@@ -14,8 +14,9 @@
 
 
 
-# 1 "./GPIO.h" 1
-# 14 "./GPIO.h"
+
+# 1 "./HW.h" 1
+# 14 "./HW.h"
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 1 3
 # 18 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
@@ -1729,12 +1730,11 @@ extern __bank0 unsigned char __resetbits;
 extern __bank0 __bit __powerdown;
 extern __bank0 __bit __timeout;
 # 27 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 2 3
-# 14 "./GPIO.h" 2
+# 14 "./HW.h" 2
 
 
 
-# 1 "./HW.h" 1
-# 18 "./HW.h"
+
 #pragma config FOSC = HS
 #pragma config WDTE = OFF
 #pragma config PWRTE = OFF
@@ -1746,147 +1746,98 @@ extern __bank0 __bit __timeout;
 # 131 "./HW.h"
 typedef unsigned char uint8;
 typedef unsigned int uint16;
-# 17 "./GPIO.h" 2
+# 9 "Led.c" 2
+
+# 1 "./Port.h" 1
+# 10 "Led.c" 2
+
+# 1 "./GPIO.h" 1
 # 42 "./GPIO.h"
 uint8 GPIO_Init_Port(uint8 * DirRegAddress ,uint8 dir );
 uint8 GPIO_Init_Pin(uint8 * DirRegAddress ,uint8 pin_number,uint8 dir );
-# 8 "SW.c" 2
+# 11 "Led.c" 2
 
-# 1 "./Port.h" 1
-# 9 "SW.c" 2
-
-# 1 "./SW.h" 1
-# 34 "./SW.h"
+# 1 "./Led.h" 1
+# 18 "./Led.h"
 typedef enum
 {
-    SW_PLUS,
-    SW_MINUS,
-    SW_PRESSURE
-}SW_t;
+    LED_ALARM
+}LED_t;
+
+typedef enum{
+
+    LED_OFF = 0,
+    LED_ON = 1
+}LEDState_t;
+
+uint8 LED_Init(LED_t led, LEDState_t state);
+uint8 LED_GetState(LED_t led);
+void LED_SetState(LED_t led, LEDState_t state);
+void LED_update(void);
+void LED_Toggle(LED_t led);
+# 12 "Led.c" 2
 
 
-
-
-
-typedef enum
-{
-    SW_RELEASED,
-    SW_PRE_PRESSED,
-    SW_PRESSED,
-    SW_PRE_RELEASED
-}SW_State_t;
-# 60 "./SW.h"
-void SW_Init(void);
-
-
-
-uint8 SW_GetState(SW_t sw);
-
-
-
-
-void SW_Update(void);
-# 10 "SW.c" 2
-# 21 "SW.c"
-void SW_UpdateState(SW_t sw);
-# 41 "SW.c"
-typedef struct
-{
-    uint8 samples[2];
-    uint8 state;
-}SW_DATA_t;
-
-
-
-
- static SW_DATA_t SW_DATA[(3)];
-
-
-
-void SW_Init(void)
+uint8 LED_Init(LED_t led, LEDState_t state)
 {
 
 
-    GPIO_Init_Pin(&(TRISB),(0),(1));
-    SW_DATA[SW_PLUS].state = SW_RELEASED;
-    SW_DATA[SW_PLUS].samples[0] = (1);
-    SW_DATA[SW_PLUS].samples[1] = (1);
-
-    GPIO_Init_Pin(&(TRISB),(1),(1));
-    SW_DATA[SW_MINUS].state = SW_RELEASED;
-    SW_DATA[SW_MINUS].samples[0] = (1);
-    SW_DATA[SW_MINUS].samples[1] = (1);
-
-    GPIO_Init_Pin(&(TRISB),(2),(1));
-    SW_DATA[SW_PRESSURE].state = SW_RELEASED;
-    SW_DATA[SW_PRESSURE].samples[0] = (1);
-    SW_DATA[SW_PRESSURE].samples[1] = (1);
-
-}
-uint8 SW_GetState(SW_t sw)
-{
-    uint8 ret =0;
 
 
-    ret = SW_DATA[sw].state;
+    uint8 ret = 1;
+    switch(led)
+    {
+        case LED_ALARM:
+            ret = GPIO_Init_Pin(&(TRISB),(3),(0));
+            break;
+        default: ret = 0;
+    }
+    if(ret != 0)
+    {
+        LED_SetState(led,state);
+    }
 
     return ret;
 }
-void SW_Update(void)
+uint8 LED_GetState(LED_t led)
 {
 
-
-
-    static uint8 SW_Time_Counter = 15;
-    SW_Time_Counter += (5);
-
-    if(SW_Time_Counter != (20))
+    uint8 ret = 1;
+    switch(led)
     {
-        return;
-    }
-    SW_Time_Counter = 0;
-
-    SW_DATA[SW_PLUS].samples[0] = SW_DATA[SW_PLUS].samples[1];
-    SW_DATA[SW_PLUS].samples[1] = (((PORTB) >> (0))& 1);
-
-    SW_UpdateState(SW_PLUS);
-
-    SW_DATA[SW_MINUS].samples[0] = SW_DATA[SW_MINUS].samples[1];
-    SW_DATA[SW_MINUS].samples[1] = (((PORTB) >> (1))& 1);
-
-    SW_UpdateState(SW_MINUS);
-
-
-    SW_DATA[SW_PRESSURE].samples[0] = SW_DATA[SW_PRESSURE].samples[1];
-    SW_DATA[SW_PRESSURE].samples[1] = (((PORTB) >> (2))& 1);
-
-    SW_UpdateState(SW_PRESSURE);
-}
-
-void SW_UpdateState(SW_t sw)
-{
-# 131 "SW.c"
-    switch(SW_DATA[sw].state)
-    {
-
-        case SW_PRE_RELEASED:
-            if(SW_DATA[sw].samples[0] == (1) && SW_DATA[sw].samples[1] == (1))
-                SW_DATA[sw].state = SW_RELEASED;
-            break;
-        case SW_RELEASED:
-            if(SW_DATA[sw].samples[0] == (0) && SW_DATA[sw].samples[1] == (0))
-                SW_DATA[sw].state = SW_PRE_PRESSED;
-            break;
-        case SW_PRE_PRESSED:
-            if(SW_DATA[sw].samples[0] == (0) && SW_DATA[sw].samples[1] == (0))
-                SW_DATA[sw].state = SW_PRESSED;
-            break;
-        case SW_PRESSED:
-            if(SW_DATA[sw].samples[0] == (1) && SW_DATA[sw].samples[1] == (1))
-                SW_DATA[sw].state = SW_PRE_RELEASED;
+        case LED_ALARM:
+            ret = (((TRISB) >> (3))& 1);
             break;
         default:
-
             break;
+    }
+
+    return ret;
+}
+void LED_SetState(LED_t led, LEDState_t state)
+{
+
+    switch(led)
+    {
+        case LED_ALARM:
+            (((PORTB))=((PORTB) & ~(1<<(3)))|(state<<(3)));
+            break;
+        default:
+            break;
+    }
+}
+void LED_update(void)
+{
+
+}
+void LED_Toggle(LED_t led)
+{
+    if(LED_GetState(led))
+    {
+        LED_SetState(led,LED_OFF);
+    }
+    else
+    {
+        LED_SetState(led,LED_ON);
     }
 }
