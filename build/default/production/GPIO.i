@@ -1,4 +1,4 @@
-# 1 "VaccumCleaner.c"
+# 1 "GPIO.c"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
 # 288 "<built-in>" 3
@@ -6,7 +6,7 @@
 # 1 "<built-in>" 2
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\language_support.h" 1 3
 # 2 "<built-in>" 2
-# 1 "VaccumCleaner.c" 2
+# 1 "GPIO.c" 2
 
 
 
@@ -14,6 +14,9 @@
 
 
 
+
+# 1 "./HW.h" 1
+# 14 "./HW.h"
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 1 3
 # 18 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
@@ -1727,11 +1730,11 @@ extern __bank0 unsigned char __resetbits;
 extern __bank0 __bit __powerdown;
 extern __bank0 __bit __timeout;
 # 27 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 2 3
-# 8 "VaccumCleaner.c" 2
+# 14 "./HW.h" 2
 
 
-# 1 "./HW.h" 1
-# 18 "./HW.h"
+
+
 #pragma config FOSC = HS
 #pragma config WDTE = OFF
 #pragma config PWRTE = OFF
@@ -1743,67 +1746,51 @@ extern __bank0 __bit __timeout;
 # 131 "./HW.h"
 typedef unsigned char uint8;
 typedef unsigned int uint16;
-# 10 "VaccumCleaner.c" 2
-
-# 1 "./SW.h" 1
-# 34 "./SW.h"
-typedef enum
-{
-    SW_PLUS,
-    SW_MINUS,
-    SW_SET
-}SW_t;
-
-
-
-
-
-typedef enum
-{
-    SW_RELEASED,
-    SW_PRE_PRESSED,
-    SW_PRESSED,
-    SW_PRE_RELEASED
-}SW_State_t;
-# 60 "./SW.h"
-void SW_Init(void);
-
-
-
-uint8 SW_GetState(SW_t sw);
-
-
-
-
-void SW_Update(void);
-# 11 "VaccumCleaner.c" 2
+# 9 "GPIO.c" 2
 
 # 1 "./GPIO.h" 1
 # 42 "./GPIO.h"
 uint8 GPIO_Init_Port(uint8 * DirRegAddress ,uint8 dir );
 uint8 GPIO_Init_Pin(uint8 * DirRegAddress ,uint8 pin_number,uint8 dir );
-# 12 "VaccumCleaner.c" 2
-
-# 1 "./Port.h" 1
-# 13 "VaccumCleaner.c" 2
+# 10 "GPIO.c" 2
 
 
-void main(void)
+
+
+uint8 GPIO_Init_Port(uint8 * DirRegAddress ,uint8 dir )
 {
-    SW_Init();
-    GPIO_Init_Pin(&(TRISB),(3),(0));
-    while(1)
+    uint8 ret =1;
+
+    if(*DirRegAddress != (TRISA) && *DirRegAddress != (TRISB) &&
+       *DirRegAddress != (TRISC) && *DirRegAddress != (TRISD) &&
+       *DirRegAddress != (TRISE))
     {
-        _delay((unsigned long)((1000)*(8000000/4000.0)));
-        SW_Update();
-        if(SW_GetState(SW_PLUS) == SW_PRESSED)
-        {
-            (((PORTB))=((PORTB) & ~(1<<(3)))|(0<<(3)));
-        }
-        else
-        {
-            (((PORTB))=((PORTB) & ~(1<<(3)))|(1<<(3)));
-        }
+
+       ret =0;
+    }
+    else
+    {
+        ((*DirRegAddress)=(dir)?(~0):(0));
 
     }
+    return ret;
+}
+
+
+uint8 GPIO_Init_Pin(uint8 *DirRegAddress ,uint8 pin_number,uint8 dir )
+{
+    uint8 ret = 1;
+
+    if(*DirRegAddress != (TRISA) && *DirRegAddress != (TRISB) &&
+       *DirRegAddress != (TRISC) &&*DirRegAddress != (TRISD) &&
+       *DirRegAddress != (TRISE))
+    {
+
+       ret = 0;
+    }
+    else
+    {
+        ((*DirRegAddress)=(*DirRegAddress & ~(1<<pin_number))|(dir<<pin_number));
+    }
+    return ret;
 }

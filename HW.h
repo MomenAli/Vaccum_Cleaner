@@ -11,6 +11,7 @@
 #ifndef __HW_H
 #define	__HW_H
  
+#include<xc.h>
 #define _XTAL_FREQ 8000000
 
 // CONFIG
@@ -29,7 +30,9 @@
  * pic16f877a                                                              *
  ***************************************************************************/
 
-
+/*TEST CODE*/
+#define OS_TICK   (5)
+/*END TEST CODE*/
 
 
 /* GPIO Port Data Registers redefinition */

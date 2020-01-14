@@ -1,4 +1,4 @@
-# 1 "VaccumCleaner.c"
+# 1 "SW.c"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
 # 288 "<built-in>" 3
@@ -6,7 +6,7 @@
 # 1 "<built-in>" 2
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\language_support.h" 1 3
 # 2 "<built-in>" 2
-# 1 "VaccumCleaner.c" 2
+# 1 "SW.c" 2
 
 
 
@@ -14,6 +14,8 @@
 
 
 
+# 1 "./GPIO.h" 1
+# 14 "./GPIO.h"
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 1 3
 # 18 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
@@ -1727,7 +1729,8 @@ extern __bank0 unsigned char __resetbits;
 extern __bank0 __bit __powerdown;
 extern __bank0 __bit __timeout;
 # 27 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 2 3
-# 8 "VaccumCleaner.c" 2
+# 14 "./GPIO.h" 2
+
 
 
 # 1 "./HW.h" 1
@@ -1743,7 +1746,14 @@ extern __bank0 __bit __timeout;
 # 131 "./HW.h"
 typedef unsigned char uint8;
 typedef unsigned int uint16;
-# 10 "VaccumCleaner.c" 2
+# 17 "./GPIO.h" 2
+# 42 "./GPIO.h"
+uint8 GPIO_Init_Port(uint8 * DirRegAddress ,uint8 dir );
+uint8 GPIO_Init_Pin(uint8 * DirRegAddress ,uint8 pin_number,uint8 dir );
+# 8 "SW.c" 2
+
+# 1 "./Port.h" 1
+# 9 "SW.c" 2
 
 # 1 "./SW.h" 1
 # 34 "./SW.h"
@@ -1776,34 +1786,109 @@ uint8 SW_GetState(SW_t sw);
 
 
 void SW_Update(void);
-# 11 "VaccumCleaner.c" 2
-
-# 1 "./GPIO.h" 1
-# 42 "./GPIO.h"
-uint8 GPIO_Init_Port(uint8 * DirRegAddress ,uint8 dir );
-uint8 GPIO_Init_Pin(uint8 * DirRegAddress ,uint8 pin_number,uint8 dir );
-# 12 "VaccumCleaner.c" 2
-
-# 1 "./Port.h" 1
-# 13 "VaccumCleaner.c" 2
-
-
-void main(void)
+# 10 "SW.c" 2
+# 21 "SW.c"
+void SW_UpdateState(SW_t sw);
+# 41 "SW.c"
+typedef struct
 {
-    SW_Init();
-    GPIO_Init_Pin(&(TRISB),(3),(0));
-    while(1)
-    {
-        _delay((unsigned long)((1000)*(8000000/4000.0)));
-        SW_Update();
-        if(SW_GetState(SW_PLUS) == SW_PRESSED)
-        {
-            (((PORTB))=((PORTB) & ~(1<<(3)))|(0<<(3)));
-        }
-        else
-        {
-            (((PORTB))=((PORTB) & ~(1<<(3)))|(1<<(3)));
-        }
+    uint8 samples[2];
+    uint8 state;
+}SW_DATA_t;
 
+
+
+
+ static SW_DATA_t SW_DATA[(3)];
+
+
+
+void SW_Init(void)
+{
+
+
+    GPIO_Init_Pin(&(TRISB),(0),(1));
+    SW_DATA[SW_PLUS].state = SW_RELEASED;
+    SW_DATA[SW_PLUS].samples[0] = (1);
+    SW_DATA[SW_PLUS].samples[1] = (1);
+
+    GPIO_Init_Pin(&(TRISB),(1),(1));
+    SW_DATA[SW_MINUS].state = SW_RELEASED;
+    SW_DATA[SW_MINUS].samples[0] = (1);
+    SW_DATA[SW_MINUS].samples[1] = (1);
+
+    GPIO_Init_Pin(&(TRISB),(2),(1));
+    SW_DATA[SW_SET].state = SW_RELEASED;
+    SW_DATA[SW_SET].samples[0] = (1);
+    SW_DATA[SW_SET].samples[1] = (1);
+
+}
+uint8 SW_GetState(SW_t sw)
+{
+    uint8 ret =0;
+
+
+    ret = SW_DATA[sw].state;
+
+    return ret;
+}
+
+void SW_Update(void)
+
+{
+
+
+
+    static uint8 SW_Time_Counter = 15;
+    SW_Time_Counter += (5);
+
+    if(SW_Time_Counter != (20))
+    {
+        return;
+    }
+    SW_Time_Counter = 0;
+
+    SW_DATA[SW_PLUS].samples[0] = SW_DATA[SW_PLUS].samples[1];
+    SW_DATA[SW_PLUS].samples[1] = (((PORTB) >> (0))& 1);
+
+    SW_UpdateState(SW_PLUS);
+
+    SW_DATA[SW_MINUS].samples[0] = SW_DATA[SW_MINUS].samples[1];
+    SW_DATA[SW_MINUS].samples[1] = (((PORTB) >> (1))& 1);
+
+    SW_UpdateState(SW_MINUS);
+
+
+    SW_DATA[SW_SET].samples[0] = SW_DATA[SW_SET].samples[1];
+    SW_DATA[SW_SET].samples[1] = (((PORTB) >> (2))& 1);
+
+    SW_UpdateState(SW_SET);
+}
+
+void SW_UpdateState(SW_t sw)
+{
+# 133 "SW.c"
+    switch(SW_DATA[sw].state)
+    {
+
+        case SW_PRE_RELEASED:
+            if(SW_DATA[sw].samples[0] == (1) && SW_DATA[sw].samples[1] == (1))
+                SW_DATA[sw].state = SW_RELEASED;
+            break;
+        case SW_RELEASED:
+            if(SW_DATA[sw].samples[0] == (0) && SW_DATA[sw].samples[1] == (0))
+                SW_DATA[sw].state = SW_PRE_PRESSED;
+            break;
+        case SW_PRE_PRESSED:
+            if(SW_DATA[sw].samples[0] == (0) && SW_DATA[sw].samples[1] == (0))
+                SW_DATA[sw].state = SW_PRESSED;
+            break;
+        case SW_PRESSED:
+            if(SW_DATA[sw].samples[0] == (1) && SW_DATA[sw].samples[1] == (1))
+                SW_DATA[sw].state = SW_PRE_RELEASED;
+            break;
+        default:
+
+            break;
     }
 }
