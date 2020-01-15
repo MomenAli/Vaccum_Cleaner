@@ -3,12 +3,28 @@ Version 4.0 HI-TECH Software Intermediate Code
 "57 ./SSD.h
 [; ;./SSD.h: 57: void SSD_Init(void);
 [v _SSD_Init `(v ~T0 @X0 0 ef ]
+"21 VaccumCleaner.c
+[; ;VaccumCleaner.c: 21:     VC_Init(MID_SPEED);
+[c E912 140 90 10 .. ]
+[n E912 . LOW_SPEED MID_SPEED HIGH_SPEED  ]
+"29 ./Vacuum.h
+[; ;./Vacuum.h: 29: void VC_Init(MOTOR_SPEET_t);
+[v _VC_Init `(v ~T0 @X0 0 ef1`E912 ]
+"60 ./SW.h
+[; ;./SW.h: 60: void SW_Init(void);
+[v _SW_Init `(v ~T0 @X0 0 ef ]
 [v F842 `(v ~T0 @X0 1 tf1`ul ]
 "92 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic.h
 [v __delay `JF842 ~T0 @X0 0 e ]
 [p i __delay ]
-"23 VaccumCleaner.c
-[; ;VaccumCleaner.c: 23:         SSD_Set_Symbol(SSD_L_1,SSD_FIRST);
+"69 ./SW.h
+[; ;./SW.h: 69: void SW_Update(void);
+[v _SW_Update `(v ~T0 @X0 0 ef ]
+"31 ./Vacuum.h
+[; ;./Vacuum.h: 31: void VC_Update(void);
+[v _VC_Update `(v ~T0 @X0 0 ef ]
+"31 VaccumCleaner.c
+[; ;VaccumCleaner.c: 31:                 SSD_Set_Symbol(SSD_L_3,SSD_THIRD);
 [c E892 0 1 2 3 .. ]
 [n E892 . SSD_L_1 SSD_L_2 SSD_L_3 SSD_NULL  ]
 [c E898 0 1 2 .. ]
@@ -16,7 +32,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 "58 ./SSD.h
 [; ;./SSD.h: 58: void SSD_Set_Symbol(SSD_Symbol_t symbol,SSD_t index);
 [v _SSD_Set_Symbol `(v ~T0 @X0 0 ef2`E892`E898 ]
-"59
+"30 ./Vacuum.h
+[; ;./Vacuum.h: 30: MOTOR_SPEET_t VC_GetSpeed(void);
+[v _VC_GetSpeed `(E912 ~T0 @X0 0 ef ]
+"59 ./SSD.h
 [; ;./SSD.h: 59: void SSD_Update(void);
 [v _SSD_Update `(v ~T0 @X0 0 ef ]
 "54 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h
@@ -216,57 +235,109 @@ Version 4.0 HI-TECH Software Intermediate Code
 "25
 [p x CP = OFF ]
 [v $root$_main `(v ~T0 @X0 0 e ]
-"17 VaccumCleaner.c
-[; ;VaccumCleaner.c: 17: void main(void)
+"18 VaccumCleaner.c
+[; ;VaccumCleaner.c: 18: void main(void)
 [v _main `(v ~T0 @X0 1 ef ]
-"18
-[; ;VaccumCleaner.c: 18: {
+"19
+[; ;VaccumCleaner.c: 19: {
 {
 [e :U _main ]
 [f ]
-"19
-[; ;VaccumCleaner.c: 19:     SSD_Init();
-[e ( _SSD_Init ..  ]
 "20
-[; ;VaccumCleaner.c: 20:     while(1)
-[e :U 97 ]
+[; ;VaccumCleaner.c: 20:     SSD_Init();
+[e ( _SSD_Init ..  ]
 "21
-[; ;VaccumCleaner.c: 21:     {
-{
+[; ;VaccumCleaner.c: 21:     VC_Init(MID_SPEED);
+[e ( _VC_Init (1 . `E912 1 ]
 "22
-[; ;VaccumCleaner.c: 22:         _delay((unsigned long)((1000)*(8000000/4000.0)));
-[e ( __delay (1 -> * -> -> 1000 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
+[; ;VaccumCleaner.c: 22:     SW_Init();
+[e ( _SW_Init ..  ]
 "23
-[; ;VaccumCleaner.c: 23:         SSD_Set_Symbol(SSD_L_1,SSD_FIRST);
-[e ( _SSD_Set_Symbol (2 , . `E892 0 . `E898 0 ]
+[; ;VaccumCleaner.c: 23:     while(1)
+[e :U 97 ]
 "24
-[; ;VaccumCleaner.c: 24:         SSD_Update();
-[e ( _SSD_Update ..  ]
+[; ;VaccumCleaner.c: 24:     {
+{
 "25
-[; ;VaccumCleaner.c: 25:         _delay((unsigned long)((1000)*(8000000/4000.0)));
-[e ( __delay (1 -> * -> -> 1000 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
+[; ;VaccumCleaner.c: 25:         _delay((unsigned long)((5)*(8000000/4000.0)));
+[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
 "26
-[; ;VaccumCleaner.c: 26:         SSD_Set_Symbol(SSD_L_2,SSD_SECOND);
-[e ( _SSD_Set_Symbol (2 , . `E892 1 . `E898 1 ]
+[; ;VaccumCleaner.c: 26:         SW_Update();
+[e ( _SW_Update ..  ]
 "27
-[; ;VaccumCleaner.c: 27:         SSD_Update();
-[e ( _SSD_Update ..  ]
+[; ;VaccumCleaner.c: 27:         VC_Update();
+[e ( _VC_Update ..  ]
 "28
-[; ;VaccumCleaner.c: 28:         _delay((unsigned long)((1000)*(8000000/4000.0)));
-[e ( __delay (1 -> * -> -> 1000 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
+[; ;VaccumCleaner.c: 28:         switch(VC_GetSpeed())
+[e $U 100  ]
 "29
-[; ;VaccumCleaner.c: 29:         SSD_Set_Symbol(SSD_L_3,SSD_THIRD);
-[e ( _SSD_Set_Symbol (2 , . `E892 2 . `E898 2 ]
+[; ;VaccumCleaner.c: 29:         {
+{
 "30
-[; ;VaccumCleaner.c: 30:         SSD_Update();
-[e ( _SSD_Update ..  ]
+[; ;VaccumCleaner.c: 30:             case HIGH_SPEED:
+[e :U 101 ]
+"31
+[; ;VaccumCleaner.c: 31:                 SSD_Set_Symbol(SSD_L_3,SSD_THIRD);
+[e ( _SSD_Set_Symbol (2 , . `E892 2 . `E898 2 ]
 "32
-[; ;VaccumCleaner.c: 32:     }
+[; ;VaccumCleaner.c: 32:                 SSD_Set_Symbol(SSD_L_2,SSD_SECOND);
+[e ( _SSD_Set_Symbol (2 , . `E892 1 . `E898 1 ]
+"33
+[; ;VaccumCleaner.c: 33:                 SSD_Set_Symbol(SSD_L_1,SSD_FIRST);
+[e ( _SSD_Set_Symbol (2 , . `E892 0 . `E898 0 ]
+"34
+[; ;VaccumCleaner.c: 34:                 break;
+[e $U 99  ]
+"35
+[; ;VaccumCleaner.c: 35:             case MID_SPEED:
+[e :U 102 ]
+"36
+[; ;VaccumCleaner.c: 36:                 SSD_Set_Symbol(SSD_L_1,SSD_FIRST);
+[e ( _SSD_Set_Symbol (2 , . `E892 0 . `E898 0 ]
+"37
+[; ;VaccumCleaner.c: 37:                 SSD_Set_Symbol(SSD_L_2,SSD_SECOND);
+[e ( _SSD_Set_Symbol (2 , . `E892 1 . `E898 1 ]
+"38
+[; ;VaccumCleaner.c: 38:                 SSD_Set_Symbol(SSD_NULL,SSD_THIRD);
+[e ( _SSD_Set_Symbol (2 , . `E892 3 . `E898 2 ]
+"39
+[; ;VaccumCleaner.c: 39:                 break;
+[e $U 99  ]
+"40
+[; ;VaccumCleaner.c: 40:             case LOW_SPEED:
+[e :U 103 ]
+"41
+[; ;VaccumCleaner.c: 41:                 SSD_Set_Symbol(SSD_L_1,SSD_FIRST);
+[e ( _SSD_Set_Symbol (2 , . `E892 0 . `E898 0 ]
+"42
+[; ;VaccumCleaner.c: 42:                 SSD_Set_Symbol(SSD_NULL,SSD_SECOND);
+[e ( _SSD_Set_Symbol (2 , . `E892 3 . `E898 1 ]
+"43
+[; ;VaccumCleaner.c: 43:                 SSD_Set_Symbol(SSD_NULL,SSD_THIRD);
+[e ( _SSD_Set_Symbol (2 , . `E892 3 . `E898 2 ]
+"44
+[; ;VaccumCleaner.c: 44:                 break;
+[e $U 99  ]
+"45
+[; ;VaccumCleaner.c: 45:         }
+}
+[e $U 99  ]
+[e :U 100 ]
+[e [\ -> ( _VC_GetSpeed ..  `ui , $ -> . `E912 2 `ui 101
+ , $ -> . `E912 1 `ui 102
+ , $ -> . `E912 0 `ui 103
+ 99 ]
+[e :U 99 ]
+"46
+[; ;VaccumCleaner.c: 46:         SSD_Update();
+[e ( _SSD_Update ..  ]
+"47
+[; ;VaccumCleaner.c: 47:     }
 }
 [e :U 96 ]
 [e $U 97  ]
 [e :U 98 ]
-"33
-[; ;VaccumCleaner.c: 33: }
+"48
+[; ;VaccumCleaner.c: 48: }
 [e :UE 95 ]
 }

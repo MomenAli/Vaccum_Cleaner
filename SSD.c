@@ -56,13 +56,15 @@ void SSD_Init()
     //initialize MINUTES UNITS enable pin
     GPIO_Init_Pin(&SSD_FIRST_DIR,SSD_FIRST_PIN,GPIO_OUT);
     GPIO_Write_Pin(SSD_FIRST_PORT,SSD_FIRST_PIN,SSD_OFF);
+    SSD_Set_Symbol(SSD_NULL,SSD_FIRST);
     //initialize MINUTES TENS enable pin
     GPIO_Init_Pin(&SSD_SECOND_DIR,SSD_SECOND_PIN,GPIO_OUT);
     GPIO_Write_Pin(SSD_SECOND_PORT,SSD_SECOND_PIN,SSD_OFF);
+    SSD_Set_Symbol(SSD_NULL,SSD_SECOND);
     //initialize HOURS UNITS enable pin
     GPIO_Init_Pin(&SSD_THIRD_DIR,SSD_THIRD_PIN,GPIO_OUT);
     GPIO_Write_Pin(SSD_THIRD_PORT,SSD_THIRD_PIN,SSD_OFF);
-    
+    SSD_Set_Symbol(SSD_NULL,SSD_THIRD);
 }
 void SSD_Set_Symbol(SSD_Symbol_t symbol,SSD_t index)
 {

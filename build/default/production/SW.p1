@@ -4,8 +4,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [s S95 `uc -> 2 `i `uc 1 ]
 [n S95 . samples state ]
 "43 ./GPIO.h
-[; ;./GPIO.h: 43: uint8 GPIO_Init_Pin(uint8 * DirRegAddress ,uint8 pin_number,uint8 dir );
-[v _GPIO_Init_Pin `(uc ~T0 @X0 0 ef3`*uc`uc`uc ]
+[; ;./GPIO.h: 43: uint8 GPIO_Init_Pin(volatile uint8 * DirRegAddress ,uint8 pin_number,uint8 dir );
+[v _GPIO_Init_Pin `(uc ~T0 @X0 0 ef3`*Vuc`uc`uc ]
 "1375 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h
 [; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h: 1375: extern volatile unsigned char TRISB __attribute__((address(0x086)));
 [v _TRISB `Vuc ~T0 @X0 0 e@134 ]
@@ -230,7 +230,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [f ]
 "58
 [; ;SW.c: 58:     GPIO_Init_Pin(&(TRISB),(0),(1));
-[e ( _GPIO_Init_Pin (3 , , -> &U _TRISB `*uc -> -> 0 `i `uc -> -> 1 `i `uc ]
+[e ( _GPIO_Init_Pin (3 , , &U _TRISB -> -> 0 `i `uc -> -> 1 `i `uc ]
 "59
 [; ;SW.c: 59:     SW_DATA[SW_PLUS].state = SW_RELEASED;
 [e = . *U + &U _SW_DATA * -> . `E859 0 `ux -> -> # *U &U _SW_DATA `ui `ux 1 -> . `E864 0 `uc ]
@@ -242,7 +242,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e = *U + &U . *U + &U _SW_DATA * -> . `E859 0 `ux -> -> # *U &U _SW_DATA `ui `ux 0 * -> -> -> 1 `i `ui `ux -> -> # *U &U . *U + &U _SW_DATA * -> . `E859 0 `ux -> -> # *U &U _SW_DATA `ui `ux 0 `ui `ux -> -> 1 `i `uc ]
 "63
 [; ;SW.c: 63:     GPIO_Init_Pin(&(TRISB),(1),(1));
-[e ( _GPIO_Init_Pin (3 , , -> &U _TRISB `*uc -> -> 1 `i `uc -> -> 1 `i `uc ]
+[e ( _GPIO_Init_Pin (3 , , &U _TRISB -> -> 1 `i `uc -> -> 1 `i `uc ]
 "64
 [; ;SW.c: 64:     SW_DATA[SW_MINUS].state = SW_RELEASED;
 [e = . *U + &U _SW_DATA * -> . `E859 1 `ux -> -> # *U &U _SW_DATA `ui `ux 1 -> . `E864 0 `uc ]
@@ -254,7 +254,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e = *U + &U . *U + &U _SW_DATA * -> . `E859 1 `ux -> -> # *U &U _SW_DATA `ui `ux 0 * -> -> -> 1 `i `ui `ux -> -> # *U &U . *U + &U _SW_DATA * -> . `E859 1 `ux -> -> # *U &U _SW_DATA `ui `ux 0 `ui `ux -> -> 1 `i `uc ]
 "68
 [; ;SW.c: 68:     GPIO_Init_Pin(&(TRISB),(2),(1));
-[e ( _GPIO_Init_Pin (3 , , -> &U _TRISB `*uc -> -> 2 `i `uc -> -> 1 `i `uc ]
+[e ( _GPIO_Init_Pin (3 , , &U _TRISB -> -> 2 `i `uc -> -> 1 `i `uc ]
 "69
 [; ;SW.c: 69:     SW_DATA[SW_PRESSURE].state = SW_RELEASED;
 [e = . *U + &U _SW_DATA * -> . `E859 2 `ux -> -> # *U &U _SW_DATA `ui `ux 1 -> . `E864 0 `uc ]

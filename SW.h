@@ -12,7 +12,7 @@
 #define	__SW_H
 
 #include <xc.h> // include processor files - each processor file is guarded. 
-
+#include "HW.h"
 /*
  * number of switches in this application is 3  plus, minus and set
  * please edit this number if you change the application

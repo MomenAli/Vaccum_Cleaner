@@ -26,9 +26,9 @@ typedef enum
     HIGH_SPEED = 10
 }MOTOR_SPEET_t;
 
-void VC_Init(void);
+void VC_Init(MOTOR_SPEET_t);
 MOTOR_SPEET_t VC_GetSpeed(void);
-void VC_Update();
+void VC_Update(void);
 
 #endif	/* XC_HEADER_TEMPLATE_H */
 

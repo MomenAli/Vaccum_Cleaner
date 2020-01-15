@@ -1748,8 +1748,8 @@ typedef unsigned int uint16;
 
 # 1 "./GPIO.h" 1
 # 42 "./GPIO.h"
-uint8 GPIO_Init_Port(uint8 * DirRegAddress ,uint8 dir );
-uint8 GPIO_Init_Pin(uint8 * DirRegAddress ,uint8 pin_number,uint8 dir );
+uint8 GPIO_Init_Port(volatile uint8 * DirRegAddress ,uint8 dir );
+uint8 GPIO_Init_Pin(volatile uint8 * DirRegAddress ,uint8 pin_number,uint8 dir );
 # 18 "./Port.h" 2
 # 7 "SSD.c" 2
 
@@ -1822,13 +1822,15 @@ void SSD_Init()
 
     GPIO_Init_Pin(&(TRISB),(7),(0));
     (((PORTB))=((PORTB) & ~(1<<(7)))|(SSD_OFF<<(7)));
+    SSD_Set_Symbol(SSD_NULL,SSD_FIRST);
 
     GPIO_Init_Pin(&(TRISB),(6),(0));
     (((PORTB))=((PORTB) & ~(1<<(6)))|(SSD_OFF<<(6)));
+    SSD_Set_Symbol(SSD_NULL,SSD_SECOND);
 
     GPIO_Init_Pin(&(TRISB),(5),(0));
     (((PORTB))=((PORTB) & ~(1<<(5)))|(SSD_OFF<<(5)));
-
+    SSD_Set_Symbol(SSD_NULL,SSD_THIRD);
 }
 void SSD_Set_Symbol(SSD_Symbol_t symbol,SSD_t index)
 {

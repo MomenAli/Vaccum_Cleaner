@@ -1,4 +1,4 @@
-# 1 "GPIO.c"
+# 1 "Vacuum.c"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
 # 288 "<built-in>" 3
@@ -6,7 +6,7 @@
 # 1 "<built-in>" 2
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\language_support.h" 1 3
 # 2 "<built-in>" 2
-# 1 "GPIO.c" 2
+# 1 "Vacuum.c" 2
 
 
 
@@ -14,9 +14,8 @@
 
 
 
-
-# 1 "./HW.h" 1
-# 14 "./HW.h"
+# 1 "./Vacuum.h" 1
+# 14 "./Vacuum.h"
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 1 3
 # 18 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
@@ -1730,11 +1729,31 @@ extern __bank0 unsigned char __resetbits;
 extern __bank0 __bit __powerdown;
 extern __bank0 __bit __timeout;
 # 27 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 2 3
-# 14 "./HW.h" 2
+# 14 "./Vacuum.h" 2
 
 
 
 
+
+
+
+
+typedef enum
+{
+    LOW_SPEED = 140,
+    MID_SPEED = 90,
+    HIGH_SPEED = 10
+}MOTOR_SPEET_t;
+
+void VC_Init(MOTOR_SPEET_t);
+MOTOR_SPEET_t VC_GetSpeed(void);
+void VC_Update(void);
+# 8 "Vacuum.c" 2
+
+# 1 "./SW.h" 1
+# 15 "./SW.h"
+# 1 "./HW.h" 1
+# 18 "./HW.h"
 #pragma config FOSC = HS
 #pragma config WDTE = OFF
 #pragma config PWRTE = OFF
@@ -1746,51 +1765,187 @@ extern __bank0 __bit __timeout;
 # 131 "./HW.h"
 typedef unsigned char uint8;
 typedef unsigned int uint16;
-# 9 "GPIO.c" 2
-
-# 1 "./GPIO.h" 1
-# 42 "./GPIO.h"
-uint8 GPIO_Init_Port(volatile uint8 * DirRegAddress ,uint8 dir );
-uint8 GPIO_Init_Pin(volatile uint8 * DirRegAddress ,uint8 pin_number,uint8 dir );
-# 10 "GPIO.c" 2
-
-
-
-
-uint8 GPIO_Init_Port(volatile uint8 * DirRegAddress ,uint8 dir )
+# 15 "./SW.h" 2
+# 34 "./SW.h"
+typedef enum
 {
-    uint8 ret =1;
+    SW_PLUS,
+    SW_MINUS,
+    SW_PRESSURE
+}SW_t;
 
-    if(*DirRegAddress != (TRISA) && *DirRegAddress != (TRISB) &&
-       *DirRegAddress != (TRISC) && *DirRegAddress != (TRISD) &&
-       *DirRegAddress != (TRISE))
-    {
 
-       ret =0;
-    }
-    else
-    {
-        ((*DirRegAddress)=(dir)?(~0):(0));
 
-    }
-    return ret;
+
+
+typedef enum
+{
+    SW_RELEASED,
+    SW_PRE_PRESSED,
+    SW_PRESSED,
+    SW_PRE_RELEASED
+}SW_State_t;
+# 60 "./SW.h"
+void SW_Init(void);
+
+
+
+uint8 SW_GetState(SW_t sw);
+
+
+
+
+void SW_Update(void);
+# 9 "Vacuum.c" 2
+
+
+# 1 "./Led.h" 1
+# 18 "./Led.h"
+typedef enum
+{
+    LED_ALARM
+}LED_t;
+
+typedef enum{
+
+    LED_OFF = 0,
+    LED_ON = 1
+}LEDState_t;
+
+uint8 LED_Init(LED_t led, LEDState_t state);
+uint8 LED_GetState(LED_t led);
+void LED_SetState(LED_t led, LEDState_t state);
+void LED_update(void);
+void LED_Toggle(LED_t led);
+# 11 "Vacuum.c" 2
+
+
+
+
+
+
+
+static MOTOR_SPEET_t motor_speed;
+
+
+static void Switch_Event_Handler(void);
+# 30 "Vacuum.c"
+static uint16 pressure_sw_counter;
+
+void VC_Init(MOTOR_SPEET_t speed)
+{
+
+    motor_speed = speed;
+
+
+
+
+    LED_Init(LED_ALARM,LED_OFF);
+
+    pressure_sw_counter = 0;
+}
+MOTOR_SPEET_t VC_GetSpeed(void)
+{
+
+    return motor_speed;
+}
+void VC_Update(void)
+{
+    static uint8 VC_TICK_COUNTER = 0;
+    VC_TICK_COUNTER += (5);
+
+    if(VC_TICK_COUNTER != (20))
+        return;
+    VC_TICK_COUNTER = 0;
+# 67 "Vacuum.c"
+    Switch_Event_Handler();
+
+
+
+
 }
 
-
-uint8 GPIO_Init_Pin(volatile uint8 *DirRegAddress ,uint8 pin_number,uint8 dir )
+static void Switch_Event_Handler(void)
 {
-    uint8 ret = 1;
 
-    if(*DirRegAddress != (TRISA) && *DirRegAddress != (TRISB) &&
-       *DirRegAddress != (TRISC) &&*DirRegAddress != (TRISD) &&
-       *DirRegAddress != (TRISE))
+
+
+
+    if(SW_GetState(SW_PLUS) == SW_PRE_PRESSED && motor_speed != HIGH_SPEED)
     {
 
-       ret = 0;
+        switch(motor_speed)
+        {
+            case LOW_SPEED:
+                motor_speed = MID_SPEED;
+                break;
+            case MID_SPEED:
+                motor_speed = HIGH_SPEED;
+                break;
+            default:
+
+                break;
+        }
+    }
+
+
+
+
+
+    if((SW_GetState(SW_MINUS) == SW_PRE_PRESSED) && (motor_speed != LOW_SPEED))
+    {
+
+
+        switch(motor_speed)
+        {
+            case MID_SPEED:
+                motor_speed = LOW_SPEED;
+                break;
+            case HIGH_SPEED:
+                motor_speed = MID_SPEED;
+                break;
+            default:
+
+                break;
+        }
+    }
+
+
+
+
+    if(SW_GetState(SW_PRESSURE) == SW_PRESSED && (motor_speed != LOW_SPEED))
+    {
+
+        pressure_sw_counter += (20);
+
+
+
+        if( pressure_sw_counter == (30000) )
+        {
+
+
+            switch(motor_speed)
+            {
+                case MID_SPEED:
+                    motor_speed = LOW_SPEED;
+                    break;
+                case HIGH_SPEED:
+                    motor_speed = MID_SPEED;
+                    break;
+                default:
+
+                    break;
+            }
+
+            pressure_sw_counter = 0;
+        }
+
+        LED_SetState(LED_ALARM,LED_ON);
     }
     else
     {
-        ((*DirRegAddress)=(*DirRegAddress & ~(1<<pin_number))|(dir<<pin_number));
+        pressure_sw_counter = 0;
+
+        LED_SetState(LED_ALARM,LED_OFF);
     }
-    return ret;
 }

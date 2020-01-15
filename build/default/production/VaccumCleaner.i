@@ -1780,8 +1780,8 @@ void SW_Update(void);
 
 # 1 "./GPIO.h" 1
 # 42 "./GPIO.h"
-uint8 GPIO_Init_Port(uint8 * DirRegAddress ,uint8 dir );
-uint8 GPIO_Init_Pin(uint8 * DirRegAddress ,uint8 pin_number,uint8 dir );
+uint8 GPIO_Init_Port(volatile uint8 * DirRegAddress ,uint8 dir );
+uint8 GPIO_Init_Pin(volatile uint8 * DirRegAddress ,uint8 pin_number,uint8 dir );
 # 12 "VaccumCleaner.c" 2
 
 # 1 "./Port.h" 1
@@ -1841,21 +1841,49 @@ void SSD_Set_Symbol(SSD_Symbol_t symbol,SSD_t index);
 void SSD_Update(void);
 # 15 "VaccumCleaner.c" 2
 
+# 1 "./Vacuum.h" 1
+# 22 "./Vacuum.h"
+typedef enum
+{
+    LOW_SPEED = 140,
+    MID_SPEED = 90,
+    HIGH_SPEED = 10
+}MOTOR_SPEET_t;
+
+void VC_Init(MOTOR_SPEET_t);
+MOTOR_SPEET_t VC_GetSpeed(void);
+void VC_Update(void);
+# 16 "VaccumCleaner.c" 2
+
 
 void main(void)
 {
     SSD_Init();
+    VC_Init(MID_SPEED);
+    SW_Init();
     while(1)
     {
-        _delay((unsigned long)((1000)*(8000000/4000.0)));
-        SSD_Set_Symbol(SSD_L_1,SSD_FIRST);
+        _delay((unsigned long)((5)*(8000000/4000.0)));
+        SW_Update();
+        VC_Update();
+        switch(VC_GetSpeed())
+        {
+            case HIGH_SPEED:
+                SSD_Set_Symbol(SSD_L_3,SSD_THIRD);
+                SSD_Set_Symbol(SSD_L_2,SSD_SECOND);
+                SSD_Set_Symbol(SSD_L_1,SSD_FIRST);
+                break;
+            case MID_SPEED:
+                SSD_Set_Symbol(SSD_L_1,SSD_FIRST);
+                SSD_Set_Symbol(SSD_L_2,SSD_SECOND);
+                SSD_Set_Symbol(SSD_NULL,SSD_THIRD);
+                break;
+            case LOW_SPEED:
+                SSD_Set_Symbol(SSD_L_1,SSD_FIRST);
+                SSD_Set_Symbol(SSD_NULL,SSD_SECOND);
+                SSD_Set_Symbol(SSD_NULL,SSD_THIRD);
+                break;
+        }
         SSD_Update();
-        _delay((unsigned long)((1000)*(8000000/4000.0)));
-        SSD_Set_Symbol(SSD_L_2,SSD_SECOND);
-        SSD_Update();
-        _delay((unsigned long)((1000)*(8000000/4000.0)));
-        SSD_Set_Symbol(SSD_L_3,SSD_THIRD);
-        SSD_Update();
-
     }
 }

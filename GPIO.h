@@ -39,8 +39,8 @@
 
 
 
-uint8 GPIO_Init_Port(uint8 * DirRegAddress/*direction register address*/,uint8 dir/* DIRECTION*/);
-uint8 GPIO_Init_Pin(uint8 * DirRegAddress/*direction register address*/,uint8 pin_number,uint8 dir/* I/O*/);
+uint8 GPIO_Init_Port(volatile uint8 * DirRegAddress/*direction register address*/,uint8 dir/* DIRECTION*/);
+uint8 GPIO_Init_Pin(volatile uint8 * DirRegAddress/*direction register address*/,uint8 pin_number,uint8 dir/* I/O*/);
 
 
 

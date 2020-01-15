@@ -1748,8 +1748,8 @@ typedef unsigned char uint8;
 typedef unsigned int uint16;
 # 17 "./GPIO.h" 2
 # 42 "./GPIO.h"
-uint8 GPIO_Init_Port(uint8 * DirRegAddress ,uint8 dir );
-uint8 GPIO_Init_Pin(uint8 * DirRegAddress ,uint8 pin_number,uint8 dir );
+uint8 GPIO_Init_Port(volatile uint8 * DirRegAddress ,uint8 dir );
+uint8 GPIO_Init_Pin(volatile uint8 * DirRegAddress ,uint8 pin_number,uint8 dir );
 # 8 "SW.c" 2
 
 # 1 "./Port.h" 1
