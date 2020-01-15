@@ -1,24 +1,43 @@
 Version 4.0 HI-TECH Software Intermediate Code
-[p mainexit ]
-"57 ./SSD.h
-[; ;./SSD.h: 57: void SSD_Init(void);
-[v _SSD_Init `(v ~T0 @X0 0 ef ]
-[v F842 `(v ~T0 @X0 1 tf1`ul ]
-"92 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic.h
-[v __delay `JF842 ~T0 @X0 0 e ]
-[p i __delay ]
-"23 VaccumCleaner.c
-[; ;VaccumCleaner.c: 23:         SSD_Set_Symbol(SSD_L_1,SSD_FIRST);
-[c E892 0 1 2 3 .. ]
-[n E892 . SSD_L_1 SSD_L_2 SSD_L_3 SSD_NULL  ]
-[c E898 0 1 2 .. ]
-[n E898 . SSD_FIRST SSD_SECOND SSD_THIRD  ]
-"58 ./SSD.h
-[; ;./SSD.h: 58: void SSD_Set_Symbol(SSD_Symbol_t symbol,SSD_t index);
-[v _SSD_Set_Symbol `(v ~T0 @X0 0 ef2`E892`E898 ]
-"59
-[; ;./SSD.h: 59: void SSD_Update(void);
-[v _SSD_Update `(v ~T0 @X0 0 ef ]
+"31 SSD.c
+[; ;SSD.c: 31: static SSD_Symbol_t Buffer[(4)];
+[c E859 0 1 2 3 .. ]
+[n E859 . SSD_L_1 SSD_L_2 SSD_L_3 SSD_NULL  ]
+"42 ./GPIO.h
+[; ;./GPIO.h: 42: uint8 GPIO_Init_Port(uint8 * DirRegAddress ,uint8 dir );
+[v _GPIO_Init_Port `(uc ~T0 @X0 0 ef2`*uc`uc ]
+"1499 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h
+[; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h: 1499: extern volatile unsigned char TRISD __attribute__((address(0x088)));
+[v _TRISD `Vuc ~T0 @X0 0 e@136 ]
+"43 ./GPIO.h
+[; ;./GPIO.h: 43: uint8 GPIO_Init_Pin(uint8 * DirRegAddress ,uint8 pin_number,uint8 dir );
+[v _GPIO_Init_Pin `(uc ~T0 @X0 0 ef3`*uc`uc`uc ]
+"1375 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h
+[; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h: 1375: extern volatile unsigned char TRISB __attribute__((address(0x086)));
+[v _TRISB `Vuc ~T0 @X0 0 e@134 ]
+"216
+[; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h: 216: extern volatile unsigned char PORTB __attribute__((address(0x006)));
+[v _PORTB `Vuc ~T0 @X0 0 e@6 ]
+"58 SSD.c
+[; ;SSD.c: 58:     (((PORTB))=((PORTB) & ~(1<<(7)))|(SSD_OFF<<(7)));
+[c E870 0 1 .. ]
+[n E870 . SSD_OFF SSD_ON  ]
+"67
+[; ;SSD.c: 67: void SSD_Set_Symbol(SSD_Symbol_t symbol,SSD_t index)
+[c E865 0 1 2 .. ]
+[n E865 . SSD_FIRST SSD_SECOND SSD_THIRD  ]
+"24
+[; ;SSD.c: 24: void SSD_Disable(SSD_t s);
+[v _SSD_Disable `(v ~T0 @X0 0 ef1`E865 ]
+"26
+[; ;SSD.c: 26: void SSD_Data_write(void);
+[v _SSD_Data_write `(v ~T0 @X0 0 ef ]
+"25
+[; ;SSD.c: 25: void SSD_Enable(SSD_t s);
+[v _SSD_Enable `(v ~T0 @X0 0 ef1`E865 ]
+"340 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h
+[; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h: 340: extern volatile unsigned char PORTD __attribute__((address(0x008)));
+[v _PORTD `Vuc ~T0 @X0 0 e@8 ]
 "54 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h
 [; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h: 54: __asm("INDF equ 00h");
 [; <" INDF equ 00h ;# ">
@@ -215,58 +234,272 @@ Version 4.0 HI-TECH Software Intermediate Code
 [p x WRT = OFF ]
 "25
 [p x CP = OFF ]
-[v $root$_main `(v ~T0 @X0 0 e ]
-"17 VaccumCleaner.c
-[; ;VaccumCleaner.c: 17: void main(void)
-[v _main `(v ~T0 @X0 1 ef ]
-"18
-[; ;VaccumCleaner.c: 18: {
+"31 SSD.c
+[; ;SSD.c: 31: static SSD_Symbol_t Buffer[(4)];
+[v _Buffer `E859 ~T0 @X0 -> 4 `i s ]
+"35
+[; ;SSD.c: 35: static uint8 currentSSD = 0;
+[v _currentSSD `uc ~T0 @X0 1 s ]
+[i _currentSSD
+-> -> 0 `i `uc
+]
+"42
+[; ;SSD.c: 42: static uint8 SSD_LOT_ARR[] =
+[v _SSD_LOT_ARR `uc ~T0 @X0 -> 4 `i s ]
+[i _SSD_LOT_ARR
+:U ..
+-> -> 8 `i `uc
+-> -> 72 `i `uc
+-> -> 73 `i `uc
+-> -> 0 `i `uc
+..
+]
+"51
+[; ;SSD.c: 51: void SSD_Init()
+[v _SSD_Init `(v ~T0 @X0 1 ef ]
+"52
+[; ;SSD.c: 52: {
 {
-[e :U _main ]
+[e :U _SSD_Init ]
 [f ]
-"19
-[; ;VaccumCleaner.c: 19:     SSD_Init();
-[e ( _SSD_Init ..  ]
-"20
-[; ;VaccumCleaner.c: 20:     while(1)
-[e :U 97 ]
-"21
-[; ;VaccumCleaner.c: 21:     {
-{
-"22
-[; ;VaccumCleaner.c: 22:         _delay((unsigned long)((1000)*(8000000/4000.0)));
-[e ( __delay (1 -> * -> -> 1000 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
-"23
-[; ;VaccumCleaner.c: 23:         SSD_Set_Symbol(SSD_L_1,SSD_FIRST);
-[e ( _SSD_Set_Symbol (2 , . `E892 0 . `E898 0 ]
-"24
-[; ;VaccumCleaner.c: 24:         SSD_Update();
-[e ( _SSD_Update ..  ]
-"25
-[; ;VaccumCleaner.c: 25:         _delay((unsigned long)((1000)*(8000000/4000.0)));
-[e ( __delay (1 -> * -> -> 1000 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
-"26
-[; ;VaccumCleaner.c: 26:         SSD_Set_Symbol(SSD_L_2,SSD_SECOND);
-[e ( _SSD_Set_Symbol (2 , . `E892 1 . `E898 1 ]
-"27
-[; ;VaccumCleaner.c: 27:         SSD_Update();
-[e ( _SSD_Update ..  ]
-"28
-[; ;VaccumCleaner.c: 28:         _delay((unsigned long)((1000)*(8000000/4000.0)));
-[e ( __delay (1 -> * -> -> 1000 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
-"29
-[; ;VaccumCleaner.c: 29:         SSD_Set_Symbol(SSD_L_3,SSD_THIRD);
-[e ( _SSD_Set_Symbol (2 , . `E892 2 . `E898 2 ]
-"30
-[; ;VaccumCleaner.c: 30:         SSD_Update();
-[e ( _SSD_Update ..  ]
-"32
-[; ;VaccumCleaner.c: 32:     }
-}
-[e :U 96 ]
-[e $U 97  ]
-[e :U 98 ]
-"33
-[; ;VaccumCleaner.c: 33: }
+"54
+[; ;SSD.c: 54:     GPIO_Init_Port(&(TRISD),(0));
+[e ( _GPIO_Init_Port (2 , -> &U _TRISD `*uc -> -> 0 `i `uc ]
+"57
+[; ;SSD.c: 57:     GPIO_Init_Pin(&(TRISB),(7),(0));
+[e ( _GPIO_Init_Pin (3 , , -> &U _TRISB `*uc -> -> 7 `i `uc -> -> 0 `i `uc ]
+"58
+[; ;SSD.c: 58:     (((PORTB))=((PORTB) & ~(1<<(7)))|(SSD_OFF<<(7)));
+[e = _PORTB -> | & -> _PORTB `i ~ << -> 1 `i -> 7 `i << -> . `E870 0 `i -> 7 `i `uc ]
+"60
+[; ;SSD.c: 60:     GPIO_Init_Pin(&(TRISB),(6),(0));
+[e ( _GPIO_Init_Pin (3 , , -> &U _TRISB `*uc -> -> 6 `i `uc -> -> 0 `i `uc ]
+"61
+[; ;SSD.c: 61:     (((PORTB))=((PORTB) & ~(1<<(6)))|(SSD_OFF<<(6)));
+[e = _PORTB -> | & -> _PORTB `i ~ << -> 1 `i -> 6 `i << -> . `E870 0 `i -> 6 `i `uc ]
+"63
+[; ;SSD.c: 63:     GPIO_Init_Pin(&(TRISB),(5),(0));
+[e ( _GPIO_Init_Pin (3 , , -> &U _TRISB `*uc -> -> 5 `i `uc -> -> 0 `i `uc ]
+"64
+[; ;SSD.c: 64:     (((PORTB))=((PORTB) & ~(1<<(5)))|(SSD_OFF<<(5)));
+[e = _PORTB -> | & -> _PORTB `i ~ << -> 1 `i -> 5 `i << -> . `E870 0 `i -> 5 `i `uc ]
+"66
+[; ;SSD.c: 66: }
 [e :UE 95 ]
+}
+"67
+[; ;SSD.c: 67: void SSD_Set_Symbol(SSD_Symbol_t symbol,SSD_t index)
+[v _SSD_Set_Symbol `(v ~T0 @X0 1 ef2`E859`E865 ]
+"68
+[; ;SSD.c: 68: {
+{
+[e :U _SSD_Set_Symbol ]
+"67
+[; ;SSD.c: 67: void SSD_Set_Symbol(SSD_Symbol_t symbol,SSD_t index)
+[v _symbol `E859 ~T0 @X0 1 r1 ]
+[v _index `E865 ~T0 @X0 1 r2 ]
+"68
+[; ;SSD.c: 68: {
+[f ]
+"70
+[; ;SSD.c: 70:     Buffer[index] = symbol;
+[e = *U + &U _Buffer * -> _index `ux -> -> # *U &U _Buffer `ui `ux _symbol ]
+"71
+[; ;SSD.c: 71: }
+[e :UE 96 ]
+}
+"72
+[; ;SSD.c: 72: void SSD_Update(void)
+[v _SSD_Update `(v ~T0 @X0 1 ef ]
+"73
+[; ;SSD.c: 73: {
+{
+[e :U _SSD_Update ]
+[f ]
+"77
+[; ;SSD.c: 77:     static uint8 SSD_Time_Counter = 0;
+[v F892 `uc ~T0 @X0 1 s SSD_Time_Counter ]
+[i F892
+-> -> 0 `i `uc
+]
+"78
+[; ;SSD.c: 78:     SSD_Time_Counter += (5);
+[e =+ F892 -> -> 5 `i `uc ]
+"80
+[; ;SSD.c: 80:     if(SSD_Time_Counter != (5))
+[e $ ! != -> F892 `i -> 5 `i 98  ]
+"81
+[; ;SSD.c: 81:     {
+{
+"82
+[; ;SSD.c: 82:         return;
+[e $UE 97  ]
+"83
+[; ;SSD.c: 83:     }
+}
+[e :U 98 ]
+"84
+[; ;SSD.c: 84:     SSD_Time_Counter = 0;
+[e = F892 -> -> 0 `i `uc ]
+"87
+[; ;SSD.c: 87:     SSD_Disable(currentSSD);
+[e ( _SSD_Disable (1 -> _currentSSD `E865 ]
+"89
+[; ;SSD.c: 89:     currentSSD++;
+[e ++ _currentSSD -> -> 1 `i `uc ]
+"90
+[; ;SSD.c: 90:     if(currentSSD > SSD_THIRD)currentSSD = 0;
+[e $ ! > -> _currentSSD `i -> . `E865 2 `i 99  ]
+[e = _currentSSD -> -> 0 `i `uc ]
+[e :U 99 ]
+"92
+[; ;SSD.c: 92:     SSD_Data_write();
+[e ( _SSD_Data_write ..  ]
+"94
+[; ;SSD.c: 94:     SSD_Enable(currentSSD);
+[e ( _SSD_Enable (1 -> _currentSSD `E865 ]
+"95
+[; ;SSD.c: 95: }
+[e :UE 97 ]
+}
+"97
+[; ;SSD.c: 97: void SSD_Disable(SSD_t s)
+[v _SSD_Disable `(v ~T0 @X0 1 ef1`E865 ]
+"98
+[; ;SSD.c: 98: {
+{
+[e :U _SSD_Disable ]
+"97
+[; ;SSD.c: 97: void SSD_Disable(SSD_t s)
+[v _s `E865 ~T0 @X0 1 r1 ]
+"98
+[; ;SSD.c: 98: {
+[f ]
+"99
+[; ;SSD.c: 99:     switch(s)
+[e $U 102  ]
+"100
+[; ;SSD.c: 100:     {
+{
+"101
+[; ;SSD.c: 101:         case SSD_FIRST:
+[e :U 103 ]
+"102
+[; ;SSD.c: 102:             (((PORTB))=((PORTB) & ~(1<<(7)))|(SSD_OFF<<(7)));
+[e = _PORTB -> | & -> _PORTB `i ~ << -> 1 `i -> 7 `i << -> . `E870 0 `i -> 7 `i `uc ]
+"103
+[; ;SSD.c: 103:             break;
+[e $U 101  ]
+"104
+[; ;SSD.c: 104:         case SSD_SECOND:
+[e :U 104 ]
+"105
+[; ;SSD.c: 105:             (((PORTB))=((PORTB) & ~(1<<(6)))|(SSD_OFF<<(6)));
+[e = _PORTB -> | & -> _PORTB `i ~ << -> 1 `i -> 6 `i << -> . `E870 0 `i -> 6 `i `uc ]
+"106
+[; ;SSD.c: 106:             break;
+[e $U 101  ]
+"107
+[; ;SSD.c: 107:         case SSD_THIRD:
+[e :U 105 ]
+"108
+[; ;SSD.c: 108:             (((PORTB))=((PORTB) & ~(1<<(5)))|(SSD_OFF<<(5)));
+[e = _PORTB -> | & -> _PORTB `i ~ << -> 1 `i -> 5 `i << -> . `E870 0 `i -> 5 `i `uc ]
+"109
+[; ;SSD.c: 109:             break;
+[e $U 101  ]
+"110
+[; ;SSD.c: 110:         default:
+[e :U 106 ]
+"112
+[; ;SSD.c: 112:     }
+}
+[e $U 101  ]
+[e :U 102 ]
+[e [\ -> _s `ui , $ -> . `E865 0 `ui 103
+ , $ -> . `E865 1 `ui 104
+ , $ -> . `E865 2 `ui 105
+ 106 ]
+[e :U 101 ]
+"113
+[; ;SSD.c: 113: }
+[e :UE 100 ]
+}
+"115
+[; ;SSD.c: 115: void SSD_Enable(SSD_t s)
+[v _SSD_Enable `(v ~T0 @X0 1 ef1`E865 ]
+"116
+[; ;SSD.c: 116: {
+{
+[e :U _SSD_Enable ]
+"115
+[; ;SSD.c: 115: void SSD_Enable(SSD_t s)
+[v _s `E865 ~T0 @X0 1 r1 ]
+"116
+[; ;SSD.c: 116: {
+[f ]
+"117
+[; ;SSD.c: 117:     switch(s)
+[e $U 109  ]
+"118
+[; ;SSD.c: 118:     {
+{
+"119
+[; ;SSD.c: 119:         case SSD_FIRST:
+[e :U 110 ]
+"120
+[; ;SSD.c: 120:             (((PORTB))=((PORTB) & ~(1<<(7)))|(SSD_ON<<(7)));
+[e = _PORTB -> | & -> _PORTB `i ~ << -> 1 `i -> 7 `i << -> . `E870 1 `i -> 7 `i `uc ]
+"121
+[; ;SSD.c: 121:             break;
+[e $U 108  ]
+"122
+[; ;SSD.c: 122:         case SSD_SECOND:
+[e :U 111 ]
+"123
+[; ;SSD.c: 123:             (((PORTB))=((PORTB) & ~(1<<(6)))|(SSD_ON<<(6)));
+[e = _PORTB -> | & -> _PORTB `i ~ << -> 1 `i -> 6 `i << -> . `E870 1 `i -> 6 `i `uc ]
+"124
+[; ;SSD.c: 124:             break;
+[e $U 108  ]
+"125
+[; ;SSD.c: 125:         case SSD_THIRD:
+[e :U 112 ]
+"126
+[; ;SSD.c: 126:             (((PORTB))=((PORTB) & ~(1<<(5)))|(SSD_ON<<(5)));
+[e = _PORTB -> | & -> _PORTB `i ~ << -> 1 `i -> 5 `i << -> . `E870 1 `i -> 5 `i `uc ]
+"127
+[; ;SSD.c: 127:             break;
+[e $U 108  ]
+"128
+[; ;SSD.c: 128:         default:
+[e :U 113 ]
+"130
+[; ;SSD.c: 130:     }
+}
+[e $U 108  ]
+[e :U 109 ]
+[e [\ -> _s `ui , $ -> . `E865 0 `ui 110
+ , $ -> . `E865 1 `ui 111
+ , $ -> . `E865 2 `ui 112
+ 113 ]
+[e :U 108 ]
+"131
+[; ;SSD.c: 131: }
+[e :UE 107 ]
+}
+"135
+[; ;SSD.c: 135: void SSD_Data_write(void)
+[v _SSD_Data_write `(v ~T0 @X0 1 ef ]
+"136
+[; ;SSD.c: 136: {
+{
+[e :U _SSD_Data_write ]
+[f ]
+"138
+[; ;SSD.c: 138:     (((PORTD))=(SSD_LOT_ARR[Buffer[currentSSD]]));
+[e = _PORTD *U + &U _SSD_LOT_ARR * -> *U + &U _Buffer * -> _currentSSD `ux -> -> # *U &U _Buffer `ui `ux `ux -> -> # *U &U _SSD_LOT_ARR `ui `ux ]
+"140
+[; ;SSD.c: 140: }
+[e :UE 114 ]
 }

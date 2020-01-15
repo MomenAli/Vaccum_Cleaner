@@ -15,6 +15,7 @@
 #include <xc.h> // include processor files - each processor file is guarded.  
 
 #include "HW.h"
+#include"GPIO.h"
 
 /************************************port***********************************
  *                               description                               *
@@ -46,15 +47,15 @@
 // SSD FIRST
 #define SSD_FIRST_PORT  GPIO_PORTB_DATA
 #define SSD_FIRST_DIR   GPIO_PORTB_DIR
-#define SSD_FIRST_PIN   PIN_4
+#define SSD_FIRST_PIN   PIN_7
 // SSD TWO
 #define SSD_SECOND_PORT GPIO_PORTB_DATA
 #define SSD_SECOND_DIR  GPIO_PORTB_DIR
-#define SSD_SECOND_PIN  PIN_5
+#define SSD_SECOND_PIN  PIN_6
 // SSD THREE
 #define SSD_THIRD_PORT  GPIO_PORTB_DATA
 #define SSD_THIRD_DIR   GPIO_PORTB_DIR
-#define SSD_THIRD_PIN   PIN_6
+#define SSD_THIRD_PIN   PIN_5
 
 
 #endif	/* XC_HEADER_TEMPLATE_H */

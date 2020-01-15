@@ -12,23 +12,22 @@
 #include "GPIO.h"
 #include "Port.h"
 #include "Led.h"
+#include "SSD.h"
 
 void main(void) 
 {
-    SW_Init();
-    LED_Init(LED_ALARM,LED_ON);
+    SSD_Init();
     while(1)
     {
-        __delay_ms(5);
-        SW_Update();
-        if(SW_GetState(SW_PLUS) == SW_PRESSED)
-        {
-            LED_SetState(LED_ALARM,LED_OFF);
-        }
-        else
-        {
-            
-            LED_SetState(LED_ALARM,LED_ON);
-        }
+        __delay_ms(1000);
+        SSD_Set_Symbol(SSD_L_1,SSD_FIRST);
+        SSD_Update();
+        __delay_ms(1000);
+        SSD_Set_Symbol(SSD_L_2,SSD_SECOND);
+        SSD_Update();
+        __delay_ms(1000);
+        SSD_Set_Symbol(SSD_L_3,SSD_THIRD);
+        SSD_Update();
+        
     }
 }

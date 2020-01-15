@@ -1,4 +1,4 @@
-# 1 "VaccumCleaner.c"
+# 1 "SSD.c"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
 # 288 "<built-in>" 3
@@ -6,14 +6,15 @@
 # 1 "<built-in>" 2
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\language_support.h" 1 3
 # 2 "<built-in>" 2
-# 1 "VaccumCleaner.c" 2
+# 1 "SSD.c" 2
 
 
 
 
 
 
-
+# 1 "./Port.h" 1
+# 15 "./Port.h"
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 1 3
 # 18 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
@@ -1727,7 +1728,7 @@ extern __bank0 unsigned char __resetbits;
 extern __bank0 __bit __powerdown;
 extern __bank0 __bit __timeout;
 # 27 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 2 3
-# 8 "VaccumCleaner.c" 2
+# 15 "./Port.h" 2
 
 
 # 1 "./HW.h" 1
@@ -1743,69 +1744,14 @@ extern __bank0 __bit __timeout;
 # 131 "./HW.h"
 typedef unsigned char uint8;
 typedef unsigned int uint16;
-# 10 "VaccumCleaner.c" 2
-
-# 1 "./SW.h" 1
-# 34 "./SW.h"
-typedef enum
-{
-    SW_PLUS,
-    SW_MINUS,
-    SW_PRESSURE
-}SW_t;
-
-
-
-
-
-typedef enum
-{
-    SW_RELEASED,
-    SW_PRE_PRESSED,
-    SW_PRESSED,
-    SW_PRE_RELEASED
-}SW_State_t;
-# 60 "./SW.h"
-void SW_Init(void);
-
-
-
-uint8 SW_GetState(SW_t sw);
-
-
-
-
-void SW_Update(void);
-# 11 "VaccumCleaner.c" 2
+# 17 "./Port.h" 2
 
 # 1 "./GPIO.h" 1
 # 42 "./GPIO.h"
 uint8 GPIO_Init_Port(uint8 * DirRegAddress ,uint8 dir );
 uint8 GPIO_Init_Pin(uint8 * DirRegAddress ,uint8 pin_number,uint8 dir );
-# 12 "VaccumCleaner.c" 2
-
-# 1 "./Port.h" 1
-# 13 "VaccumCleaner.c" 2
-
-# 1 "./Led.h" 1
-# 18 "./Led.h"
-typedef enum
-{
-    LED_ALARM
-}LED_t;
-
-typedef enum{
-
-    LED_OFF = 0,
-    LED_ON = 1
-}LEDState_t;
-
-uint8 LED_Init(LED_t led, LEDState_t state);
-uint8 LED_GetState(LED_t led);
-void LED_SetState(LED_t led, LEDState_t state);
-void LED_update(void);
-void LED_Toggle(LED_t led);
-# 14 "VaccumCleaner.c" 2
+# 18 "./Port.h" 2
+# 7 "SSD.c" 2
 
 # 1 "./SSD.h" 1
 # 30 "./SSD.h"
@@ -1839,23 +1785,122 @@ typedef enum
 void SSD_Init(void);
 void SSD_Set_Symbol(SSD_Symbol_t symbol,SSD_t index);
 void SSD_Update(void);
-# 15 "VaccumCleaner.c" 2
+# 8 "SSD.c" 2
+# 24 "SSD.c"
+void SSD_Disable(SSD_t s);
+void SSD_Enable(SSD_t s);
+void SSD_Data_write(void);
 
 
-void main(void)
+
+
+static SSD_Symbol_t Buffer[(4)];
+
+
+
+static uint8 currentSSD = 0;
+
+
+
+
+
+
+static uint8 SSD_LOT_ARR[] =
 {
-    SSD_Init();
-    while(1)
-    {
-        _delay((unsigned long)((1000)*(8000000/4000.0)));
-        SSD_Set_Symbol(SSD_L_1,SSD_FIRST);
-        SSD_Update();
-        _delay((unsigned long)((1000)*(8000000/4000.0)));
-        SSD_Set_Symbol(SSD_L_2,SSD_SECOND);
-        SSD_Update();
-        _delay((unsigned long)((1000)*(8000000/4000.0)));
-        SSD_Set_Symbol(SSD_L_3,SSD_THIRD);
-        SSD_Update();
+    0b00001000,
+    0b01001000,
+    0b01001001,
+    0b00000000
+};
 
+
+void SSD_Init()
+{
+
+    GPIO_Init_Port(&(TRISD),(0));
+
+
+    GPIO_Init_Pin(&(TRISB),(7),(0));
+    (((PORTB))=((PORTB) & ~(1<<(7)))|(SSD_OFF<<(7)));
+
+    GPIO_Init_Pin(&(TRISB),(6),(0));
+    (((PORTB))=((PORTB) & ~(1<<(6)))|(SSD_OFF<<(6)));
+
+    GPIO_Init_Pin(&(TRISB),(5),(0));
+    (((PORTB))=((PORTB) & ~(1<<(5)))|(SSD_OFF<<(5)));
+
+}
+void SSD_Set_Symbol(SSD_Symbol_t symbol,SSD_t index)
+{
+
+    Buffer[index] = symbol;
+}
+void SSD_Update(void)
+{
+
+
+
+    static uint8 SSD_Time_Counter = 0;
+    SSD_Time_Counter += (5);
+
+    if(SSD_Time_Counter != (5))
+    {
+        return;
     }
+    SSD_Time_Counter = 0;
+
+
+    SSD_Disable(currentSSD);
+
+    currentSSD++;
+    if(currentSSD > SSD_THIRD)currentSSD = 0;
+
+    SSD_Data_write();
+
+    SSD_Enable(currentSSD);
+}
+
+void SSD_Disable(SSD_t s)
+{
+    switch(s)
+    {
+        case SSD_FIRST:
+            (((PORTB))=((PORTB) & ~(1<<(7)))|(SSD_OFF<<(7)));
+            break;
+        case SSD_SECOND:
+            (((PORTB))=((PORTB) & ~(1<<(6)))|(SSD_OFF<<(6)));
+            break;
+        case SSD_THIRD:
+            (((PORTB))=((PORTB) & ~(1<<(5)))|(SSD_OFF<<(5)));
+            break;
+        default:
+                             ;
+    }
+}
+
+void SSD_Enable(SSD_t s)
+{
+    switch(s)
+    {
+        case SSD_FIRST:
+            (((PORTB))=((PORTB) & ~(1<<(7)))|(SSD_ON<<(7)));
+            break;
+        case SSD_SECOND:
+            (((PORTB))=((PORTB) & ~(1<<(6)))|(SSD_ON<<(6)));
+            break;
+        case SSD_THIRD:
+            (((PORTB))=((PORTB) & ~(1<<(5)))|(SSD_ON<<(5)));
+            break;
+        default:
+                             ;
+    }
+}
+
+
+
+void SSD_Data_write(void)
+{
+
+    (((PORTD))=(SSD_LOT_ARR[Buffer[currentSSD]]));
+
 }
