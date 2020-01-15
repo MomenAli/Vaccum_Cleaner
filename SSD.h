@@ -54,7 +54,7 @@ typedef enum
     SSD_ON = 1
 }tSSD_State;
 
-void SSD_Init(void);
+void SSD_Init(SSD_Symbol_t  sym,SSD_t ssd);
 void SSD_Set_Symbol(SSD_Symbol_t symbol,SSD_t index);
 void SSD_Update(void);
 #endif	/* XC_HEADER_TEMPLATE_H */

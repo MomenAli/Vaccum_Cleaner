@@ -1944,6 +1944,7 @@ static void Switch_Event_Handler(void)
     }
     else
     {
+
         pressure_sw_counter = 0;
 
         LED_SetState(LED_ALARM,LED_OFF);

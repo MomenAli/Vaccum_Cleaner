@@ -11,12 +11,12 @@
  * define number of ticks need to update
  * MIN FREQ TO UPDATE SSD = 20 HZ    =>  MAX TIME = 1/20 = 50 ms 
  * MAX FREQ TO UPDATE SSD = 50 HZ    =>  MIN TIME = 1/50 = 20 ms
- * we have 4 SSD in this application
- * MAX TIME = MAX TIME PER SSD / NUMBER OF SSD = 50/4 = 12.5 ms
- * MIN TIME = MIN TIME PER SSD / NUMBER OF SSD = 20/4 = 5 ms
+ * we have 3 SSD in this application
+ * MAX TIME = MAX TIME PER SSD / NUMBER OF SSD = 50/3 = 16.7 ms
+ * MIN TIME = MIN TIME PER SSD / NUMBER OF SSD = 20/3 = 6.7 ms
  * 10 ms 
  */
-#define SSD_UPDATE_TICK (5)
+#define SSD_UPDATE_TICK (10)
 /*
  * Buffer for the current displayed values
  */
@@ -48,23 +48,32 @@ static uint8 SSD_LOT_ARR[] =
 };
 
 
-void SSD_Init()
+void SSD_Init(SSD_Symbol_t  sym,SSD_t ssd)
 {
     //initialize to data port
     GPIO_Init_Port(&SSD_DATA_DIR,GPIO_OUT);
-  
-    //initialize MINUTES UNITS enable pin
-    GPIO_Init_Pin(&SSD_FIRST_DIR,SSD_FIRST_PIN,GPIO_OUT);
-    GPIO_Write_Pin(SSD_FIRST_PORT,SSD_FIRST_PIN,SSD_OFF);
-    SSD_Set_Symbol(SSD_NULL,SSD_FIRST);
-    //initialize MINUTES TENS enable pin
-    GPIO_Init_Pin(&SSD_SECOND_DIR,SSD_SECOND_PIN,GPIO_OUT);
-    GPIO_Write_Pin(SSD_SECOND_PORT,SSD_SECOND_PIN,SSD_OFF);
-    SSD_Set_Symbol(SSD_NULL,SSD_SECOND);
-    //initialize HOURS UNITS enable pin
-    GPIO_Init_Pin(&SSD_THIRD_DIR,SSD_THIRD_PIN,GPIO_OUT);
-    GPIO_Write_Pin(SSD_THIRD_PORT,SSD_THIRD_PIN,SSD_OFF);
-    SSD_Set_Symbol(SSD_NULL,SSD_THIRD);
+    
+    switch(ssd)
+    {
+        case SSD_FIRST:
+            //initialize First enable pin
+            GPIO_Init_Pin(&SSD_FIRST_DIR,SSD_FIRST_PIN,GPIO_OUT);
+            GPIO_Write_Pin(SSD_FIRST_PORT,SSD_FIRST_PIN,SSD_OFF);
+            SSD_Set_Symbol(sym,SSD_FIRST);
+            break;
+        case SSD_SECOND:
+            //initialize Second enable pin
+            GPIO_Init_Pin(&SSD_SECOND_DIR,SSD_SECOND_PIN,GPIO_OUT);
+            GPIO_Write_Pin(SSD_SECOND_PORT,SSD_SECOND_PIN,SSD_OFF);
+            SSD_Set_Symbol(sym,SSD_SECOND);
+            break;
+        case SSD_THIRD: 
+            //initialize Third enable pin
+            GPIO_Init_Pin(&SSD_THIRD_DIR,SSD_THIRD_PIN,GPIO_OUT);
+            GPIO_Write_Pin(SSD_THIRD_PORT,SSD_THIRD_PIN,SSD_OFF);
+            SSD_Set_Symbol(sym,SSD_THIRD);
+            break;
+    }
 }
 void SSD_Set_Symbol(SSD_Symbol_t symbol,SSD_t index)
 {

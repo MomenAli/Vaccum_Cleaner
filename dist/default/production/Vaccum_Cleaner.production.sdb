@@ -4,22 +4,10 @@
 [d chip 16F877A ]
 [d frameptr 0 ]
 "21 D:\bootcamp\final_project\Vaccum_Cleaner\VaccumCleaner.c
-[e E912 . `uc
+[e E914 . `uc
 LOW_SPEED 140
 MID_SPEED 90
 HIGH_SPEED 10
-]
-"31
-[e E892 . `uc
-SSD_L_1 0
-SSD_L_2 1
-SSD_L_3 2
-SSD_NULL 3
-]
-[e E898 . `uc
-SSD_FIRST 0
-SSD_SECOND 1
-SSD_THIRD 2
 ]
 "59 D:\bootcamp\final_project\Vaccum_Cleaner\SW.c
 [e E859 . `uc
@@ -48,16 +36,16 @@ SSD_L_2 1
 SSD_L_3 2
 SSD_NULL 3
 ]
-"58
-[e E870 . `uc
-SSD_OFF 0
-SSD_ON 1
-]
-"59
+"51
 [e E865 . `uc
 SSD_FIRST 0
 SSD_SECOND 1
 SSD_THIRD 2
+]
+"61
+[e E870 . `uc
+SSD_OFF 0
+SSD_ON 1
 ]
 "18 D:\bootcamp\final_project\Vaccum_Cleaner\Vacuum.c
 [e E850 . `uc
@@ -85,6 +73,24 @@ SW_PRE_PRESSED 1
 SW_PRESSED 2
 SW_PRE_RELEASED 3
 ]
+"25 D:\bootcamp\final_project\Vaccum_Cleaner\Disp.c
+[e E852 . `uc
+SSD_L_1 0
+SSD_L_2 1
+SSD_L_3 2
+SSD_NULL 3
+]
+[e E858 . `uc
+SSD_FIRST 0
+SSD_SECOND 1
+SSD_THIRD 2
+]
+"60
+[e E874 . `uc
+LOW_SPEED 140
+MID_SPEED 90
+HIGH_SPEED 10
+]
 "10 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\sources\c90\common\sprcadd.c
 [v ___fladd __fladd `(d  1 e 4 0 ]
 "4 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\sources\c90\common\Umul8.c
@@ -95,6 +101,10 @@ SW_PRE_RELEASED 3
 [v ___eecpymem __eecpymem `(v  1 e 1 0 ]
 "39
 [v ___memcpyee __memcpyee `(v  1 e 1 0 ]
+"22 D:\bootcamp\final_project\Vaccum_Cleaner\Disp.c
+[v _Disp_Init Disp_Init `(v  1 e 1 0 ]
+"29
+[v _Disp_Update Disp_Update `(v  1 e 1 0 ]
 "14 D:\bootcamp\final_project\Vaccum_Cleaner\GPIO.c
 [v _GPIO_Init_Port GPIO_Init_Port `(uc  1 e 1 0 ]
 "34
@@ -107,15 +117,15 @@ SW_PRE_RELEASED 3
 [v _LED_SetState LED_SetState `(v  1 e 1 0 ]
 "51 D:\bootcamp\final_project\Vaccum_Cleaner\SSD.c
 [v _SSD_Init SSD_Init `(v  1 e 1 0 ]
-"69
+"78
 [v _SSD_Set_Symbol SSD_Set_Symbol `(v  1 e 1 0 ]
-"74
+"83
 [v _SSD_Update SSD_Update `(v  1 e 1 0 ]
-"99
+"108
 [v _SSD_Disable SSD_Disable `(v  1 e 1 0 ]
-"117
+"126
 [v _SSD_Enable SSD_Enable `(v  1 e 1 0 ]
-"137
+"146
 [v _SSD_Data_write SSD_Data_write `(v  1 e 1 0 ]
 "54 D:\bootcamp\final_project\Vaccum_Cleaner\SW.c
 [v _SW_Init SW_Init `(v  1 e 1 0 ]
@@ -125,12 +135,12 @@ SW_PRE_RELEASED 3
 [v _SW_Update SW_Update `(v  1 e 1 0 ]
 "114
 [v _SW_UpdateState SW_UpdateState `(v  1 e 1 0 ]
-"18 D:\bootcamp\final_project\Vaccum_Cleaner\VaccumCleaner.c
+"19 D:\bootcamp\final_project\Vaccum_Cleaner\VaccumCleaner.c
 [v _main main `(v  1 e 1 0 ]
 "32 D:\bootcamp\final_project\Vaccum_Cleaner\Vacuum.c
 [v _VC_Init VC_Init `(v  1 e 1 0 ]
 "44
-[v _VC_GetSpeed VC_GetSpeed `(E912  1 e 1 0 ]
+[v _VC_GetSpeed VC_GetSpeed `(E850  1 e 1 0 ]
 "49
 [v _VC_Update VC_Update `(v  1 e 1 0 ]
 "74
@@ -155,17 +165,17 @@ SW_PRE_RELEASED 3
 [v _currentSSD currentSSD `uc  1 s 1 currentSSD ]
 "42
 [v _SSD_LOT_ARR SSD_LOT_ARR `[4]uc  1 s 4 SSD_LOT_ARR ]
-[s S96 . 3 `[2]uc 1 samples 2 0 `uc 1 state 1 2 ]
+[s S81 . 3 `[2]uc 1 samples 2 0 `uc 1 state 1 2 ]
 "50 D:\bootcamp\final_project\Vaccum_Cleaner\SW.c
-[v _SW_DATA SW_DATA `[3]S96  1 s 9 SW_DATA ]
+[v _SW_DATA SW_DATA `[3]S81  1 s 9 SW_DATA ]
 "18 D:\bootcamp\final_project\Vaccum_Cleaner\Vacuum.c
 [v _motor_speed motor_speed `E850  1 s 1 motor_speed ]
 "30
 [v _pressure_sw_counter pressure_sw_counter `ui  1 s 2 pressure_sw_counter ]
-"18 D:\bootcamp\final_project\Vaccum_Cleaner\VaccumCleaner.c
+"19 D:\bootcamp\final_project\Vaccum_Cleaner\VaccumCleaner.c
 [v _main main `(v  1 e 1 0 ]
 {
-"48
+"32
 } 0
 "49 D:\bootcamp\final_project\Vaccum_Cleaner\Vacuum.c
 [v _VC_Update VC_Update `(v  1 e 1 0 ]
@@ -177,7 +187,7 @@ SW_PRE_RELEASED 3
 "74
 [v _Switch_Event_Handler Switch_Event_Handler `(v  1 s 1 Switch_Event_Handler ]
 {
-"157
+"158
 } 0
 "74 D:\bootcamp\final_project\Vaccum_Cleaner\SW.c
 [v _SW_GetState SW_GetState `(uc  1 e 1 0 ]
@@ -220,11 +230,6 @@ SW_PRE_RELEASED 3
 [v LED_SetState@led led `E859  1 a 1 3 ]
 "61
 } 0
-"44 D:\bootcamp\final_project\Vaccum_Cleaner\Vacuum.c
-[v _VC_GetSpeed VC_GetSpeed `(E912  1 e 1 0 ]
-{
-"48
-} 0
 "83 D:\bootcamp\final_project\Vaccum_Cleaner\SW.c
 [v _SW_Update SW_Update `(v  1 e 1 0 ]
 {
@@ -258,48 +263,70 @@ SW_PRE_RELEASED 3
 {
 "73
 } 0
-"74 D:\bootcamp\final_project\Vaccum_Cleaner\SSD.c
+"83 D:\bootcamp\final_project\Vaccum_Cleaner\SSD.c
 [v _SSD_Update SSD_Update `(v  1 e 1 0 ]
 {
-"79
+"88
 [v SSD_Update@SSD_Time_Counter SSD_Time_Counter `uc  1 s 1 SSD_Time_Counter ]
-"97
+"106
 } 0
-"117
+"126
 [v _SSD_Enable SSD_Enable `(v  1 e 1 0 ]
 {
 [v SSD_Enable@s s `E865  1 a 1 wreg ]
 [v SSD_Enable@s s `E865  1 a 1 wreg ]
 [v SSD_Enable@s s `E865  1 a 1 2 ]
-"133
+"142
 } 0
-"99
+"108
 [v _SSD_Disable SSD_Disable `(v  1 e 1 0 ]
 {
 [v SSD_Disable@s s `E865  1 a 1 wreg ]
 [v SSD_Disable@s s `E865  1 a 1 wreg ]
 [v SSD_Disable@s s `E865  1 a 1 2 ]
-"115
+"124
 } 0
-"137
+"146
 [v _SSD_Data_write SSD_Data_write `(v  1 e 1 0 ]
 {
-"142
+"151
 } 0
-"51
+"29 D:\bootcamp\final_project\Vaccum_Cleaner\Disp.c
+[v _Disp_Update Disp_Update `(v  1 e 1 0 ]
+{
+"34
+[v Disp_Update@DISP_Time_Counter DISP_Time_Counter `uc  1 s 1 DISP_Time_Counter ]
+"62
+} 0
+"44 D:\bootcamp\final_project\Vaccum_Cleaner\Vacuum.c
+[v _VC_GetSpeed VC_GetSpeed `(E850  1 e 1 0 ]
+{
+"48
+} 0
+"22 D:\bootcamp\final_project\Vaccum_Cleaner\Disp.c
+[v _Disp_Init Disp_Init `(v  1 e 1 0 ]
+{
+"28
+} 0
+"51 D:\bootcamp\final_project\Vaccum_Cleaner\SSD.c
 [v _SSD_Init SSD_Init `(v  1 e 1 0 ]
 {
-"68
+[v SSD_Init@sym sym `E859  1 a 1 wreg ]
+[v SSD_Init@sym sym `E859  1 a 1 wreg ]
+[v SSD_Init@ssd ssd `E865  1 p 1 8 ]
+"54
+[v SSD_Init@sym sym `E859  1 a 1 11 ]
+"77
 } 0
-"69
+"78
 [v _SSD_Set_Symbol SSD_Set_Symbol `(v  1 e 1 0 ]
 {
 [v SSD_Set_Symbol@symbol symbol `E859  1 a 1 wreg ]
 [v SSD_Set_Symbol@symbol symbol `E859  1 a 1 wreg ]
 [v SSD_Set_Symbol@index index `E865  1 p 1 0 ]
-"72
+"81
 [v SSD_Set_Symbol@symbol symbol `E859  1 a 1 2 ]
-"73
+"82
 } 0
 "14 D:\bootcamp\final_project\Vaccum_Cleaner\GPIO.c
 [v _GPIO_Init_Port GPIO_Init_Port `(uc  1 e 1 0 ]

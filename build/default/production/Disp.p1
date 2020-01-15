@@ -1,34 +1,23 @@
 Version 4.0 HI-TECH Software Intermediate Code
-"18 Vacuum.c
-[; ;Vacuum.c: 18: static MOTOR_SPEET_t motor_speed;
-[c E850 140 90 10 .. ]
-[n E850 . LOW_SPEED MID_SPEED HIGH_SPEED  ]
-"40
-[; ;Vacuum.c: 40:     LED_Init(LED_ALARM,LED_OFF);
-[c E876 0 .. ]
-[n E876 . LED_ALARM  ]
-[c E879 0 1 .. ]
-[n E879 . LED_OFF LED_ON  ]
-"29 ./Led.h
-[; ;./Led.h: 29: uint8 LED_Init(LED_t led, LEDState_t state);
-[v _LED_Init `(uc ~T0 @X0 0 ef2`E876`E879 ]
-"21 Vacuum.c
-[; ;Vacuum.c: 21: static void Switch_Event_Handler(void);
-[v _Switch_Event_Handler `(v ~T0 @X0 0 sf ]
-"80
-[; ;Vacuum.c: 80:     if(SW_GetState(SW_PLUS) == SW_PRE_PRESSED && motor_speed != HIGH_SPEED)
-[c E861 0 1 2 .. ]
-[n E861 . SW_PLUS SW_MINUS SW_PRESSURE  ]
-"64 ./SW.h
-[; ;./SW.h: 64: uint8 SW_GetState(SW_t sw);
-[v _SW_GetState `(uc ~T0 @X0 0 ef1`E861 ]
-"80 Vacuum.c
-[; ;Vacuum.c: 80:     if(SW_GetState(SW_PLUS) == SW_PRE_PRESSED && motor_speed != HIGH_SPEED)
-[c E866 0 1 2 3 .. ]
-[n E866 . SW_RELEASED SW_PRE_PRESSED SW_PRESSED SW_PRE_RELEASED  ]
-"31 ./Led.h
-[; ;./Led.h: 31: void LED_SetState(LED_t led, LEDState_t state);
-[v _LED_SetState `(v ~T0 @X0 0 ef2`E876`E879 ]
+"25 Disp.c
+[; ;Disp.c: 25:     SSD_Init(SSD_NULL,SSD_FIRST);
+[c E852 0 1 2 3 .. ]
+[n E852 . SSD_L_1 SSD_L_2 SSD_L_3 SSD_NULL  ]
+[c E858 0 1 2 .. ]
+[n E858 . SSD_FIRST SSD_SECOND SSD_THIRD  ]
+"57 ./SSD.h
+[; ;./SSD.h: 57: void SSD_Init(SSD_Symbol_t sym,SSD_t ssd);
+[v _SSD_Init `(v ~T0 @X0 0 ef2`E852`E858 ]
+"58
+[; ;./SSD.h: 58: void SSD_Set_Symbol(SSD_Symbol_t symbol,SSD_t index);
+[v _SSD_Set_Symbol `(v ~T0 @X0 0 ef2`E852`E858 ]
+"60 Disp.c
+[; ;Disp.c: 60:     }
+[c E874 140 90 10 .. ]
+[n E874 . LOW_SPEED MID_SPEED HIGH_SPEED  ]
+"30 ./Vacuum.h
+[; ;./Vacuum.h: 30: MOTOR_SPEET_t VC_GetSpeed(void);
+[v _VC_GetSpeed `(E874 ~T0 @X0 0 ef ]
 "54 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h
 [; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h: 54: __asm("INDF equ 00h");
 [; <" INDF equ 00h ;# ">
@@ -225,279 +214,122 @@ Version 4.0 HI-TECH Software Intermediate Code
 [p x WRT = OFF ]
 "25
 [p x CP = OFF ]
-"18 Vacuum.c
-[; ;Vacuum.c: 18: static MOTOR_SPEET_t motor_speed;
-[v _motor_speed `E850 ~T0 @X0 1 s ]
-"30
-[; ;Vacuum.c: 30: static uint16 pressure_sw_counter;
-[v _pressure_sw_counter `ui ~T0 @X0 1 s ]
-"32
-[; ;Vacuum.c: 32: void VC_Init(MOTOR_SPEET_t speed)
-[v _VC_Init `(v ~T0 @X0 1 ef1`E850 ]
-"33
-[; ;Vacuum.c: 33: {
+"22 Disp.c
+[; ;Disp.c: 22: void Disp_Init(void)
+[v _Disp_Init `(v ~T0 @X0 1 ef ]
+"23
+[; ;Disp.c: 23: {
 {
-[e :U _VC_Init ]
-"32
-[; ;Vacuum.c: 32: void VC_Init(MOTOR_SPEET_t speed)
-[v _speed `E850 ~T0 @X0 1 r1 ]
-"33
-[; ;Vacuum.c: 33: {
+[e :U _Disp_Init ]
 [f ]
-"35
-[; ;Vacuum.c: 35:     motor_speed = speed;
-[e = _motor_speed _speed ]
-"40
-[; ;Vacuum.c: 40:     LED_Init(LED_ALARM,LED_OFF);
-[e ( _LED_Init (2 , . `E876 0 . `E879 0 ]
-"42
-[; ;Vacuum.c: 42:     pressure_sw_counter = 0;
-[e = _pressure_sw_counter -> -> 0 `i `ui ]
-"43
-[; ;Vacuum.c: 43: }
+"25
+[; ;Disp.c: 25:     SSD_Init(SSD_NULL,SSD_FIRST);
+[e ( _SSD_Init (2 , . `E852 3 . `E858 0 ]
+"26
+[; ;Disp.c: 26:     SSD_Init(SSD_NULL,SSD_SECOND);
+[e ( _SSD_Init (2 , . `E852 3 . `E858 1 ]
+"27
+[; ;Disp.c: 27:     SSD_Init(SSD_NULL,SSD_THIRD);
+[e ( _SSD_Init (2 , . `E852 3 . `E858 2 ]
+"28
+[; ;Disp.c: 28: }
 [e :UE 95 ]
 }
-"44
-[; ;Vacuum.c: 44: MOTOR_SPEET_t VC_GetSpeed(void)
-[v _VC_GetSpeed `(E850 ~T0 @X0 1 ef ]
-"45
-[; ;Vacuum.c: 45: {
+"29
+[; ;Disp.c: 29: void Disp_Update(void)
+[v _Disp_Update `(v ~T0 @X0 1 ef ]
+"30
+[; ;Disp.c: 30: {
 {
-[e :U _VC_GetSpeed ]
+[e :U _Disp_Update ]
 [f ]
-"47
-[; ;Vacuum.c: 47:     return motor_speed;
-[e ) _motor_speed ]
-[e $UE 96  ]
-"48
-[; ;Vacuum.c: 48: }
-[e :UE 96 ]
-}
-"49
-[; ;Vacuum.c: 49: void VC_Update(void)
-[v _VC_Update `(v ~T0 @X0 1 ef ]
-"50
-[; ;Vacuum.c: 50: {
-{
-[e :U _VC_Update ]
-[f ]
-"51
-[; ;Vacuum.c: 51:     static uint8 VC_TICK_COUNTER = 0;
-[v F901 `uc ~T0 @X0 1 s VC_TICK_COUNTER ]
-[i F901
--> -> 0 `i `uc
+"34
+[; ;Disp.c: 34:     static uint8 DISP_Time_Counter = 10;
+[v F885 `uc ~T0 @X0 1 s DISP_Time_Counter ]
+[i F885
+-> -> 10 `i `uc
 ]
-"52
-[; ;Vacuum.c: 52:     VC_TICK_COUNTER += (5);
-[e =+ F901 -> -> 5 `i `uc ]
-"54
-[; ;Vacuum.c: 54:     if(VC_TICK_COUNTER != (20))
-[e $ ! != -> F901 `i -> 20 `i 98  ]
-"55
-[; ;Vacuum.c: 55:         return;
-[e $UE 97  ]
-[e :U 98 ]
-"56
-[; ;Vacuum.c: 56:     VC_TICK_COUNTER = 0;
-[e = F901 -> -> 0 `i `uc ]
-"67
-[; ;Vacuum.c: 67:     Switch_Event_Handler();
-[e ( _Switch_Event_Handler ..  ]
-"72
-[; ;Vacuum.c: 72: }
-[e :UE 97 ]
-}
-"74
-[; ;Vacuum.c: 74: static void Switch_Event_Handler(void)
-[v _Switch_Event_Handler `(v ~T0 @X0 1 sf ]
-"75
-[; ;Vacuum.c: 75: {
+"35
+[; ;Disp.c: 35:     DISP_Time_Counter += (5);
+[e =+ F885 -> -> 5 `i `uc ]
+"37
+[; ;Disp.c: 37:     if(DISP_Time_Counter != (20))
+[e $ ! != -> F885 `i -> 20 `i 97  ]
+"38
+[; ;Disp.c: 38:     {
 {
-[e :U _Switch_Event_Handler ]
-[f ]
-"80
-[; ;Vacuum.c: 80:     if(SW_GetState(SW_PLUS) == SW_PRE_PRESSED && motor_speed != HIGH_SPEED)
-[e $ ! && == -> ( _SW_GetState (1 . `E861 0 `i -> . `E866 1 `i != -> _motor_speed `ui -> . `E850 2 `ui 100  ]
-"81
-[; ;Vacuum.c: 81:     {
-{
-"83
-[; ;Vacuum.c: 83:         switch(motor_speed)
-[e $U 102  ]
-"84
-[; ;Vacuum.c: 84:         {
-{
-"85
-[; ;Vacuum.c: 85:             case LOW_SPEED:
-[e :U 103 ]
-"86
-[; ;Vacuum.c: 86:                 motor_speed = MID_SPEED;
-[e = _motor_speed . `E850 1 ]
-"87
-[; ;Vacuum.c: 87:                 break;
-[e $U 101  ]
-"88
-[; ;Vacuum.c: 88:             case MID_SPEED:
-[e :U 104 ]
-"89
-[; ;Vacuum.c: 89:                 motor_speed = HIGH_SPEED;
-[e = _motor_speed . `E850 2 ]
-"90
-[; ;Vacuum.c: 90:                 break;
-[e $U 101  ]
-"91
-[; ;Vacuum.c: 91:             default:
-[e :U 105 ]
-"93
-[; ;Vacuum.c: 93:                 break;
-[e $U 101  ]
-"94
-[; ;Vacuum.c: 94:         }
+"39
+[; ;Disp.c: 39:         return;
+[e $UE 96  ]
+"40
+[; ;Disp.c: 40:     }
 }
-[e $U 101  ]
-[e :U 102 ]
-[e [\ -> _motor_speed `ui , $ -> . `E850 0 `ui 103
- , $ -> . `E850 1 `ui 104
- 105 ]
-[e :U 101 ]
-"95
-[; ;Vacuum.c: 95:     }
-}
+[e :U 97 ]
+"41
+[; ;Disp.c: 41:     DISP_Time_Counter = 0;
+[e = F885 -> -> 0 `i `uc ]
+"43
+[; ;Disp.c: 43:     switch(VC_GetSpeed())
+[e $U 99  ]
+"44
+[; ;Disp.c: 44:     {
+{
+"45
+[; ;Disp.c: 45:         case HIGH_SPEED:
 [e :U 100 ]
-"101
-[; ;Vacuum.c: 101:     if((SW_GetState(SW_MINUS) == SW_PRE_PRESSED) && (motor_speed != LOW_SPEED))
-[e $ ! && == -> ( _SW_GetState (1 . `E861 1 `i -> . `E866 1 `i != -> _motor_speed `ui -> . `E850 0 `ui 106  ]
-"102
-[; ;Vacuum.c: 102:     {
-{
-"105
-[; ;Vacuum.c: 105:         switch(motor_speed)
-[e $U 108  ]
-"106
-[; ;Vacuum.c: 106:         {
-{
-"107
-[; ;Vacuum.c: 107:             case MID_SPEED:
-[e :U 109 ]
-"108
-[; ;Vacuum.c: 108:                 motor_speed = LOW_SPEED;
-[e = _motor_speed . `E850 0 ]
-"109
-[; ;Vacuum.c: 109:                 break;
-[e $U 107  ]
-"110
-[; ;Vacuum.c: 110:             case HIGH_SPEED:
-[e :U 110 ]
-"111
-[; ;Vacuum.c: 111:                 motor_speed = MID_SPEED;
-[e = _motor_speed . `E850 1 ]
-"112
-[; ;Vacuum.c: 112:                 break;
-[e $U 107  ]
-"113
-[; ;Vacuum.c: 113:             default:
-[e :U 111 ]
-"115
-[; ;Vacuum.c: 115:                 break;
-[e $U 107  ]
-"116
-[; ;Vacuum.c: 116:         }
+"46
+[; ;Disp.c: 46:             SSD_Set_Symbol(SSD_L_3,SSD_THIRD);
+[e ( _SSD_Set_Symbol (2 , . `E852 2 . `E858 2 ]
+"47
+[; ;Disp.c: 47:             SSD_Set_Symbol(SSD_L_2,SSD_SECOND);
+[e ( _SSD_Set_Symbol (2 , . `E852 1 . `E858 1 ]
+"48
+[; ;Disp.c: 48:             SSD_Set_Symbol(SSD_L_1,SSD_FIRST);
+[e ( _SSD_Set_Symbol (2 , . `E852 0 . `E858 0 ]
+"49
+[; ;Disp.c: 49:             break;
+[e $U 98  ]
+"50
+[; ;Disp.c: 50:         case MID_SPEED:
+[e :U 101 ]
+"51
+[; ;Disp.c: 51:             SSD_Set_Symbol(SSD_L_1,SSD_FIRST);
+[e ( _SSD_Set_Symbol (2 , . `E852 0 . `E858 0 ]
+"52
+[; ;Disp.c: 52:             SSD_Set_Symbol(SSD_L_2,SSD_SECOND);
+[e ( _SSD_Set_Symbol (2 , . `E852 1 . `E858 1 ]
+"53
+[; ;Disp.c: 53:             SSD_Set_Symbol(SSD_NULL,SSD_THIRD);
+[e ( _SSD_Set_Symbol (2 , . `E852 3 . `E858 2 ]
+"54
+[; ;Disp.c: 54:             break;
+[e $U 98  ]
+"55
+[; ;Disp.c: 55:         case LOW_SPEED:
+[e :U 102 ]
+"56
+[; ;Disp.c: 56:             SSD_Set_Symbol(SSD_L_1,SSD_FIRST);
+[e ( _SSD_Set_Symbol (2 , . `E852 0 . `E858 0 ]
+"57
+[; ;Disp.c: 57:             SSD_Set_Symbol(SSD_NULL,SSD_SECOND);
+[e ( _SSD_Set_Symbol (2 , . `E852 3 . `E858 1 ]
+"58
+[; ;Disp.c: 58:             SSD_Set_Symbol(SSD_NULL,SSD_THIRD);
+[e ( _SSD_Set_Symbol (2 , . `E852 3 . `E858 2 ]
+"59
+[; ;Disp.c: 59:             break;
+[e $U 98  ]
+"60
+[; ;Disp.c: 60:     }
 }
-[e $U 107  ]
-[e :U 108 ]
-[e [\ -> _motor_speed `ui , $ -> . `E850 1 `ui 109
- , $ -> . `E850 2 `ui 110
- 111 ]
-[e :U 107 ]
-"117
-[; ;Vacuum.c: 117:     }
-}
-[e :U 106 ]
-"122
-[; ;Vacuum.c: 122:     if(SW_GetState(SW_PRESSURE) == SW_PRESSED && (motor_speed != LOW_SPEED))
-[e $ ! && == -> ( _SW_GetState (1 . `E861 2 `i -> . `E866 2 `i != -> _motor_speed `ui -> . `E850 0 `ui 112  ]
-"123
-[; ;Vacuum.c: 123:     {
-{
-"125
-[; ;Vacuum.c: 125:         pressure_sw_counter += (20);
-[e =+ _pressure_sw_counter -> -> 20 `i `ui ]
-"129
-[; ;Vacuum.c: 129:         if( pressure_sw_counter == (30000) )
-[e $ ! == _pressure_sw_counter -> -> 30000 `i `ui 113  ]
-"130
-[; ;Vacuum.c: 130:         {
-{
-"133
-[; ;Vacuum.c: 133:             switch(motor_speed)
-[e $U 115  ]
-"134
-[; ;Vacuum.c: 134:             {
-{
-"135
-[; ;Vacuum.c: 135:                 case MID_SPEED:
-[e :U 116 ]
-"136
-[; ;Vacuum.c: 136:                     motor_speed = LOW_SPEED;
-[e = _motor_speed . `E850 0 ]
-"137
-[; ;Vacuum.c: 137:                     break;
-[e $U 114  ]
-"138
-[; ;Vacuum.c: 138:                 case HIGH_SPEED:
-[e :U 117 ]
-"139
-[; ;Vacuum.c: 139:                     motor_speed = MID_SPEED;
-[e = _motor_speed . `E850 1 ]
-"140
-[; ;Vacuum.c: 140:                     break;
-[e $U 114  ]
-"141
-[; ;Vacuum.c: 141:                 default:
-[e :U 118 ]
-"143
-[; ;Vacuum.c: 143:                     break;
-[e $U 114  ]
-"144
-[; ;Vacuum.c: 144:             }
-}
-[e $U 114  ]
-[e :U 115 ]
-[e [\ -> _motor_speed `ui , $ -> . `E850 1 `ui 116
- , $ -> . `E850 2 `ui 117
- 118 ]
-[e :U 114 ]
-"146
-[; ;Vacuum.c: 146:             pressure_sw_counter = 0;
-[e = _pressure_sw_counter -> -> 0 `i `ui ]
-"147
-[; ;Vacuum.c: 147:         }
-}
-[e :U 113 ]
-"149
-[; ;Vacuum.c: 149:         LED_SetState(LED_ALARM,LED_ON);
-[e ( _LED_SetState (2 , . `E876 0 . `E879 1 ]
-"150
-[; ;Vacuum.c: 150:     }
-}
-[e $U 119  ]
-"151
-[; ;Vacuum.c: 151:     else
-[e :U 112 ]
-"152
-[; ;Vacuum.c: 152:     {
-{
-"154
-[; ;Vacuum.c: 154:         pressure_sw_counter = 0;
-[e = _pressure_sw_counter -> -> 0 `i `ui ]
-"156
-[; ;Vacuum.c: 156:         LED_SetState(LED_ALARM,LED_OFF);
-[e ( _LED_SetState (2 , . `E876 0 . `E879 0 ]
-"157
-[; ;Vacuum.c: 157:     }
-}
-[e :U 119 ]
-"158
-[; ;Vacuum.c: 158: }
-[e :UE 99 ]
+[e $U 98  ]
+[e :U 99 ]
+[e [\ -> ( _VC_GetSpeed ..  `ui , $ -> . `E874 2 `ui 100
+ , $ -> . `E874 1 `ui 101
+ , $ -> . `E874 0 `ui 102
+ 98 ]
+[e :U 98 ]
+"62
+[; ;Disp.c: 62: }
+[e :UE 96 ]
 }

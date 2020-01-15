@@ -150,6 +150,7 @@ static void Switch_Event_Handler(void)
     }
     else
     {
+        //reset counter
         pressure_sw_counter = 0;
         // turn off Alarm led 
         LED_SetState(LED_ALARM,LED_OFF);   

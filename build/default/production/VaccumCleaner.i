@@ -1836,7 +1836,7 @@ typedef enum
     SSD_ON = 1
 }tSSD_State;
 
-void SSD_Init(void);
+void SSD_Init(SSD_Symbol_t sym,SSD_t ssd);
 void SSD_Set_Symbol(SSD_Symbol_t symbol,SSD_t index);
 void SSD_Update(void);
 # 15 "VaccumCleaner.c" 2
@@ -1855,35 +1855,24 @@ MOTOR_SPEET_t VC_GetSpeed(void);
 void VC_Update(void);
 # 16 "VaccumCleaner.c" 2
 
+# 1 "./Disp.h" 1
+# 18 "./Disp.h"
+void Disp_Init(void);
+void Disp_Update(void);
+# 17 "VaccumCleaner.c" 2
+
 
 void main(void)
 {
-    SSD_Init();
     VC_Init(MID_SPEED);
+    Disp_Init();
     SW_Init();
     while(1)
     {
         _delay((unsigned long)((5)*(8000000/4000.0)));
         SW_Update();
         VC_Update();
-        switch(VC_GetSpeed())
-        {
-            case HIGH_SPEED:
-                SSD_Set_Symbol(SSD_L_3,SSD_THIRD);
-                SSD_Set_Symbol(SSD_L_2,SSD_SECOND);
-                SSD_Set_Symbol(SSD_L_1,SSD_FIRST);
-                break;
-            case MID_SPEED:
-                SSD_Set_Symbol(SSD_L_1,SSD_FIRST);
-                SSD_Set_Symbol(SSD_L_2,SSD_SECOND);
-                SSD_Set_Symbol(SSD_NULL,SSD_THIRD);
-                break;
-            case LOW_SPEED:
-                SSD_Set_Symbol(SSD_L_1,SSD_FIRST);
-                SSD_Set_Symbol(SSD_NULL,SSD_SECOND);
-                SSD_Set_Symbol(SSD_NULL,SSD_THIRD);
-                break;
-        }
+        Disp_Update();
         SSD_Update();
     }
 }
