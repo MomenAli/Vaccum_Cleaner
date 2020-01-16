@@ -24,10 +24,10 @@ typedef enum
     LOW_SPEED = 140,
     MID_SPEED = 90,
     HIGH_SPEED = 10
-}MOTOR_SPEET_t;
+}MOTOR_SPEED_t;
 
-void VC_Init(MOTOR_SPEET_t);
-MOTOR_SPEET_t VC_GetSpeed(void);
+void VC_Init(MOTOR_SPEED_t);
+MOTOR_SPEED_t VC_GetSpeed(void);
 void VC_Update(void);
 
 #endif	/* XC_HEADER_TEMPLATE_H */

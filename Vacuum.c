@@ -15,7 +15,7 @@
 #define VC_UPDATE_TICK (20) 
 
 /* create static variable of speed type */
-static MOTOR_SPEET_t motor_speed;
+static MOTOR_SPEED_t motor_speed;
 
 /*  function to handle switches state change prototype*/
 static void Switch_Event_Handler(void);
@@ -29,7 +29,7 @@ static void Switch_Event_Handler(void);
  */
 static uint16 pressure_sw_counter;
 
-void VC_Init(MOTOR_SPEET_t speed)
+void VC_Init(MOTOR_SPEED_t speed)
 {
     //initialize speed type (enum)  variable
     motor_speed = speed;
@@ -41,7 +41,7 @@ void VC_Init(MOTOR_SPEET_t speed)
     //initialize the counter of pressure switch
     pressure_sw_counter = 0;
 }
-MOTOR_SPEET_t VC_GetSpeed(void)
+MOTOR_SPEED_t VC_GetSpeed(void)
 {  
     // return the current speed of the vacuum cleaner
     return motor_speed;

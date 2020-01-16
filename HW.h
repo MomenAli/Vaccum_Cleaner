@@ -124,7 +124,10 @@
  * we don't have any input in RA4
  * be sure you don't use this pin if you need to stop the timer0
  */
-#define TMR_DISABLE_CLOCK		(T0CS = 1)    
+#define TMR_DISABLE_CLOCK		(T0CS = 1)  
+
+
+
 
 
 /* define some standard types does not depend on the machine */
