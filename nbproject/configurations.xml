@@ -12,6 +12,7 @@
       <itemPath>SSD.h</itemPath>
       <itemPath>Vacuum.h</itemPath>
       <itemPath>Disp.h</itemPath>
+      <itemPath>Motor.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -27,6 +28,7 @@
       <itemPath>SSD.c</itemPath>
       <itemPath>Vacuum.c</itemPath>
       <itemPath>Disp.c</itemPath>
+      <itemPath>Motor.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

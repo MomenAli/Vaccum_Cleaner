@@ -57,17 +57,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=VaccumCleaner.c GPIO.c SW.c Led.c SSD.c Vacuum.c Disp.c
+SOURCEFILES_QUOTED_IF_SPACED=VaccumCleaner.c GPIO.c SW.c Led.c SSD.c Vacuum.c Disp.c Motor.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/VaccumCleaner.p1 ${OBJECTDIR}/GPIO.p1 ${OBJECTDIR}/SW.p1 ${OBJECTDIR}/Led.p1 ${OBJECTDIR}/SSD.p1 ${OBJECTDIR}/Vacuum.p1 ${OBJECTDIR}/Disp.p1
-POSSIBLE_DEPFILES=${OBJECTDIR}/VaccumCleaner.p1.d ${OBJECTDIR}/GPIO.p1.d ${OBJECTDIR}/SW.p1.d ${OBJECTDIR}/Led.p1.d ${OBJECTDIR}/SSD.p1.d ${OBJECTDIR}/Vacuum.p1.d ${OBJECTDIR}/Disp.p1.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/VaccumCleaner.p1 ${OBJECTDIR}/GPIO.p1 ${OBJECTDIR}/SW.p1 ${OBJECTDIR}/Led.p1 ${OBJECTDIR}/SSD.p1 ${OBJECTDIR}/Vacuum.p1 ${OBJECTDIR}/Disp.p1 ${OBJECTDIR}/Motor.p1
+POSSIBLE_DEPFILES=${OBJECTDIR}/VaccumCleaner.p1.d ${OBJECTDIR}/GPIO.p1.d ${OBJECTDIR}/SW.p1.d ${OBJECTDIR}/Led.p1.d ${OBJECTDIR}/SSD.p1.d ${OBJECTDIR}/Vacuum.p1.d ${OBJECTDIR}/Disp.p1.d ${OBJECTDIR}/Motor.p1.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/VaccumCleaner.p1 ${OBJECTDIR}/GPIO.p1 ${OBJECTDIR}/SW.p1 ${OBJECTDIR}/Led.p1 ${OBJECTDIR}/SSD.p1 ${OBJECTDIR}/Vacuum.p1 ${OBJECTDIR}/Disp.p1
+OBJECTFILES=${OBJECTDIR}/VaccumCleaner.p1 ${OBJECTDIR}/GPIO.p1 ${OBJECTDIR}/SW.p1 ${OBJECTDIR}/Led.p1 ${OBJECTDIR}/SSD.p1 ${OBJECTDIR}/Vacuum.p1 ${OBJECTDIR}/Disp.p1 ${OBJECTDIR}/Motor.p1
 
 # Source Files
-SOURCEFILES=VaccumCleaner.c GPIO.c SW.c Led.c SSD.c Vacuum.c Disp.c
+SOURCEFILES=VaccumCleaner.c GPIO.c SW.c Led.c SSD.c Vacuum.c Disp.c Motor.c
 
 
 
@@ -150,6 +150,14 @@ ${OBJECTDIR}/Disp.p1: Disp.c  nbproject/Makefile-${CND_CONF}.mk
 	@-${MV} ${OBJECTDIR}/Disp.d ${OBJECTDIR}/Disp.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/Disp.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
+${OBJECTDIR}/Motor.p1: Motor.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/Motor.p1.d 
+	@${RM} ${OBJECTDIR}/Motor.p1 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mno-keep-startup -mno-osccal -mno-resetbits -mno-save-resetbits -mno-download -mno-stackcall $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto     -o ${OBJECTDIR}/Motor.p1 Motor.c 
+	@-${MV} ${OBJECTDIR}/Motor.d ${OBJECTDIR}/Motor.p1.d 
+	@${FIXDEPS} ${OBJECTDIR}/Motor.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
+	
 else
 ${OBJECTDIR}/VaccumCleaner.p1: VaccumCleaner.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
@@ -206,6 +214,14 @@ ${OBJECTDIR}/Disp.p1: Disp.c  nbproject/Makefile-${CND_CONF}.mk
 	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mno-keep-startup -mno-osccal -mno-resetbits -mno-save-resetbits -mno-download -mno-stackcall $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto     -o ${OBJECTDIR}/Disp.p1 Disp.c 
 	@-${MV} ${OBJECTDIR}/Disp.d ${OBJECTDIR}/Disp.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/Disp.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
+	
+${OBJECTDIR}/Motor.p1: Motor.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/Motor.p1.d 
+	@${RM} ${OBJECTDIR}/Motor.p1 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mno-keep-startup -mno-osccal -mno-resetbits -mno-save-resetbits -mno-download -mno-stackcall $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto     -o ${OBJECTDIR}/Motor.p1 Motor.c 
+	@-${MV} ${OBJECTDIR}/Motor.d ${OBJECTDIR}/Motor.p1.d 
+	@${FIXDEPS} ${OBJECTDIR}/Motor.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
 endif
 
