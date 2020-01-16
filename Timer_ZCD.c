@@ -32,7 +32,7 @@ void TMR_Init(void)
 
 void TMR0_ISR(void) 
 {
-    // start firing timer
+    // start firing timer (TIMER1)
     
     // reset the overflow flag
     TMR0_CLEAR_FLAG;

@@ -46,7 +46,7 @@ void __interrupt() Generic_ISR()
     /* if timer1 ISR
     */
     if(TMR1_CheckOverflow()){
-        
+        TMR1_ISR();
     }
     /*if timer0 ISR
     */

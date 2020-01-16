@@ -148,7 +148,7 @@
 #define TMR1_ENABLE_INTERNAL_CLOCK  (TMR1CS = 0)
 
 /*OSCILLATOR SHUT OFF*/
-#define OSCILLATOR_SHUT_OFF     (T1OSCEN = 0)
+#define TMR1_OSCILLATOR_SHUT_OFF     (T1OSCEN = 0)
 
 /* PRESCALER
  * we will use 2 as pre scaler
