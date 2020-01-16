@@ -16,6 +16,7 @@
 #include "Vacuum.h"
 #include "Disp.h"
 #include "Timer_ZCD.h"
+#include "Timer1.h"
 
 volatile uint8 ISR_FLAG;
 
@@ -44,10 +45,12 @@ void __interrupt() Generic_ISR()
 {
     /* if timer1 ISR
     */
-    
+    if(TMR1_CheckOverflow()){
+        
+    }
     /*if timer0 ISR
     */
-    if(TMR0_GET_FLAG)
+    if(TMR_CheckOverflow())
     {
         TMR0_ISR();
     }

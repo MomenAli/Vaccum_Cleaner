@@ -24,7 +24,7 @@ void TMR_Init(void)
     // set up the timer pre scaler
     TMR_PRESCALER_256;
     // stop timer
-    TMR_DISABLE_CLOCK;
+    TMR0_DISABLE_CLOCK;
    
 }
 
@@ -35,7 +35,7 @@ void TMR0_ISR(void)
     // start firing timer
     
     // reset the overflow flag
-    TMR_CLEAR_FLAG;
+    TMR0_CLEAR_FLAG;
     // load the timer register with the tick
     TMR_LOAD_REGISTER(ZCD_PERIOD_TICK_NUM);
     // set flag to process tasks
@@ -44,24 +44,24 @@ void TMR0_ISR(void)
 void TMR_Start(void)
 {
     // update the clock flag to start
-    TMR_CLEAR_FLAG;
+    TMR0_CLEAR_FLAG;
     // load the timer register with the tick
     TMR_LOAD_REGISTER(ZCD_PERIOD_TICK_NUM);
     // enable the ISR
-    TMR_ENABLE_INTERRUPT;
+    TMR0_ENABLE_INTERRUPT;
     GLOBAL_INTERRUPT_ENABLE;
     // enable the clock
-    TMR_ENABLE_CLOCK;
+    TMR0_ENABLE_CLOCK;
 }
 void TMR_Stop(void)
 {
     // update the clock flag to stop
-    TMR_DISABLE_CLOCK;
+    TMR0_DISABLE_CLOCK;
 }
 uint8 TMR_CheckOverflow(void)
 {
     // return the overflow flag
-    return TMR_GET_FLAG;
+    return TMR0_GET_FLAG;
 }
 
 

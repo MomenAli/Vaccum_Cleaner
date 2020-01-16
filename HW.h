@@ -103,15 +103,15 @@
                             PS0 = 1
 
 /*
- * timer register
+ * timer 0 register
  */
-#define TMR_REG    (TMR0)
+#define TMR0_REG    (TMR0)
 /*this flag will be 1 if overflow happened to the timer*/
-#define TMR_I_FLAG (TMR0IF)
+#define TMR0_I_FLAG (TMR0IF)
 
 
 /*enable interrupts flag*/
-#define TMR_ENABLE_INTERRUPT	(TMR0IE = 1)
+#define TMR0_ENABLE_INTERRUPT	(TMR0IE = 1)
 /*enable global interrupt flag*/
 #define GLOBAL_INTERRUPT_ENABLE	(GIE = 1)
 
@@ -119,16 +119,44 @@
  * TOCS = 0  enable internal instruction cycle clock(CLKO)
  * T0CS = 1  enable external clock from TOCKI pin
  */
-#define TMR_ENABLE_CLOCK		(T0CS = 0)
+#define TMR0_ENABLE_CLOCK		(T0CS = 0)
 /* 
  * we don't have any input in RA4
  * be sure you don't use this pin if you need to stop the timer0
  */
-#define TMR_DISABLE_CLOCK		(T0CS = 1)  
+#define TMR0_DISABLE_CLOCK		(T0CS = 1)  
 
 
+/*
+ * timer 1 register
+ */
+#define TMR1_REG    (TMR1)
+/*this flag will be 1 if overflow happened to the timer*/
+#define TMR1_I_FLAG (TMR1IF)
 
 
+/*enable interrupts flag*/
+#define TMR1_ENABLE_INTERRUPT	(TMR1IE = 1)
+
+/* START timer BIT
+ * TMR1ON = 0  stop timer 1
+ * TMR1ON = 1  start timer 1
+ */
+#define TMR1_START_FLAG	(TMR1ON)
+
+/*ENABLE INTERNAL CLOCK*/
+#define TMR1_ENABLE_INTERNAL_CLOCK  (TMR1CS = 0)
+
+/*OSCILLATOR SHUT OFF*/
+#define OSCILLATOR_SHUT_OFF     (T1OSCEN = 0)
+
+/* PRESCALER
+ * we will use 2 as pre scaler
+ */
+#define TMR1_PRESCALER      T1CKPS0 = 1;\
+                            T1CKPS1 = 0
+
+/*TIMER 1 END*/
 
 /* define some standard types does not depend on the machine */
 typedef unsigned char uint8;

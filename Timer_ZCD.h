@@ -36,7 +36,7 @@
  * TMR0 = 256 - (TICKS)
  */
 #define ZCD_PERIOD_TICK_NUM (78)
-#define TMR_LOAD_REGISTER(TICKS)		(TMR_REG = 256 - (TICKS))
+#define TMR_LOAD_REGISTER(TICKS)		(TMR0_REG = 256 - (TICKS))
 
 /* assume it's 5 ms till we make dynamic design*/
 #define OS_TICK (10)

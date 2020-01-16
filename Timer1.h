@@ -1,78 +1,51 @@
-/* Microchip Technology Inc. and its subsidiaries.  You may use this software 
- * and any derivatives exclusively with Microchip products. 
- * 
- * THIS SOFTWARE IS SUPPLIED BY MICROCHIP "AS IS".  NO WARRANTIES, WHETHER 
- * EXPRESS, IMPLIED OR STATUTORY, APPLY TO THIS SOFTWARE, INCLUDING ANY IMPLIED 
- * WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS FOR A 
- * PARTICULAR PURPOSE, OR ITS INTERACTION WITH MICROCHIP PRODUCTS, COMBINATION 
- * WITH ANY OTHER PRODUCTS, OR USE IN ANY APPLICATION. 
- *
- * IN NO EVENT WILL MICROCHIP BE LIABLE FOR ANY INDIRECT, SPECIAL, PUNITIVE, 
- * INCIDENTAL OR CONSEQUENTIAL LOSS, DAMAGE, COST OR EXPENSE OF ANY KIND 
- * WHATSOEVER RELATED TO THE SOFTWARE, HOWEVER CAUSED, EVEN IF MICROCHIP HAS 
- * BEEN ADVISED OF THE POSSIBILITY OR THE DAMAGES ARE FORESEEABLE.  TO THE 
- * FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL CLAIMS 
- * IN ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF 
- * ANY, THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
- *
- * MICROCHIP PROVIDES THIS SOFTWARE CONDITIONALLY UPON YOUR ACCEPTANCE OF THESE 
- * TERMS. 
- */
 
 /* 
- * File:   
- * Author: 
- * Comments:
+ * File:        Timer1.h
+ * Author:      Momen Ali   
+ * Comments:    Designed to make the firing angle 
  * Revision history: 
  */
 
 // This is a guard condition so that contents of this file are not included
 // more than once.  
-#ifndef XC_HEADER_TEMPLATE_H
-#define	XC_HEADER_TEMPLATE_H
+#ifndef __TIMER_1_H
+#define	__TIMER_1_H
 
-#include <xc.h> // include processor files - each processor file is guarded.  
+#include <xc.h>
 
-// TODO Insert appropriate #include <>
+#include "HW.h" // include processor files - each processor file is guarded.  
 
-// TODO Insert C++ class definitions if appropriate
 
-// TODO Insert declarations
-
-// Comment a function and leverage automatic documentation with slash star star
-/**
-    <p><b>Function prototype:</b></p>
-  
-    <p><b>Summary:</b></p>
-
-    <p><b>Description:</b></p>
-
-    <p><b>Precondition:</b></p>
-
-    <p><b>Parameters:</b></p>
-
-    <p><b>Returns:</b></p>
-
-    <p><b>Example:</b></p>
-    <code>
- 
-    </code>
-
-    <p><b>Remarks:</b></p>
+/* 
+ * Time calculation
+ * timer1 is 16bit => max count is 65,536
+ * CLKO input in the timer1 is (FOSC/4)
+ * XTEL_FREQ = 8000000     => CLKO = 2000000 
+ * we are using pre scaler so CLK =  ( CLKO / PRE SCALER )
+ * PRE SCALER = 2  => CLK = 1000000 
+ * TICK TIME = 1 / CLK   => TICK TIME = 1 us
+ * OVERFLOW TIME = TICK TIME * max count  => 1 us * 65536 = 65.536 ms
+ * TICK TIME = 1 us
+ * we need to change the timer with accuracy of 1 degree
+ * 1 degree = 10 ms / 180 = 55us
+ * TMR1 = 65536 - ((DEGREE)* 55)
  */
-// TODO Insert declarations or function prototypes (right here) to leverage 
-// live documentation
+#define TMR1_LOAD_REGISTER(DEGREE)		(TMR1_REG = 65536 - ((DEGREE) * 55))
 
-#ifdef	__cplusplus
-extern "C" {
-#endif /* __cplusplus */
+/*TIMER 1 START AND STOP*/
+#define TMR1_START  (TMR1_START_FLAG = 1) 
+#define TMR1_STOP   (TMR1_START_FLAG = 0)
 
-    // TODO If C++ is being used, regular C code needs function names to have C 
-    // linkage so the functions can be used by the c code. 
 
-#ifdef	__cplusplus
-}
-#endif /* __cplusplus */
+/*TIMER INTERRUPT FLAG OPERATIONS*/
+#define TMR1_GET_FLAG			(TMR1_I_FLAG)
+#define TMR1_CLEAR_FLAG			(TMR1_I_FLAG = 0)
 
-#endif	/* XC_HEADER_TEMPLATE_H */
+void TMR1_Init(void);
+void TMR1_Start(uint8 degree);
+void TMR1_Stop(void);
+uint8 TMR1_CheckOverflow(void);
+void TMR1_ISR(void);
+
+#endif	/* __TIMER_1_H */
 
