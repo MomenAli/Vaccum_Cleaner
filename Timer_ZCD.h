@@ -18,8 +18,8 @@
 
 
 /*TIMER INTERUPT FLAG OPERATIONS*/
-#define TMR_GET_FLAG			(TMR_I_FLAG)
-#define TMR_CLEAR_FLAG			(TMR_I_FLAG = 0)
+#define TMR0_GET_FLAG			(TMR0_I_FLAG)
+#define TMR0_CLEAR_FLAG			(TMR0_I_FLAG = 0)
 
 /* 
  * Time calculation
@@ -46,6 +46,7 @@ void TMR_Init(void);
 void TMR_Start(void);
 void TMR_Stop(void);
 uint8 TMR_CheckOverflow(void);
+void TMR0_ISR(void);
 
 #endif	/* XC_HEADER_TEMPLATE_H */
 

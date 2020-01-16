@@ -30,19 +30,16 @@ void TMR_Init(void)
 
 
 
-void TMR0_ISR() 
+void TMR0_ISR(void) 
 {
     // start firing timer
     
     // reset the overflow flag
     TMR_CLEAR_FLAG;
     // load the timer register with the tick
-    TMR_LOAD_REGISTER(OS_TICK);
-    // call tasks
-    
-    SSD_Update();
-    SW_Update();
-    Disp_Update();
+    TMR_LOAD_REGISTER(ZCD_PERIOD_TICK_NUM);
+    // set flag to process tasks
+    ISR_FLAG = 1;
 }
 void TMR_Start(void)
 {
@@ -67,13 +64,6 @@ uint8 TMR_CheckOverflow(void)
     return TMR_GET_FLAG;
 }
 
-void __interrupt() Generic_ISR()
-{
-    /* if timer1
-    */
-    
-    /*if timer0 
-    */
-}
+
 
 

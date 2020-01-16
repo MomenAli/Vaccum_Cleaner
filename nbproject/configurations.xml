@@ -14,6 +14,7 @@
       <itemPath>Disp.h</itemPath>
       <itemPath>Motor.h</itemPath>
       <itemPath>Timer_ZCD.h</itemPath>
+      <itemPath>Timer1.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
