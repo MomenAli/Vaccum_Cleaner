@@ -1,11 +1,11 @@
 Version 4.0 HI-TECH Software Intermediate Code
 [p mainexit ]
-"21 VaccumCleaner.c
-[; ;VaccumCleaner.c: 21:     VC_Init(MID_SPEED);
+"26 VaccumCleaner.c
+[; ;VaccumCleaner.c: 26:     VC_Init(MID_SPEED);
 [c E914 140 90 10 .. ]
 [n E914 . LOW_SPEED MID_SPEED HIGH_SPEED  ]
 "29 ./Vacuum.h
-[; ;./Vacuum.h: 29: void VC_Init(MOTOR_SPEET_t);
+[; ;./Vacuum.h: 29: void VC_Init(MOTOR_SPEED_t);
 [v _VC_Init `(v ~T0 @X0 0 ef1`E914 ]
 "18 ./Disp.h
 [; ;./Disp.h: 18: void Disp_Init(void);
@@ -13,22 +13,35 @@ Version 4.0 HI-TECH Software Intermediate Code
 "60 ./SW.h
 [; ;./SW.h: 60: void SW_Init(void);
 [v _SW_Init `(v ~T0 @X0 0 ef ]
-[v F842 `(v ~T0 @X0 1 tf1`ul ]
-"92 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic.h
-[v __delay `JF842 ~T0 @X0 0 e ]
-[p i __delay ]
-"69 ./SW.h
-[; ;./SW.h: 69: void SW_Update(void);
-[v _SW_Update `(v ~T0 @X0 0 ef ]
-"31 ./Vacuum.h
-[; ;./Vacuum.h: 31: void VC_Update(void);
-[v _VC_Update `(v ~T0 @X0 0 ef ]
-"19 ./Disp.h
-[; ;./Disp.h: 19: void Disp_Update(void);
-[v _Disp_Update `(v ~T0 @X0 0 ef ]
 "59 ./SSD.h
 [; ;./SSD.h: 59: void SSD_Update(void);
 [v _SSD_Update `(v ~T0 @X0 0 ef ]
+"69 ./SW.h
+[; ;./SW.h: 69: void SW_Update(void);
+[v _SW_Update `(v ~T0 @X0 0 ef ]
+"19 ./Disp.h
+[; ;./Disp.h: 19: void Disp_Update(void);
+[v _Disp_Update `(v ~T0 @X0 0 ef ]
+"31 ./Vacuum.h
+[; ;./Vacuum.h: 31: void VC_Update(void);
+[v _VC_Update `(v ~T0 @X0 0 ef ]
+"38 VaccumCleaner.c
+[; ;VaccumCleaner.c: 38:             Mo_Update();
+[v _Mo_Update `(i ~T0 @X0 0 e? ]
+[t ~ __interrupt . k ]
+[t T1 __interrupt ]
+"47 ./Timer1.h
+[; ;./Timer1.h: 47: uint8 TMR1_CheckOverflow(void);
+[v _TMR1_CheckOverflow `(uc ~T0 @X0 0 ef ]
+"48
+[; ;./Timer1.h: 48: void TMR1_ISR(void);
+[v _TMR1_ISR `(v ~T0 @X0 0 ef ]
+"48 ./Timer_ZCD.h
+[; ;./Timer_ZCD.h: 48: uint8 TMR_CheckOverflow(void);
+[v _TMR_CheckOverflow `(uc ~T0 @X0 0 ef ]
+"49
+[; ;./Timer_ZCD.h: 49: void TMR0_ISR(void);
+[v _TMR0_ISR `(v ~T0 @X0 0 ef ]
 "54 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h
 [; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h: 54: __asm("INDF equ 00h");
 [; <" INDF equ 00h ;# ">
@@ -225,52 +238,108 @@ Version 4.0 HI-TECH Software Intermediate Code
 [p x WRT = OFF ]
 "25
 [p x CP = OFF ]
+"21 VaccumCleaner.c
+[; ;VaccumCleaner.c: 21: volatile uint8 ISR_FLAG;
+[v _ISR_FLAG `Vuc ~T0 @X0 1 e ]
 [v $root$_main `(v ~T0 @X0 0 e ]
-"19 VaccumCleaner.c
-[; ;VaccumCleaner.c: 19: void main(void)
+"23
+[; ;VaccumCleaner.c: 23: void main(void)
 [v _main `(v ~T0 @X0 1 ef ]
-"20
-[; ;VaccumCleaner.c: 20: {
+"24
+[; ;VaccumCleaner.c: 24: {
 {
 [e :U _main ]
 [f ]
-"21
-[; ;VaccumCleaner.c: 21:     VC_Init(MID_SPEED);
-[e ( _VC_Init (1 . `E914 1 ]
-"22
-[; ;VaccumCleaner.c: 22:     Disp_Init();
-[e ( _Disp_Init ..  ]
-"23
-[; ;VaccumCleaner.c: 23:     SW_Init();
-[e ( _SW_Init ..  ]
-"24
-[; ;VaccumCleaner.c: 24:     while(1)
-[e :U 97 ]
 "25
-[; ;VaccumCleaner.c: 25:     {
-{
+[; ;VaccumCleaner.c: 25:     ISR_FLAG = 0;
+[e = _ISR_FLAG -> -> 0 `i `uc ]
 "26
-[; ;VaccumCleaner.c: 26:         _delay((unsigned long)((5)*(8000000/4000.0)));
-[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
+[; ;VaccumCleaner.c: 26:     VC_Init(MID_SPEED);
+[e ( _VC_Init (1 . `E914 1 ]
 "27
-[; ;VaccumCleaner.c: 27:         SW_Update();
-[e ( _SW_Update ..  ]
+[; ;VaccumCleaner.c: 27:     Disp_Init();
+[e ( _Disp_Init ..  ]
 "28
-[; ;VaccumCleaner.c: 28:         VC_Update();
-[e ( _VC_Update ..  ]
+[; ;VaccumCleaner.c: 28:     SW_Init();
+[e ( _SW_Init ..  ]
 "29
-[; ;VaccumCleaner.c: 29:         Disp_Update();
-[e ( _Disp_Update ..  ]
+[; ;VaccumCleaner.c: 29:     while(1)
+[e :U 97 ]
 "30
-[; ;VaccumCleaner.c: 30:         SSD_Update();
-[e ( _SSD_Update ..  ]
+[; ;VaccumCleaner.c: 30:     {
+{
 "31
-[; ;VaccumCleaner.c: 31:     }
+[; ;VaccumCleaner.c: 31:         if(ISR_FLAG)
+[e $ ! != -> _ISR_FLAG `i -> 0 `i 99  ]
+"32
+[; ;VaccumCleaner.c: 32:         {
+{
+"34
+[; ;VaccumCleaner.c: 34:             SSD_Update();
+[e ( _SSD_Update ..  ]
+"35
+[; ;VaccumCleaner.c: 35:             SW_Update();
+[e ( _SW_Update ..  ]
+"36
+[; ;VaccumCleaner.c: 36:             Disp_Update();
+[e ( _Disp_Update ..  ]
+"37
+[; ;VaccumCleaner.c: 37:             VC_Update();
+[e ( _VC_Update ..  ]
+"38
+[; ;VaccumCleaner.c: 38:             Mo_Update();
+[e ( _Mo_Update ..  ]
+"39
+[; ;VaccumCleaner.c: 39:             ISR_FLAG = 0;
+[e = _ISR_FLAG -> -> 0 `i `uc ]
+"40
+[; ;VaccumCleaner.c: 40:         }
+}
+[e :U 99 ]
+"41
+[; ;VaccumCleaner.c: 41:     }
 }
 [e :U 96 ]
 [e $U 97  ]
 [e :U 98 ]
-"32
-[; ;VaccumCleaner.c: 32: }
+"42
+[; ;VaccumCleaner.c: 42: }
 [e :UE 95 ]
+}
+[v $root$_Generic_ISR `(v ~T0 @X0 0 e ]
+"44
+[; ;VaccumCleaner.c: 44: void __attribute__((picinterrupt(("")))) Generic_ISR()
+[v _Generic_ISR `(v ~T1 @X0 1 ef ]
+"45
+[; ;VaccumCleaner.c: 45: {
+{
+[e :U _Generic_ISR ]
+[f ]
+"48
+[; ;VaccumCleaner.c: 48:     if(TMR1_CheckOverflow()){
+[e $ ! != -> ( _TMR1_CheckOverflow ..  `i -> 0 `i 101  ]
+{
+"49
+[; ;VaccumCleaner.c: 49:         TMR1_ISR();
+[e ( _TMR1_ISR ..  ]
+"50
+[; ;VaccumCleaner.c: 50:     }
+}
+[e :U 101 ]
+"53
+[; ;VaccumCleaner.c: 53:     if(TMR_CheckOverflow())
+[e $ ! != -> ( _TMR_CheckOverflow ..  `i -> 0 `i 102  ]
+"54
+[; ;VaccumCleaner.c: 54:     {
+{
+"55
+[; ;VaccumCleaner.c: 55:         TMR0_ISR();
+[e ( _TMR0_ISR ..  ]
+"56
+[; ;VaccumCleaner.c: 56:     }
+}
+[e :U 102 ]
+"57
+[; ;VaccumCleaner.c: 57: }
+[e :UE 100 ]
 }

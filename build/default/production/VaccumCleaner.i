@@ -1740,7 +1740,7 @@ extern __bank0 __bit __timeout;
 #pragma config CPD = OFF
 #pragma config WRT = OFF
 #pragma config CP = OFF
-# 131 "./HW.h"
+# 162 "./HW.h"
 typedef unsigned char uint8;
 typedef unsigned int uint16;
 # 10 "VaccumCleaner.c" 2
@@ -1848,10 +1848,10 @@ typedef enum
     LOW_SPEED = 140,
     MID_SPEED = 90,
     HIGH_SPEED = 10
-}MOTOR_SPEET_t;
+}MOTOR_SPEED_t;
 
-void VC_Init(MOTOR_SPEET_t);
-MOTOR_SPEET_t VC_GetSpeed(void);
+void VC_Init(MOTOR_SPEED_t);
+MOTOR_SPEED_t VC_GetSpeed(void);
 void VC_Update(void);
 # 16 "VaccumCleaner.c" 2
 
@@ -1861,18 +1861,59 @@ void Disp_Init(void);
 void Disp_Update(void);
 # 17 "VaccumCleaner.c" 2
 
+# 1 "./Timer_ZCD.h" 1
+# 45 "./Timer_ZCD.h"
+void TMR_Init(void);
+void TMR_Start(void);
+void TMR_Stop(void);
+uint8 TMR_CheckOverflow(void);
+void TMR0_ISR(void);
+# 18 "VaccumCleaner.c" 2
+
+# 1 "./Timer1.h" 1
+# 44 "./Timer1.h"
+void TMR1_Init(void);
+void TMR1_Start(uint8 degree);
+void TMR1_Stop(void);
+uint8 TMR1_CheckOverflow(void);
+void TMR1_ISR(void);
+# 19 "VaccumCleaner.c" 2
+
+
+volatile uint8 ISR_FLAG;
 
 void main(void)
 {
+    ISR_FLAG = 0;
     VC_Init(MID_SPEED);
     Disp_Init();
     SW_Init();
     while(1)
     {
-        _delay((unsigned long)((5)*(8000000/4000.0)));
-        SW_Update();
-        VC_Update();
-        Disp_Update();
-        SSD_Update();
+        if(ISR_FLAG)
+        {
+
+            SSD_Update();
+            SW_Update();
+            Disp_Update();
+            VC_Update();
+            Mo_Update();
+            ISR_FLAG = 0;
+        }
+    }
+}
+
+void __attribute__((picinterrupt(("")))) Generic_ISR()
+{
+
+
+    if(TMR1_CheckOverflow()){
+        TMR1_ISR();
+    }
+
+
+    if(TMR_CheckOverflow())
+    {
+        TMR0_ISR();
     }
 }

@@ -24,9 +24,11 @@ typedef enum
 }MOTOR_STATE_t;
 
 
-void Motor_Init(MOTOR_SPEED_t);
-void Motor_SetSpeed(MOTOR_SPEED_t);
-void Motor_Update(void);
+void Mo_Init(MOTOR_SPEED_t);
+void Mo_SetSpeed(MOTOR_SPEED_t);
+void Mo_Update(void);
+uint8 Mo_Get_Actual_Angle(void);
+void Mo_generate_firing_pulse(void);
 
 
 #endif	/* XC_HEADER_TEMPLATE_H */

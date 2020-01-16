@@ -1,4 +1,4 @@
-# 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\sources\\c90\\pic\\__eeprom.c"
+# 1 "Motor.c"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
 # 288 "<built-in>" 3
@@ -6,7 +6,16 @@
 # 1 "<built-in>" 2
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\language_support.h" 1 3
 # 2 "<built-in>" 2
-# 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\sources\\c90\\pic\\__eeprom.c" 2
+# 1 "Motor.c" 2
+
+
+
+
+
+
+
+# 1 "./Vacuum.h" 1
+# 14 "./Vacuum.h"
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 1 3
 # 18 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
@@ -1720,176 +1729,187 @@ extern __bank0 unsigned char __resetbits;
 extern __bank0 __bit __powerdown;
 extern __bank0 __bit __timeout;
 # 27 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 2 3
-# 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\sources\\c90\\pic\\__eeprom.c" 2
+# 14 "./Vacuum.h" 2
 
 
 
 
-void
-__eecpymem(volatile unsigned char *to, __eeprom unsigned char * from, unsigned char size)
+
+
+
+
+typedef enum
 {
- volatile unsigned char *cp = to;
+    LOW_SPEED = 140,
+    MID_SPEED = 90,
+    HIGH_SPEED = 10
+}MOTOR_SPEED_t;
 
- while (EECON1bits.WR) continue;
- EEADR = (unsigned char)from;
- while(size--) {
-  while (EECON1bits.WR) continue;
+void VC_Init(MOTOR_SPEED_t);
+MOTOR_SPEED_t VC_GetSpeed(void);
+void VC_Update(void);
+# 8 "Motor.c" 2
 
-  EECON1 &= 0x7F;
+# 1 "./Motor.h" 1
+# 20 "./Motor.h"
+typedef enum
+{
+    MO_NORMAL,
+    MO_SWITCHING
+}MOTOR_STATE_t;
 
-  EECON1bits.RD = 1;
-  *cp++ = EEDATA;
-  ++EEADR;
- }
-# 36 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\sources\\c90\\pic\\__eeprom.c"
+
+void Mo_Init(MOTOR_SPEED_t);
+void Mo_SetSpeed(MOTOR_SPEED_t);
+void Mo_Update(void);
+uint8 Mo_Get_Actual_Angle(void);
+void Mo_generate_firing_pulse(void);
+# 9 "Motor.c" 2
+
+# 1 "./GPIO.h" 1
+# 17 "./GPIO.h"
+# 1 "./HW.h" 1
+# 18 "./HW.h"
+#pragma config FOSC = HS
+#pragma config WDTE = OFF
+#pragma config PWRTE = OFF
+#pragma config BOREN = OFF
+#pragma config LVP = OFF
+#pragma config CPD = OFF
+#pragma config WRT = OFF
+#pragma config CP = OFF
+# 162 "./HW.h"
+typedef unsigned char uint8;
+typedef unsigned int uint16;
+# 17 "./GPIO.h" 2
+# 42 "./GPIO.h"
+uint8 GPIO_Init_Port(volatile uint8 * DirRegAddress ,uint8 dir );
+uint8 GPIO_Init_Pin(volatile uint8 * DirRegAddress ,uint8 pin_number,uint8 dir );
+# 10 "Motor.c" 2
+
+# 1 "./Port.h" 1
+# 11 "Motor.c" 2
+# 30 "Motor.c"
+static soft_switching_counter;
+
+
+
+static MOTOR_SPEED_t target_angle;
+
+static uint8 actual_angle;
+
+static MOTOR_STATE_t motor_state;
+
+void Mo_Init(MOTOR_SPEED_t m)
+{
+
+    GPIO_Init_Pin(&(TRISC),(3),(0));
+    (((PORTC))=((PORTC) & ~(1<<(3)))|(0<<(3)));
+
+    actual_angle = (170);
+
+    target_angle = m;
+
+    motor_state = MO_SWITCHING;
+
+    soft_switching_counter = 0;
+}
+void Mo_SetSpeed(MOTOR_SPEED_t m)
+{
+
+    if(target_angle == m)return;
+
+
+
+
+
+
+    motor_state = MO_SWITCHING;
+    target_angle = m;
+
+}
+void Mo_Update(void)
+{
+
+
+
+    switch(motor_state)
+    {
+        case MO_NORMAL:
+
+
+
+            if(actual_angle > target_angle)
+            {
+
+
+                actual_angle -= (10);
+            }
+            else
+            {
+
+
+                actual_angle += (10);
+            }
+            break;
+
+        case MO_SWITCHING:
+
+
+            if(actual_angle == target_angle){
+
+
+
+
+                actual_angle += 5;
+                motor_state = MO_NORMAL;
+            }
+            else
+            {
+
+
+                soft_switching_counter += (5);
+
+                if(soft_switching_counter == (40))
+                {
+
+
+
+
+
+                    if(target_angle > actual_angle)
+                    {
+
+                        actual_angle++;
+                    }
+                    else
+                    {
+
+                        actual_angle--;
+                    }
+
+                    soft_switching_counter = 0;
+                }
+            }
+            break;
+        default:
+
+            break;
+    }
+
 }
 
-void
-__memcpyee(__eeprom unsigned char * to, const unsigned char *from, unsigned char size)
+
+uint8 Mo_Get_Actual_Angle(void)
 {
- const unsigned char *ptr =from;
-
- while (EECON1bits.WR) continue;
- EEADR = (unsigned char)to - 1U;
-
- EECON1 &= 0x7F;
-
- while(size--) {
-  while (EECON1bits.WR) {
-   continue;
-  }
-  EEDATA = *ptr++;
-  ++EEADR;
-  STATUSbits.CARRY = 0;
-  if (INTCONbits.GIE) {
-   STATUSbits.CARRY = 1;
-  }
-  INTCONbits.GIE = 0;
-  EECON1bits.WREN = 1;
-  EECON2 = 0x55;
-  EECON2 = 0xAA;
-  EECON1bits.WR = 1;
-  EECON1bits.WREN = 0;
-  if (STATUSbits.CARRY) {
-   INTCONbits.GIE = 1;
-  }
- }
-# 101 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\sources\\c90\\pic\\__eeprom.c"
+    return actual_angle;
 }
-
-unsigned char
-__eetoc(__eeprom void *addr)
+void Mo_generate_firing_pulse(void)
 {
- unsigned char data;
- __eecpymem((unsigned char *) &data,addr,1);
- return data;
-}
 
-unsigned int
-__eetoi(__eeprom void *addr)
-{
- unsigned int data;
- __eecpymem((unsigned char *) &data,addr,2);
- return data;
-}
+    (((PORTC))=((PORTC) & ~(1<<(3)))|(1<<(3)));
 
-#pragma warning push
-#pragma warning disable 2040
-__uint24
-__eetom(__eeprom void *addr)
-{
- __uint24 data;
- __eecpymem((unsigned char *) &data,addr,3);
- return data;
-}
-#pragma warning pop
+    _delay((unsigned long)(((100))*(8000000/4000000.0)));
 
-unsigned long
-__eetol(__eeprom void *addr)
-{
- unsigned long data;
- __eecpymem((unsigned char *) &data,addr,4);
- return data;
-}
-
-#pragma warning push
-#pragma warning disable 1516
-unsigned long long
-__eetoo(__eeprom void *addr)
-{
- unsigned long long data;
- __eecpymem((unsigned char *) &data,addr,8);
- return data;
-}
-#pragma warning pop
-
-unsigned char
-__ctoee(__eeprom void *addr, unsigned char data)
-{
- __memcpyee(addr,(unsigned char *) &data,1);
- return data;
-}
-
-unsigned int
-__itoee(__eeprom void *addr, unsigned int data)
-{
- __memcpyee(addr,(unsigned char *) &data,2);
- return data;
-}
-
-#pragma warning push
-#pragma warning disable 2040
-__uint24
-__mtoee(__eeprom void *addr, __uint24 data)
-{
- __memcpyee(addr,(unsigned char *) &data,3);
- return data;
-}
-#pragma warning pop
-
-unsigned long
-__ltoee(__eeprom void *addr, unsigned long data)
-{
- __memcpyee(addr,(unsigned char *) &data,4);
- return data;
-}
-
-#pragma warning push
-#pragma warning disable 1516
-unsigned long long
-__otoee(__eeprom void *addr, unsigned long long data)
-{
- __memcpyee(addr,(unsigned char *) &data,8);
- return data;
-}
-#pragma warning pop
-
-float
-__eetoft(__eeprom void *addr)
-{
- float data;
- __eecpymem((unsigned char *) &data,addr,3);
- return data;
-}
-
-double
-__eetofl(__eeprom void *addr)
-{
- double data;
- __eecpymem((unsigned char *) &data,addr,4);
- return data;
-}
-
-float
-__fttoee(__eeprom void *addr, float data)
-{
- __memcpyee(addr,(unsigned char *) &data,3);
- return data;
-}
-
-double
-__fltoee(__eeprom void *addr, double data)
-{
- __memcpyee(addr,(unsigned char *) &data,4);
- return data;
+    (((PORTC))=((PORTC) & ~(1<<(3)))|(0<<(3)));
 }

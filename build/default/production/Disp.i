@@ -1741,7 +1741,7 @@ extern __bank0 __bit __timeout;
 #pragma config CPD = OFF
 #pragma config WRT = OFF
 #pragma config CP = OFF
-# 131 "./HW.h"
+# 162 "./HW.h"
 typedef unsigned char uint8;
 typedef unsigned int uint16;
 # 11 "Disp.c" 2
@@ -1787,10 +1787,10 @@ typedef enum
     LOW_SPEED = 140,
     MID_SPEED = 90,
     HIGH_SPEED = 10
-}MOTOR_SPEET_t;
+}MOTOR_SPEED_t;
 
-void VC_Init(MOTOR_SPEET_t);
-MOTOR_SPEET_t VC_GetSpeed(void);
+void VC_Init(MOTOR_SPEED_t);
+MOTOR_SPEED_t VC_GetSpeed(void);
 void VC_Update(void);
 # 13 "Disp.c" 2
 # 22 "Disp.c"

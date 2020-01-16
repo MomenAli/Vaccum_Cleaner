@@ -5,6 +5,7 @@
  * Created on January 16, 2020, 8:02 PM
  */
 #include "Timer1.h"
+#include "Motor.h"
 
 void TMR1_Init(void)
 {
@@ -43,7 +44,7 @@ uint8 TMR1_CheckOverflow(void)
 void TMR1_ISR(void)
 {
     // Generate firing pulse
-    
+    Mo_generate_firing_pulse();
     //STOP TIMER 1
     TMR1_Stop();
 }

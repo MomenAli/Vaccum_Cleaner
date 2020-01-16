@@ -16,7 +16,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [c E874 140 90 10 .. ]
 [n E874 . LOW_SPEED MID_SPEED HIGH_SPEED  ]
 "30 ./Vacuum.h
-[; ;./Vacuum.h: 30: MOTOR_SPEET_t VC_GetSpeed(void);
+[; ;./Vacuum.h: 30: MOTOR_SPEED_t VC_GetSpeed(void);
 [v _VC_GetSpeed `(E874 ~T0 @X0 0 ef ]
 "54 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h
 [; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h: 54: __asm("INDF equ 00h");

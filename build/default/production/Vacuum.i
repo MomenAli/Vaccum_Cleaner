@@ -1743,10 +1743,10 @@ typedef enum
     LOW_SPEED = 140,
     MID_SPEED = 90,
     HIGH_SPEED = 10
-}MOTOR_SPEET_t;
+}MOTOR_SPEED_t;
 
-void VC_Init(MOTOR_SPEET_t);
-MOTOR_SPEET_t VC_GetSpeed(void);
+void VC_Init(MOTOR_SPEED_t);
+MOTOR_SPEED_t VC_GetSpeed(void);
 void VC_Update(void);
 # 8 "Vacuum.c" 2
 
@@ -1762,7 +1762,7 @@ void VC_Update(void);
 #pragma config CPD = OFF
 #pragma config WRT = OFF
 #pragma config CP = OFF
-# 131 "./HW.h"
+# 162 "./HW.h"
 typedef unsigned char uint8;
 typedef unsigned int uint16;
 # 15 "./SW.h" 2
@@ -1825,14 +1825,14 @@ void LED_Toggle(LED_t led);
 
 
 
-static MOTOR_SPEET_t motor_speed;
+static MOTOR_SPEED_t motor_speed;
 
 
 static void Switch_Event_Handler(void);
 # 30 "Vacuum.c"
 static uint16 pressure_sw_counter;
 
-void VC_Init(MOTOR_SPEET_t speed)
+void VC_Init(MOTOR_SPEED_t speed)
 {
 
     motor_speed = speed;
@@ -1844,7 +1844,7 @@ void VC_Init(MOTOR_SPEET_t speed)
 
     pressure_sw_counter = 0;
 }
-MOTOR_SPEET_t VC_GetSpeed(void)
+MOTOR_SPEED_t VC_GetSpeed(void)
 {
 
     return motor_speed;

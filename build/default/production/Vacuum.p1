@@ -1,6 +1,6 @@
 Version 4.0 HI-TECH Software Intermediate Code
 "18 Vacuum.c
-[; ;Vacuum.c: 18: static MOTOR_SPEET_t motor_speed;
+[; ;Vacuum.c: 18: static MOTOR_SPEED_t motor_speed;
 [c E850 140 90 10 .. ]
 [n E850 . LOW_SPEED MID_SPEED HIGH_SPEED  ]
 "40
@@ -226,20 +226,20 @@ Version 4.0 HI-TECH Software Intermediate Code
 "25
 [p x CP = OFF ]
 "18 Vacuum.c
-[; ;Vacuum.c: 18: static MOTOR_SPEET_t motor_speed;
+[; ;Vacuum.c: 18: static MOTOR_SPEED_t motor_speed;
 [v _motor_speed `E850 ~T0 @X0 1 s ]
 "30
 [; ;Vacuum.c: 30: static uint16 pressure_sw_counter;
 [v _pressure_sw_counter `ui ~T0 @X0 1 s ]
 "32
-[; ;Vacuum.c: 32: void VC_Init(MOTOR_SPEET_t speed)
+[; ;Vacuum.c: 32: void VC_Init(MOTOR_SPEED_t speed)
 [v _VC_Init `(v ~T0 @X0 1 ef1`E850 ]
 "33
 [; ;Vacuum.c: 33: {
 {
 [e :U _VC_Init ]
 "32
-[; ;Vacuum.c: 32: void VC_Init(MOTOR_SPEET_t speed)
+[; ;Vacuum.c: 32: void VC_Init(MOTOR_SPEED_t speed)
 [v _speed `E850 ~T0 @X0 1 r1 ]
 "33
 [; ;Vacuum.c: 33: {
@@ -258,7 +258,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :UE 95 ]
 }
 "44
-[; ;Vacuum.c: 44: MOTOR_SPEET_t VC_GetSpeed(void)
+[; ;Vacuum.c: 44: MOTOR_SPEED_t VC_GetSpeed(void)
 [v _VC_GetSpeed `(E850 ~T0 @X0 1 ef ]
 "45
 [; ;Vacuum.c: 45: {

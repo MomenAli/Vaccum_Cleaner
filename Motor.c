@@ -10,6 +10,8 @@
 #include "GPIO.h"
 #include "Port.h"
 
+/* */
+#define FIRING_PULSE_WIDTH (100)
 /* TIME BETWEEN TWO INVOKATION TO UPDATE FUNCTION*/
 #define MOTOR_UPDATE_TICK (5)
 
@@ -132,4 +134,19 @@ void Mo_Update(void)
             break;
     }
     
+}
+
+
+uint8 Mo_Get_Actual_Angle(void)
+{
+    return actual_angle;
+}
+void Mo_generate_firing_pulse(void)
+{
+    // set motor pin high
+    GPIO_Write_Pin(MOTOR_PORT,MOTOR_PIN,1);
+    // delay for 100 us
+    __delay_us(FIRING_PULSE_WIDTH);
+    // reset motor pin
+    GPIO_Write_Pin(MOTOR_PORT,MOTOR_PIN,0);
 }

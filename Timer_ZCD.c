@@ -15,6 +15,8 @@
 #include "Disp.h"
 #include "SSD.h"
 #include"Timer_ZCD.h"
+#include "Timer1.h"
+#include "Motor.h"
 
 static uint16 tempCounter = 0;
 
@@ -33,7 +35,7 @@ void TMR_Init(void)
 void TMR0_ISR(void) 
 {
     // start firing timer (TIMER1)
-    
+    TMR1_Start(Mo_Get_Actual_Angle());
     // reset the overflow flag
     TMR0_CLEAR_FLAG;
     // load the timer register with the tick
