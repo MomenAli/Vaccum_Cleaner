@@ -24,8 +24,8 @@ typedef enum
 }MOTOR_STATE_t;
 
 
-void Motor_Init(MOTOR_SPEET_t);
-void Motor_SetSpeed(MOTOR_SPEET_t);
+void Motor_Init(MOTOR_SPEED_t);
+void Motor_SetSpeed(MOTOR_SPEED_t);
 void Motor_Update(void);
 
 
