@@ -30,10 +30,6 @@
  * pic16f877a                                                              *
  ***************************************************************************/
 
-/*TEST CODE*/
-#define OS_TICK   (5)
-/*END TEST CODE*/
-
 
 /* GPIO Port Data Registers redefinition */
 #define GPIO_PORTA_DATA      (PORTA)
@@ -130,7 +126,10 @@
 /*
  * timer 1 register
  */
-#define TMR1_REG    (TMR1)
+#define TMR1_REG   (TMR1)
+//#define TMR1L_REG   (TMR1L)
+//#define TMR1H_REG   (TMR1H)
+
 /*this flag will be 1 if overflow happened to the timer*/
 #define TMR1_I_FLAG (TMR1IF)
 
@@ -148,8 +147,10 @@
 #define TMR1_ENABLE_INTERNAL_CLOCK  (TMR1CS = 0)
 
 /*OSCILLATOR SHUT OFF*/
-#define TMR1_OSCILLATOR_SHUT_OFF     (T1OSCEN = 0)
+#define TMR1_OSCILLATOR_SHUT_OFF    (T1OSCEN = 0)
 
+/* SET peripheral interrupt*/
+#define TMR1_PERIPHERAL_I_ENABLE    (PEIE = 1)
 /* PRESCALER
  * we will use 2 as pre scaler
  */

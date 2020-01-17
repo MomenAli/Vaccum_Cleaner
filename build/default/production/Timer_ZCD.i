@@ -1,4 +1,4 @@
-# 1 "SSD.c"
+# 1 "Timer_ZCD.c"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
 # 288 "<built-in>" 3
@@ -6,15 +6,15 @@
 # 1 "<built-in>" 2
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\language_support.h" 1 3
 # 2 "<built-in>" 2
-# 1 "SSD.c" 2
+# 1 "Timer_ZCD.c" 2
 
 
 
 
 
 
-# 1 "./Port.h" 1
-# 15 "./Port.h"
+
+
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 1 3
 # 18 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
@@ -1728,7 +1728,7 @@ extern __bank0 unsigned char __resetbits;
 extern __bank0 __bit __powerdown;
 extern __bank0 __bit __timeout;
 # 27 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 2 3
-# 15 "./Port.h" 2
+# 9 "Timer_ZCD.c" 2
 
 
 # 1 "./HW.h" 1
@@ -1744,14 +1744,55 @@ extern __bank0 __bit __timeout;
 # 163 "./HW.h"
 typedef unsigned char uint8;
 typedef unsigned int uint16;
-# 17 "./Port.h" 2
+# 11 "Timer_ZCD.c" 2
 
 # 1 "./GPIO.h" 1
 # 42 "./GPIO.h"
 uint8 GPIO_Init_Port(volatile uint8 * DirRegAddress ,uint8 dir );
 uint8 GPIO_Init_Pin(volatile uint8 * DirRegAddress ,uint8 pin_number,uint8 dir );
-# 18 "./Port.h" 2
-# 7 "SSD.c" 2
+# 12 "Timer_ZCD.c" 2
+
+# 1 "./Port.h" 1
+# 13 "Timer_ZCD.c" 2
+
+# 1 "./SW.h" 1
+# 34 "./SW.h"
+typedef enum
+{
+    SW_PLUS,
+    SW_MINUS,
+    SW_PRESSURE
+}SW_t;
+
+
+
+
+
+typedef enum
+{
+    SW_RELEASED,
+    SW_PRE_PRESSED,
+    SW_PRESSED,
+    SW_PRE_RELEASED
+}SW_State_t;
+# 60 "./SW.h"
+void SW_Init(void);
+
+
+
+uint8 SW_GetState(SW_t sw);
+
+
+
+
+void SW_Update(void);
+# 14 "Timer_ZCD.c" 2
+
+# 1 "./Disp.h" 1
+# 18 "./Disp.h"
+void Disp_Init(void);
+void Disp_Update(void);
+# 15 "Timer_ZCD.c" 2
 
 # 1 "./SSD.h" 1
 # 30 "./SSD.h"
@@ -1785,7 +1826,7 @@ typedef enum
 void SSD_Init(SSD_Symbol_t sym,SSD_t ssd);
 void SSD_Set_Symbol(SSD_Symbol_t symbol,SSD_t index);
 void SSD_Update(void);
-# 8 "SSD.c" 2
+# 16 "Timer_ZCD.c" 2
 
 # 1 "./Timer_ZCD.h" 1
 # 45 "./Timer_ZCD.h"
@@ -1794,133 +1835,95 @@ void TMR_Start(void);
 void TMR_Stop(void);
 uint8 TMR_CheckOverflow(void);
 void TMR0_ISR(void);
-# 9 "SSD.c" 2
-# 25 "SSD.c"
-void SSD_Disable(SSD_t s);
-void SSD_Enable(SSD_t s);
-void SSD_Data_write(void);
+# 17 "Timer_ZCD.c" 2
 
+# 1 "./Timer1.h" 1
+# 44 "./Timer1.h"
+void TMR1_Init(void);
+void TMR1_Start(uint16 degree);
+void TMR1_Stop(void);
+uint8 TMR1_CheckOverflow(void);
+void TMR1_ISR(void);
+# 18 "Timer_ZCD.c" 2
 
-
-
-static SSD_Symbol_t Buffer[(4)];
-
-
-
-static uint8 currentSSD = 0;
-
-
-
-
-
-
-static uint8 SSD_LOT_ARR[] =
+# 1 "./Motor.h" 1
+# 18 "./Motor.h"
+# 1 "./Vacuum.h" 1
+# 22 "./Vacuum.h"
+typedef enum
 {
-    0b00001000,
-    0b01001000,
-    0b01001001,
-    0b00000000
-};
+    LOW_SPEED = 140,
+    MID_SPEED = 90,
+    HIGH_SPEED = 10
+}MOTOR_SPEED_t;
+
+void VC_Init(MOTOR_SPEED_t);
+MOTOR_SPEED_t VC_GetSpeed(void);
+void VC_Update(void);
+# 18 "./Motor.h" 2
 
 
-void SSD_Init(SSD_Symbol_t sym,SSD_t ssd)
+typedef enum
 {
+    MO_NORMAL,
+    MO_SWITCHING
+}MOTOR_STATE_t;
 
-    GPIO_Init_Port(&(TRISD),(0));
 
-    switch(ssd)
-    {
-        case SSD_FIRST:
+void Mo_Init(MOTOR_SPEED_t);
+void Mo_SetSpeed(MOTOR_SPEED_t);
+void Mo_Update(void);
+uint8 Mo_Get_Actual_Angle(void);
+void Mo_generate_firing_pulse(void);
+# 19 "Timer_ZCD.c" 2
 
-            GPIO_Init_Pin(&(TRISB),(7),(0));
-            (((PORTB))=((PORTB) & ~(1<<(7)))|(SSD_OFF<<(7)));
-            SSD_Set_Symbol(sym,SSD_FIRST);
-            break;
-        case SSD_SECOND:
 
-            GPIO_Init_Pin(&(TRISB),(6),(0));
-            (((PORTB))=((PORTB) & ~(1<<(6)))|(SSD_OFF<<(6)));
-            SSD_Set_Symbol(sym,SSD_SECOND);
-            break;
-        case SSD_THIRD:
+static uint16 tempCounter = 0;
 
-            GPIO_Init_Pin(&(TRISB),(5),(0));
-            (((PORTB))=((PORTB) & ~(1<<(5)))|(SSD_OFF<<(5)));
-            SSD_Set_Symbol(sym,SSD_THIRD);
-            break;
-    }
-}
-void SSD_Set_Symbol(SSD_Symbol_t symbol,SSD_t index)
-{
+extern volatile uint8 ISR_FLAG;
 
-    Buffer[index] = symbol;
-}
-void SSD_Update(void)
+void TMR_Init(void)
 {
 
 
+    PS2 = 1; PS1 = 1; PS0 = 1;
 
-    static uint8 SSD_Time_Counter = 0;
-    SSD_Time_Counter += (10);
+    (T0CS = 1);
 
-    if(SSD_Time_Counter != (10))
-    {
-        return;
-    }
-    SSD_Time_Counter = 0;
-
-
-    SSD_Disable(currentSSD);
-
-    currentSSD++;
-    if(currentSSD > SSD_THIRD)currentSSD = 0;
-
-    SSD_Data_write();
-
-    SSD_Enable(currentSSD);
-}
-
-void SSD_Disable(SSD_t s)
-{
-    switch(s)
-    {
-        case SSD_FIRST:
-            (((PORTB))=((PORTB) & ~(1<<(7)))|(SSD_OFF<<(7)));
-            break;
-        case SSD_SECOND:
-            (((PORTB))=((PORTB) & ~(1<<(6)))|(SSD_OFF<<(6)));
-            break;
-        case SSD_THIRD:
-            (((PORTB))=((PORTB) & ~(1<<(5)))|(SSD_OFF<<(5)));
-            break;
-        default:
-                             ;
-    }
-}
-
-void SSD_Enable(SSD_t s)
-{
-    switch(s)
-    {
-        case SSD_FIRST:
-            (((PORTB))=((PORTB) & ~(1<<(7)))|(SSD_ON<<(7)));
-            break;
-        case SSD_SECOND:
-            (((PORTB))=((PORTB) & ~(1<<(6)))|(SSD_ON<<(6)));
-            break;
-        case SSD_THIRD:
-            (((PORTB))=((PORTB) & ~(1<<(5)))|(SSD_ON<<(5)));
-            break;
-        default:
-                             ;
-    }
 }
 
 
 
-void SSD_Data_write(void)
+void TMR0_ISR(void)
 {
 
-    (((PORTD))=(SSD_LOT_ARR[Buffer[currentSSD]]));
+    TMR1_Start(Mo_Get_Actual_Angle());
 
+    ((TMR0IF) = 0);
+
+    ((TMR0) = 256 - ((78)));
+
+    ISR_FLAG = 1;
+}
+void TMR_Start(void)
+{
+
+    ((TMR0IF) = 0);
+
+    ((TMR0) = 256 - ((78)));
+
+    (TMR0IE = 1);
+    (GIE = 1);
+
+    (T0CS = 0);
+}
+void TMR_Stop(void)
+{
+
+    (T0CS = 1);
+}
+uint8 TMR_CheckOverflow(void)
+{
+
+    return ((TMR0IF));
 }

@@ -1,18 +1,36 @@
 Version 4.0 HI-TECH Software Intermediate Code
 [p mainexit ]
-"26 VaccumCleaner.c
-[; ;VaccumCleaner.c: 26:     VC_Init(MID_SPEED);
+"27 VaccumCleaner.c
+[; ;VaccumCleaner.c: 27:     VC_Init(MID_SPEED);
 [c E914 140 90 10 .. ]
 [n E914 . LOW_SPEED MID_SPEED HIGH_SPEED  ]
 "29 ./Vacuum.h
 [; ;./Vacuum.h: 29: void VC_Init(MOTOR_SPEED_t);
 [v _VC_Init `(v ~T0 @X0 0 ef1`E914 ]
+"45 ./Timer_ZCD.h
+[; ;./Timer_ZCD.h: 45: void TMR_Init(void);
+[v _TMR_Init `(v ~T0 @X0 0 ef ]
+"46
+[; ;./Timer_ZCD.h: 46: void TMR_Start(void);
+[v _TMR_Start `(v ~T0 @X0 0 ef ]
+"44 ./Timer1.h
+[; ;./Timer1.h: 44: void TMR1_Init(void);
+[v _TMR1_Init `(v ~T0 @X0 0 ef ]
 "18 ./Disp.h
 [; ;./Disp.h: 18: void Disp_Init(void);
 [v _Disp_Init `(v ~T0 @X0 0 ef ]
 "60 ./SW.h
 [; ;./SW.h: 60: void SW_Init(void);
 [v _SW_Init `(v ~T0 @X0 0 ef ]
+"43 ./GPIO.h
+[; ;./GPIO.h: 43: uint8 GPIO_Init_Pin(volatile uint8 * DirRegAddress ,uint8 pin_number,uint8 dir );
+[v _GPIO_Init_Pin `(uc ~T0 @X0 0 ef3`*Vuc`uc`uc ]
+"1437 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h
+[; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h: 1437: extern volatile unsigned char TRISC __attribute__((address(0x087)));
+[v _TRISC `Vuc ~T0 @X0 0 e@135 ]
+"278
+[; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h: 278: extern volatile unsigned char PORTC __attribute__((address(0x007)));
+[v _PORTC `Vuc ~T0 @X0 0 e@7 ]
 "59 ./SSD.h
 [; ;./SSD.h: 59: void SSD_Update(void);
 [v _SSD_Update `(v ~T0 @X0 0 ef ]
@@ -25,9 +43,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 "31 ./Vacuum.h
 [; ;./Vacuum.h: 31: void VC_Update(void);
 [v _VC_Update `(v ~T0 @X0 0 ef ]
-"38 VaccumCleaner.c
-[; ;VaccumCleaner.c: 38:             Mo_Update();
-[v _Mo_Update `(i ~T0 @X0 0 e? ]
+"29 ./Motor.h
+[; ;./Motor.h: 29: void Mo_Update(void);
+[v _Mo_Update `(v ~T0 @X0 0 ef ]
 [t ~ __interrupt . k ]
 [t T1 __interrupt ]
 "47 ./Timer1.h
@@ -238,108 +256,123 @@ Version 4.0 HI-TECH Software Intermediate Code
 [p x WRT = OFF ]
 "25
 [p x CP = OFF ]
-"21 VaccumCleaner.c
-[; ;VaccumCleaner.c: 21: volatile uint8 ISR_FLAG;
+"22 VaccumCleaner.c
+[; ;VaccumCleaner.c: 22: volatile uint8 ISR_FLAG;
 [v _ISR_FLAG `Vuc ~T0 @X0 1 e ]
 [v $root$_main `(v ~T0 @X0 0 e ]
-"23
-[; ;VaccumCleaner.c: 23: void main(void)
-[v _main `(v ~T0 @X0 1 ef ]
 "24
-[; ;VaccumCleaner.c: 24: {
+[; ;VaccumCleaner.c: 24: void main(void)
+[v _main `(v ~T0 @X0 1 ef ]
+"25
+[; ;VaccumCleaner.c: 25: {
 {
 [e :U _main ]
 [f ]
-"25
-[; ;VaccumCleaner.c: 25:     ISR_FLAG = 0;
-[e = _ISR_FLAG -> -> 0 `i `uc ]
 "26
-[; ;VaccumCleaner.c: 26:     VC_Init(MID_SPEED);
-[e ( _VC_Init (1 . `E914 1 ]
-"27
-[; ;VaccumCleaner.c: 27:     Disp_Init();
-[e ( _Disp_Init ..  ]
-"28
-[; ;VaccumCleaner.c: 28:     SW_Init();
-[e ( _SW_Init ..  ]
-"29
-[; ;VaccumCleaner.c: 29:     while(1)
-[e :U 97 ]
-"30
-[; ;VaccumCleaner.c: 30:     {
-{
-"31
-[; ;VaccumCleaner.c: 31:         if(ISR_FLAG)
-[e $ ! != -> _ISR_FLAG `i -> 0 `i 99  ]
-"32
-[; ;VaccumCleaner.c: 32:         {
-{
-"34
-[; ;VaccumCleaner.c: 34:             SSD_Update();
-[e ( _SSD_Update ..  ]
-"35
-[; ;VaccumCleaner.c: 35:             SW_Update();
-[e ( _SW_Update ..  ]
-"36
-[; ;VaccumCleaner.c: 36:             Disp_Update();
-[e ( _Disp_Update ..  ]
-"37
-[; ;VaccumCleaner.c: 37:             VC_Update();
-[e ( _VC_Update ..  ]
-"38
-[; ;VaccumCleaner.c: 38:             Mo_Update();
-[e ( _Mo_Update ..  ]
-"39
-[; ;VaccumCleaner.c: 39:             ISR_FLAG = 0;
+[; ;VaccumCleaner.c: 26:     ISR_FLAG = 0;
 [e = _ISR_FLAG -> -> 0 `i `uc ]
+"27
+[; ;VaccumCleaner.c: 27:     VC_Init(MID_SPEED);
+[e ( _VC_Init (1 . `E914 1 ]
+"28
+[; ;VaccumCleaner.c: 28:     TMR_Init();
+[e ( _TMR_Init ..  ]
+"29
+[; ;VaccumCleaner.c: 29:     TMR_Start();
+[e ( _TMR_Start ..  ]
+"30
+[; ;VaccumCleaner.c: 30:     TMR1_Init();
+[e ( _TMR1_Init ..  ]
+"31
+[; ;VaccumCleaner.c: 31:     Disp_Init();
+[e ( _Disp_Init ..  ]
+"32
+[; ;VaccumCleaner.c: 32:     SW_Init();
+[e ( _SW_Init ..  ]
+"35
+[; ;VaccumCleaner.c: 35:     GPIO_Init_Pin(&(TRISC),(4),(0));
+[e ( _GPIO_Init_Pin (3 , , &U _TRISC -> -> 4 `i `uc -> -> 0 `i `uc ]
+"37
+[; ;VaccumCleaner.c: 37:     while(1)
+[e :U 97 ]
+"38
+[; ;VaccumCleaner.c: 38:     {
+{
+"39
+[; ;VaccumCleaner.c: 39:         if(ISR_FLAG)
+[e $ ! != -> _ISR_FLAG `i -> 0 `i 99  ]
 "40
-[; ;VaccumCleaner.c: 40:         }
+[; ;VaccumCleaner.c: 40:         {
+{
+"42
+[; ;VaccumCleaner.c: 42:             (((PORTC))=((PORTC) ^(1<<(4))));
+[e = _PORTC -> ^ -> _PORTC `i << -> 1 `i -> 4 `i `uc ]
+"45
+[; ;VaccumCleaner.c: 45:             SSD_Update();
+[e ( _SSD_Update ..  ]
+"46
+[; ;VaccumCleaner.c: 46:             SW_Update();
+[e ( _SW_Update ..  ]
+"47
+[; ;VaccumCleaner.c: 47:             Disp_Update();
+[e ( _Disp_Update ..  ]
+"48
+[; ;VaccumCleaner.c: 48:             VC_Update();
+[e ( _VC_Update ..  ]
+"49
+[; ;VaccumCleaner.c: 49:             Mo_Update();
+[e ( _Mo_Update ..  ]
+"50
+[; ;VaccumCleaner.c: 50:             ISR_FLAG = 0;
+[e = _ISR_FLAG -> -> 0 `i `uc ]
+"51
+[; ;VaccumCleaner.c: 51:         }
 }
 [e :U 99 ]
-"41
-[; ;VaccumCleaner.c: 41:     }
+"52
+[; ;VaccumCleaner.c: 52:     }
 }
 [e :U 96 ]
 [e $U 97  ]
 [e :U 98 ]
-"42
-[; ;VaccumCleaner.c: 42: }
+"53
+[; ;VaccumCleaner.c: 53: }
 [e :UE 95 ]
 }
 [v $root$_Generic_ISR `(v ~T0 @X0 0 e ]
-"44
-[; ;VaccumCleaner.c: 44: void __attribute__((picinterrupt(("")))) Generic_ISR()
+"55
+[; ;VaccumCleaner.c: 55: void __attribute__((picinterrupt(("")))) Generic_ISR()
 [v _Generic_ISR `(v ~T1 @X0 1 ef ]
-"45
-[; ;VaccumCleaner.c: 45: {
+"56
+[; ;VaccumCleaner.c: 56: {
 {
 [e :U _Generic_ISR ]
 [f ]
-"48
-[; ;VaccumCleaner.c: 48:     if(TMR1_CheckOverflow()){
+"59
+[; ;VaccumCleaner.c: 59:     if(TMR1_CheckOverflow()){
 [e $ ! != -> ( _TMR1_CheckOverflow ..  `i -> 0 `i 101  ]
 {
-"49
-[; ;VaccumCleaner.c: 49:         TMR1_ISR();
+"60
+[; ;VaccumCleaner.c: 60:         TMR1_ISR();
 [e ( _TMR1_ISR ..  ]
-"50
-[; ;VaccumCleaner.c: 50:     }
+"61
+[; ;VaccumCleaner.c: 61:     }
 }
 [e :U 101 ]
-"53
-[; ;VaccumCleaner.c: 53:     if(TMR_CheckOverflow())
+"64
+[; ;VaccumCleaner.c: 64:     if(TMR_CheckOverflow())
 [e $ ! != -> ( _TMR_CheckOverflow ..  `i -> 0 `i 102  ]
-"54
-[; ;VaccumCleaner.c: 54:     {
+"65
+[; ;VaccumCleaner.c: 65:     {
 {
-"55
-[; ;VaccumCleaner.c: 55:         TMR0_ISR();
+"66
+[; ;VaccumCleaner.c: 66:         TMR0_ISR();
 [e ( _TMR0_ISR ..  ]
-"56
-[; ;VaccumCleaner.c: 56:     }
+"67
+[; ;VaccumCleaner.c: 67:     }
 }
 [e :U 102 ]
-"57
-[; ;VaccumCleaner.c: 57: }
+"68
+[; ;VaccumCleaner.c: 68: }
 [e :UE 100 ]
 }

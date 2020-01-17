@@ -6,6 +6,7 @@
  */
 #include"Port.h"
 #include"SSD.h"
+#include"Timer_ZCD.h"
 
 /*
  * define number of ticks need to update

@@ -9,11 +9,12 @@
 #include "Motor.h"
 #include "GPIO.h"
 #include "Port.h"
+#include "Timer_ZCD.h"
 
 /* */
 #define FIRING_PULSE_WIDTH (100)
 /* TIME BETWEEN TWO INVOKATION TO UPDATE FUNCTION*/
-#define MOTOR_UPDATE_TICK (5)
+#define MOTOR_UPDATE_TICK (20)
 
 /* initial value of the angle */
 #define INITIAL_ANGLE (170)
@@ -27,7 +28,7 @@
 #define SWITCHING_TIME (40)
 /* count the number of ms elapsed between two addition process 
  * to actual angle in soft switching mode*/
-static soft_switching_counter;
+static uint8 soft_switching_counter;
 
 
 /* static variable speed target*/
@@ -67,9 +68,15 @@ void Mo_SetSpeed(MOTOR_SPEED_t m)
 }
 void Mo_Update(void)
 {
-    
-    // invoke firing function algorithm
-    /*NOT DONE*/
+    /* create static variable to count time*/
+    static uint8 motor_tick_counter = 10;   
+    // increment motor tick counter
+    motor_tick_counter += OS_TICK;
+    // check if it's my tick
+    if(motor_tick_counter != MOTOR_UPDATE_TICK) return;
+    //reset counter
+    motor_tick_counter = 0;
+    // motor state machine
     switch(motor_state)
     {
         case MO_NORMAL:

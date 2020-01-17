@@ -8,7 +8,7 @@
 #include "GPIO.h"
 #include "Port.h"
 #include "SW.h"
-
+#include"Timer_ZCD.h"
 
 
 /* SW voltage level */
@@ -85,7 +85,7 @@ void SW_Update(void)
     /*
      * create static variable to hold time
      */
-    static uint8 SW_Time_Counter = 15; 
+    static uint8 SW_Time_Counter = 0; 
     SW_Time_Counter += OS_TICK;
     //check if it's my tick 
     if(SW_Time_Counter != SW_UPDATE_TICK)

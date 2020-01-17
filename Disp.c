@@ -8,9 +8,9 @@
 
 #include <xc.h>
 
-#include "HW.h"
 #include "SSD.h"
 #include "Vacuum.h"
+#include"Timer_ZCD.h"
 /*
  * WE CAN MAKE TICK OF THE DISP = TICK CYCLE OF SSD 
  */
@@ -31,7 +31,7 @@ void Disp_Update(void)
      /*
      * create static variable to hold time
      */
-    static uint8 DISP_Time_Counter = 10; 
+    static uint8 DISP_Time_Counter = 0; 
     DISP_Time_Counter += OS_TICK;
     //check if it's my tick 
     if(DISP_Time_Counter != DISP_UPDATE_TICK)

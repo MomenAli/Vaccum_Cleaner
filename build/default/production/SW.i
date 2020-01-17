@@ -1743,7 +1743,7 @@ extern __bank0 __bit __timeout;
 #pragma config CPD = OFF
 #pragma config WRT = OFF
 #pragma config CP = OFF
-# 162 "./HW.h"
+# 163 "./HW.h"
 typedef unsigned char uint8;
 typedef unsigned int uint16;
 # 17 "./GPIO.h" 2
@@ -1787,6 +1787,15 @@ uint8 SW_GetState(SW_t sw);
 
 void SW_Update(void);
 # 10 "SW.c" 2
+
+# 1 "./Timer_ZCD.h" 1
+# 45 "./Timer_ZCD.h"
+void TMR_Init(void);
+void TMR_Start(void);
+void TMR_Stop(void);
+uint8 TMR_CheckOverflow(void);
+void TMR0_ISR(void);
+# 11 "SW.c" 2
 # 21 "SW.c"
 void SW_UpdateState(SW_t sw);
 # 41 "SW.c"
@@ -1837,8 +1846,8 @@ void SW_Update(void)
 
 
 
-    static uint8 SW_Time_Counter = 15;
-    SW_Time_Counter += (5);
+    static uint8 SW_Time_Counter = 0;
+    SW_Time_Counter += (10);
 
     if(SW_Time_Counter != (20))
     {

@@ -1,40 +1,34 @@
 Version 4.0 HI-TECH Software Intermediate Code
-"19 Vacuum.c
-[; ;Vacuum.c: 19: static MOTOR_SPEED_t motor_speed;
-[c E850 140 90 10 .. ]
-[n E850 . LOW_SPEED MID_SPEED HIGH_SPEED  ]
-"27 ./Motor.h
-[; ;./Motor.h: 27: void Mo_Init(MOTOR_SPEED_t);
-[v _Mo_Init `(v ~T0 @X0 0 ef1`E850 ]
-"41 Vacuum.c
-[; ;Vacuum.c: 41:     LED_Init(LED_ALARM,LED_OFF);
-[c E881 0 .. ]
-[n E881 . LED_ALARM  ]
-[c E884 0 1 .. ]
-[n E884 . LED_OFF LED_ON  ]
-"29 ./Led.h
-[; ;./Led.h: 29: uint8 LED_Init(LED_t led, LEDState_t state);
-[v _LED_Init `(uc ~T0 @X0 0 ef2`E881`E884 ]
-"22 Vacuum.c
-[; ;Vacuum.c: 22: static void Switch_Event_Handler(void);
-[v _Switch_Event_Handler `(v ~T0 @X0 0 sf ]
-"28 ./Motor.h
-[; ;./Motor.h: 28: void Mo_SetSpeed(MOTOR_SPEED_t);
-[v _Mo_SetSpeed `(v ~T0 @X0 0 ef1`E850 ]
-"81 Vacuum.c
-[; ;Vacuum.c: 81:     if(SW_GetState(SW_PLUS) == SW_PRE_PRESSED && motor_speed != HIGH_SPEED)
-[c E861 0 1 2 .. ]
-[n E861 . SW_PLUS SW_MINUS SW_PRESSURE  ]
-"64 ./SW.h
-[; ;./SW.h: 64: uint8 SW_GetState(SW_t sw);
-[v _SW_GetState `(uc ~T0 @X0 0 ef1`E861 ]
-"81 Vacuum.c
-[; ;Vacuum.c: 81:     if(SW_GetState(SW_PLUS) == SW_PRE_PRESSED && motor_speed != HIGH_SPEED)
-[c E866 0 1 2 3 .. ]
-[n E866 . SW_RELEASED SW_PRE_PRESSED SW_PRESSED SW_PRE_RELEASED  ]
-"31 ./Led.h
-[; ;./Led.h: 31: void LED_SetState(LED_t led, LEDState_t state);
-[v _LED_SetState `(v ~T0 @X0 0 ef2`E881`E884 ]
+"2857 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h
+[; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h: 2857: extern volatile __bit T1CKPS0 __attribute__((address(0x84)));
+[v _T1CKPS0 `Vb ~T0 @X0 0 e@132 ]
+"2860
+[; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h: 2860: extern volatile __bit T1CKPS1 __attribute__((address(0x85)));
+[v _T1CKPS1 `Vb ~T0 @X0 0 e@133 ]
+"2884
+[; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h: 2884: extern volatile __bit TMR1CS __attribute__((address(0x81)));
+[v _TMR1CS `Vb ~T0 @X0 0 e@129 ]
+"2866
+[; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h: 2866: extern volatile __bit T1OSCEN __attribute__((address(0x83)));
+[v _T1OSCEN `Vb ~T0 @X0 0 e@131 ]
+"2893
+[; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h: 2893: extern volatile __bit TMR1ON __attribute__((address(0x80)));
+[v _TMR1ON `Vb ~T0 @X0 0 e@128 ]
+"2890
+[; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h: 2890: extern volatile __bit TMR1IF __attribute__((address(0x60)));
+[v _TMR1IF `Vb ~T0 @X0 0 e@96 ]
+"634
+[; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h: 634: extern volatile unsigned short TMR1 __attribute__((address(0x00E)));
+[v _TMR1 `Vus ~T0 @X0 0 e@14 ]
+"2887
+[; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h: 2887: extern volatile __bit TMR1IE __attribute__((address(0x460)));
+[v _TMR1IE `Vb ~T0 @X0 0 e@1120 ]
+"2629
+[; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h: 2629: extern volatile __bit PEIE __attribute__((address(0x5E)));
+[v _PEIE `Vb ~T0 @X0 0 e@94 ]
+"31 ./Motor.h
+[; ;./Motor.h: 31: void Mo_generate_firing_pulse(void);
+[v _Mo_generate_firing_pulse `(v ~T0 @X0 0 ef ]
 "54 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h
 [; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h: 54: __asm("INDF equ 00h");
 [; <" INDF equ 00h ;# ">
@@ -231,285 +225,112 @@ Version 4.0 HI-TECH Software Intermediate Code
 [p x WRT = OFF ]
 "25
 [p x CP = OFF ]
-"19 Vacuum.c
-[; ;Vacuum.c: 19: static MOTOR_SPEED_t motor_speed;
-[v _motor_speed `E850 ~T0 @X0 1 s ]
-"31
-[; ;Vacuum.c: 31: static uint16 pressure_sw_counter;
-[v _pressure_sw_counter `ui ~T0 @X0 1 s ]
-"33
-[; ;Vacuum.c: 33: void VC_Init(MOTOR_SPEED_t speed)
-[v _VC_Init `(v ~T0 @X0 1 ef1`E850 ]
-"34
-[; ;Vacuum.c: 34: {
+"10 Timer1.c
+[; ;Timer1.c: 10: void TMR1_Init(void)
+[v _TMR1_Init `(v ~T0 @X0 1 ef ]
+"11
+[; ;Timer1.c: 11: {
 {
-[e :U _VC_Init ]
-"33
-[; ;Vacuum.c: 33: void VC_Init(MOTOR_SPEED_t speed)
-[v _speed `E850 ~T0 @X0 1 r1 ]
-"34
-[; ;Vacuum.c: 34: {
+[e :U _TMR1_Init ]
 [f ]
-"36
-[; ;Vacuum.c: 36:     motor_speed = speed;
-[e = _motor_speed _speed ]
-"38
-[; ;Vacuum.c: 38:     Mo_Init(speed);
-[e ( _Mo_Init (1 _speed ]
-"41
-[; ;Vacuum.c: 41:     LED_Init(LED_ALARM,LED_OFF);
-[e ( _LED_Init (2 , . `E881 0 . `E884 0 ]
-"43
-[; ;Vacuum.c: 43:     pressure_sw_counter = 0;
-[e = _pressure_sw_counter -> -> 0 `i `ui ]
-"44
-[; ;Vacuum.c: 44: }
+"14
+[; ;Timer1.c: 14:     T1CKPS0 = 1; T1CKPS1 = 0;
+[e = _T1CKPS0 -> -> 1 `i `b ]
+[e = _T1CKPS1 -> -> 0 `i `b ]
+"16
+[; ;Timer1.c: 16:     (TMR1CS = 0);
+[e = _TMR1CS -> -> 0 `i `b ]
+"18
+[; ;Timer1.c: 18:     (T1OSCEN = 0);
+[e = _T1OSCEN -> -> 0 `i `b ]
+"20
+[; ;Timer1.c: 20:     ((TMR1ON) = 0);
+[e = _TMR1ON -> -> 0 `i `b ]
+"21
+[; ;Timer1.c: 21: }
 [e :UE 95 ]
 }
-"45
-[; ;Vacuum.c: 45: MOTOR_SPEED_t VC_GetSpeed(void)
-[v _VC_GetSpeed `(E850 ~T0 @X0 1 ef ]
-"46
-[; ;Vacuum.c: 46: {
+"22
+[; ;Timer1.c: 22: void TMR1_Start(uint16 degree)
+[v _TMR1_Start `(v ~T0 @X0 1 ef1`ui ]
+"23
+[; ;Timer1.c: 23: {
 {
-[e :U _VC_GetSpeed ]
+[e :U _TMR1_Start ]
+"22
+[; ;Timer1.c: 22: void TMR1_Start(uint16 degree)
+[v _degree `ui ~T0 @X0 1 r1 ]
+"23
+[; ;Timer1.c: 23: {
 [f ]
-"48
-[; ;Vacuum.c: 48:     return motor_speed;
-[e ) _motor_speed ]
-[e $UE 96  ]
-"49
-[; ;Vacuum.c: 49: }
+"25
+[; ;Timer1.c: 25:     ((TMR1IF) = 0);
+[e = _TMR1IF -> -> 0 `i `b ]
+"27
+[; ;Timer1.c: 27:     ((TMR1) = (65536 - ((degree) * 55)));;
+[e = _TMR1 -> - -> 65536 `l -> * _degree -> -> 55 `i `ui `l `us ]
+"32
+[; ;Timer1.c: 32:     (TMR1IE = 1);
+[e = _TMR1IE -> -> 1 `i `b ]
+"33
+[; ;Timer1.c: 33:     (PEIE = 1);
+[e = _PEIE -> -> 1 `i `b ]
+"35
+[; ;Timer1.c: 35:     ((TMR1ON) = 1);
+[e = _TMR1ON -> -> 1 `i `b ]
+"36
+[; ;Timer1.c: 36: }
 [e :UE 96 ]
 }
-"50
-[; ;Vacuum.c: 50: void VC_Update(void)
-[v _VC_Update `(v ~T0 @X0 1 ef ]
-"51
-[; ;Vacuum.c: 51: {
+"37
+[; ;Timer1.c: 37: void TMR1_Stop(void)
+[v _TMR1_Stop `(v ~T0 @X0 1 ef ]
+"38
+[; ;Timer1.c: 38: {
 {
-[e :U _VC_Update ]
+[e :U _TMR1_Stop ]
 [f ]
-"52
-[; ;Vacuum.c: 52:     static uint8 VC_TICK_COUNTER = 0;
-[v F917 `uc ~T0 @X0 1 s VC_TICK_COUNTER ]
-[i F917
--> -> 0 `i `uc
-]
-"53
-[; ;Vacuum.c: 53:     VC_TICK_COUNTER += (10);
-[e =+ F917 -> -> 10 `i `uc ]
-"55
-[; ;Vacuum.c: 55:     if(VC_TICK_COUNTER != (20))
-[e $ ! != -> F917 `i -> 20 `i 98  ]
-"56
-[; ;Vacuum.c: 56:         return;
-[e $UE 97  ]
-[e :U 98 ]
-"57
-[; ;Vacuum.c: 57:     VC_TICK_COUNTER = 0;
-[e = F917 -> -> 0 `i `uc ]
-"68
-[; ;Vacuum.c: 68:     Switch_Event_Handler();
-[e ( _Switch_Event_Handler ..  ]
-"71
-[; ;Vacuum.c: 71:     Mo_SetSpeed(motor_speed);
-[e ( _Mo_SetSpeed (1 _motor_speed ]
-"73
-[; ;Vacuum.c: 73: }
+"40
+[; ;Timer1.c: 40:     ((TMR1ON) = 0);
+[e = _TMR1ON -> -> 0 `i `b ]
+"41
+[; ;Timer1.c: 41: }
 [e :UE 97 ]
 }
-"75
-[; ;Vacuum.c: 75: static void Switch_Event_Handler(void)
-[v _Switch_Event_Handler `(v ~T0 @X0 1 sf ]
-"76
-[; ;Vacuum.c: 76: {
+"42
+[; ;Timer1.c: 42: uint8 TMR1_CheckOverflow(void)
+[v _TMR1_CheckOverflow `(uc ~T0 @X0 1 ef ]
+"43
+[; ;Timer1.c: 43: {
 {
-[e :U _Switch_Event_Handler ]
+[e :U _TMR1_CheckOverflow ]
 [f ]
-"81
-[; ;Vacuum.c: 81:     if(SW_GetState(SW_PLUS) == SW_PRE_PRESSED && motor_speed != HIGH_SPEED)
-[e $ ! && == -> ( _SW_GetState (1 . `E861 0 `i -> . `E866 1 `i != -> _motor_speed `ui -> . `E850 2 `ui 100  ]
-"82
-[; ;Vacuum.c: 82:     {
-{
-"84
-[; ;Vacuum.c: 84:         switch(motor_speed)
-[e $U 102  ]
-"85
-[; ;Vacuum.c: 85:         {
-{
-"86
-[; ;Vacuum.c: 86:             case LOW_SPEED:
-[e :U 103 ]
-"87
-[; ;Vacuum.c: 87:                 motor_speed = MID_SPEED;
-[e = _motor_speed . `E850 1 ]
-"88
-[; ;Vacuum.c: 88:                 break;
-[e $U 101  ]
-"89
-[; ;Vacuum.c: 89:             case MID_SPEED:
-[e :U 104 ]
-"90
-[; ;Vacuum.c: 90:                 motor_speed = HIGH_SPEED;
-[e = _motor_speed . `E850 2 ]
-"91
-[; ;Vacuum.c: 91:                 break;
-[e $U 101  ]
-"92
-[; ;Vacuum.c: 92:             default:
-[e :U 105 ]
-"94
-[; ;Vacuum.c: 94:                 break;
-[e $U 101  ]
-"95
-[; ;Vacuum.c: 95:         }
+"45
+[; ;Timer1.c: 45:     return ((TMR1IF));
+[e ) -> _TMR1IF `uc ]
+[e $UE 98  ]
+"46
+[; ;Timer1.c: 46: }
+[e :UE 98 ]
 }
-[e $U 101  ]
-[e :U 102 ]
-[e [\ -> _motor_speed `ui , $ -> . `E850 0 `ui 103
- , $ -> . `E850 1 `ui 104
- 105 ]
-[e :U 101 ]
-"96
-[; ;Vacuum.c: 96:     }
-}
-[e :U 100 ]
-"102
-[; ;Vacuum.c: 102:     if((SW_GetState(SW_MINUS) == SW_PRE_PRESSED) && (motor_speed != LOW_SPEED))
-[e $ ! && == -> ( _SW_GetState (1 . `E861 1 `i -> . `E866 1 `i != -> _motor_speed `ui -> . `E850 0 `ui 106  ]
-"103
-[; ;Vacuum.c: 103:     {
+"47
+[; ;Timer1.c: 47: void TMR1_ISR(void)
+[v _TMR1_ISR `(v ~T0 @X0 1 ef ]
+"48
+[; ;Timer1.c: 48: {
 {
-"106
-[; ;Vacuum.c: 106:         switch(motor_speed)
-[e $U 108  ]
-"107
-[; ;Vacuum.c: 107:         {
-{
-"108
-[; ;Vacuum.c: 108:             case MID_SPEED:
-[e :U 109 ]
-"109
-[; ;Vacuum.c: 109:                 motor_speed = LOW_SPEED;
-[e = _motor_speed . `E850 0 ]
-"110
-[; ;Vacuum.c: 110:                 break;
-[e $U 107  ]
-"111
-[; ;Vacuum.c: 111:             case HIGH_SPEED:
-[e :U 110 ]
-"112
-[; ;Vacuum.c: 112:                 motor_speed = MID_SPEED;
-[e = _motor_speed . `E850 1 ]
-"113
-[; ;Vacuum.c: 113:                 break;
-[e $U 107  ]
-"114
-[; ;Vacuum.c: 114:             default:
-[e :U 111 ]
-"116
-[; ;Vacuum.c: 116:                 break;
-[e $U 107  ]
-"117
-[; ;Vacuum.c: 117:         }
-}
-[e $U 107  ]
-[e :U 108 ]
-[e [\ -> _motor_speed `ui , $ -> . `E850 1 `ui 109
- , $ -> . `E850 2 `ui 110
- 111 ]
-[e :U 107 ]
-"118
-[; ;Vacuum.c: 118:     }
-}
-[e :U 106 ]
-"123
-[; ;Vacuum.c: 123:     if(SW_GetState(SW_PRESSURE) == SW_PRESSED && (motor_speed != LOW_SPEED))
-[e $ ! && == -> ( _SW_GetState (1 . `E861 2 `i -> . `E866 2 `i != -> _motor_speed `ui -> . `E850 0 `ui 112  ]
-"124
-[; ;Vacuum.c: 124:     {
-{
-"126
-[; ;Vacuum.c: 126:         pressure_sw_counter += (20);
-[e =+ _pressure_sw_counter -> -> 20 `i `ui ]
-"130
-[; ;Vacuum.c: 130:         if( pressure_sw_counter == (30000) )
-[e $ ! == _pressure_sw_counter -> -> 30000 `i `ui 113  ]
-"131
-[; ;Vacuum.c: 131:         {
-{
-"134
-[; ;Vacuum.c: 134:             switch(motor_speed)
-[e $U 115  ]
-"135
-[; ;Vacuum.c: 135:             {
-{
-"136
-[; ;Vacuum.c: 136:                 case MID_SPEED:
-[e :U 116 ]
-"137
-[; ;Vacuum.c: 137:                     motor_speed = LOW_SPEED;
-[e = _motor_speed . `E850 0 ]
-"138
-[; ;Vacuum.c: 138:                     break;
-[e $U 114  ]
-"139
-[; ;Vacuum.c: 139:                 case HIGH_SPEED:
-[e :U 117 ]
-"140
-[; ;Vacuum.c: 140:                     motor_speed = MID_SPEED;
-[e = _motor_speed . `E850 1 ]
-"141
-[; ;Vacuum.c: 141:                     break;
-[e $U 114  ]
-"142
-[; ;Vacuum.c: 142:                 default:
-[e :U 118 ]
-"144
-[; ;Vacuum.c: 144:                     break;
-[e $U 114  ]
-"145
-[; ;Vacuum.c: 145:             }
-}
-[e $U 114  ]
-[e :U 115 ]
-[e [\ -> _motor_speed `ui , $ -> . `E850 1 `ui 116
- , $ -> . `E850 2 `ui 117
- 118 ]
-[e :U 114 ]
-"147
-[; ;Vacuum.c: 147:             pressure_sw_counter = 0;
-[e = _pressure_sw_counter -> -> 0 `i `ui ]
-"148
-[; ;Vacuum.c: 148:         }
-}
-[e :U 113 ]
-"150
-[; ;Vacuum.c: 150:         LED_SetState(LED_ALARM,LED_ON);
-[e ( _LED_SetState (2 , . `E881 0 . `E884 1 ]
-"151
-[; ;Vacuum.c: 151:     }
-}
-[e $U 119  ]
-"152
-[; ;Vacuum.c: 152:     else
-[e :U 112 ]
-"153
-[; ;Vacuum.c: 153:     {
-{
-"155
-[; ;Vacuum.c: 155:         pressure_sw_counter = 0;
-[e = _pressure_sw_counter -> -> 0 `i `ui ]
-"157
-[; ;Vacuum.c: 157:         LED_SetState(LED_ALARM,LED_OFF);
-[e ( _LED_SetState (2 , . `E881 0 . `E884 0 ]
-"158
-[; ;Vacuum.c: 158:     }
-}
-[e :U 119 ]
-"159
-[; ;Vacuum.c: 159: }
+[e :U _TMR1_ISR ]
+[f ]
+"50
+[; ;Timer1.c: 50:     Mo_generate_firing_pulse();
+[e ( _Mo_generate_firing_pulse ..  ]
+"52
+[; ;Timer1.c: 52:     TMR1_Stop();
+[e ( _TMR1_Stop ..  ]
+"54
+[; ;Timer1.c: 54:     ((TMR1IF) = 0);
+[e = _TMR1IF -> -> 0 `i `b ]
+"55
+[; ;Timer1.c: 55: }
 [e :UE 99 ]
 }

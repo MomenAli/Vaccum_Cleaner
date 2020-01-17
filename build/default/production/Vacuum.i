@@ -1762,7 +1762,7 @@ void VC_Update(void);
 #pragma config CPD = OFF
 #pragma config WRT = OFF
 #pragma config CP = OFF
-# 162 "./HW.h"
+# 163 "./HW.h"
 typedef unsigned char uint8;
 typedef unsigned int uint16;
 # 15 "./SW.h" 2
@@ -1798,6 +1798,14 @@ uint8 SW_GetState(SW_t sw);
 void SW_Update(void);
 # 9 "Vacuum.c" 2
 
+# 1 "./Timer_ZCD.h" 1
+# 45 "./Timer_ZCD.h"
+void TMR_Init(void);
+void TMR_Start(void);
+void TMR_Stop(void);
+uint8 TMR_CheckOverflow(void);
+void TMR0_ISR(void);
+# 10 "Vacuum.c" 2
 
 # 1 "./Led.h" 1
 # 18 "./Led.h"
@@ -1819,6 +1827,22 @@ void LED_update(void);
 void LED_Toggle(LED_t led);
 # 11 "Vacuum.c" 2
 
+# 1 "./Motor.h" 1
+# 20 "./Motor.h"
+typedef enum
+{
+    MO_NORMAL,
+    MO_SWITCHING
+}MOTOR_STATE_t;
+
+
+void Mo_Init(MOTOR_SPEED_t);
+void Mo_SetSpeed(MOTOR_SPEED_t);
+void Mo_Update(void);
+uint8 Mo_Get_Actual_Angle(void);
+void Mo_generate_firing_pulse(void);
+# 12 "Vacuum.c" 2
+
 
 
 
@@ -1829,7 +1853,7 @@ static MOTOR_SPEED_t motor_speed;
 
 
 static void Switch_Event_Handler(void);
-# 30 "Vacuum.c"
+# 31 "Vacuum.c"
 static uint16 pressure_sw_counter;
 
 void VC_Init(MOTOR_SPEED_t speed)
@@ -1837,7 +1861,7 @@ void VC_Init(MOTOR_SPEED_t speed)
 
     motor_speed = speed;
 
-
+    Mo_Init(speed);
 
 
     LED_Init(LED_ALARM,LED_OFF);
@@ -1852,16 +1876,16 @@ MOTOR_SPEED_t VC_GetSpeed(void)
 void VC_Update(void)
 {
     static uint8 VC_TICK_COUNTER = 0;
-    VC_TICK_COUNTER += (5);
+    VC_TICK_COUNTER += (10);
 
     if(VC_TICK_COUNTER != (20))
         return;
     VC_TICK_COUNTER = 0;
-# 67 "Vacuum.c"
+# 68 "Vacuum.c"
     Switch_Event_Handler();
 
 
-
+    Mo_SetSpeed(motor_speed);
 
 }
 

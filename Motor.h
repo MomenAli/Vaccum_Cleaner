@@ -16,7 +16,7 @@
 #include <xc.h>
 
 #include "Vacuum.h" // include processor files - each processor file is guarded.  
-
+#include"HW.h"
 typedef enum
 {
     MO_NORMAL,

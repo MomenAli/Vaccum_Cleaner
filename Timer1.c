@@ -13,13 +13,13 @@ void TMR1_Init(void)
    // set up timer prescaler
     TMR1_PRESCALER;
    // enable internal clock
-    TMR1_ENABLE_INTERNAL_CLOCK
+    TMR1_ENABLE_INTERNAL_CLOCK;
    // shut off oscillator mode
     TMR1_OSCILLATOR_SHUT_OFF;
    //STOP TIMER 
     TMR1_STOP;
 }
-void TMR1_Start(uint8 degree)
+void TMR1_Start(uint16 degree)
 {
      // update the clock flag to start
     TMR1_CLEAR_FLAG;
@@ -27,7 +27,7 @@ void TMR1_Start(uint8 degree)
     TMR1_LOAD_REGISTER(degree);
     // enable the ISR
     TMR1_ENABLE_INTERRUPT;
-    GLOBAL_INTERRUPT_ENABLE;
+    TMR1_PERIPHERAL_I_ENABLE;
     // start the timer
     TMR1_START;
 }
@@ -47,4 +47,6 @@ void TMR1_ISR(void)
     Mo_generate_firing_pulse();
     //STOP TIMER 1
     TMR1_Stop();
+    //clear flag
+    TMR1_CLEAR_FLAG;
 }

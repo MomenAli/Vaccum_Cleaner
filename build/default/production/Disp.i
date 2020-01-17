@@ -1731,21 +1731,6 @@ extern __bank0 __bit __timeout;
 # 9 "Disp.c" 2
 
 
-# 1 "./HW.h" 1
-# 18 "./HW.h"
-#pragma config FOSC = HS
-#pragma config WDTE = OFF
-#pragma config PWRTE = OFF
-#pragma config BOREN = OFF
-#pragma config LVP = OFF
-#pragma config CPD = OFF
-#pragma config WRT = OFF
-#pragma config CP = OFF
-# 162 "./HW.h"
-typedef unsigned char uint8;
-typedef unsigned int uint16;
-# 11 "Disp.c" 2
-
 # 1 "./SSD.h" 1
 # 30 "./SSD.h"
 typedef enum
@@ -1778,7 +1763,7 @@ typedef enum
 void SSD_Init(SSD_Symbol_t sym,SSD_t ssd);
 void SSD_Set_Symbol(SSD_Symbol_t symbol,SSD_t index);
 void SSD_Update(void);
-# 12 "Disp.c" 2
+# 11 "Disp.c" 2
 
 # 1 "./Vacuum.h" 1
 # 22 "./Vacuum.h"
@@ -1792,6 +1777,30 @@ typedef enum
 void VC_Init(MOTOR_SPEED_t);
 MOTOR_SPEED_t VC_GetSpeed(void);
 void VC_Update(void);
+# 12 "Disp.c" 2
+
+# 1 "./Timer_ZCD.h" 1
+# 17 "./Timer_ZCD.h"
+# 1 "./HW.h" 1
+# 18 "./HW.h"
+#pragma config FOSC = HS
+#pragma config WDTE = OFF
+#pragma config PWRTE = OFF
+#pragma config BOREN = OFF
+#pragma config LVP = OFF
+#pragma config CPD = OFF
+#pragma config WRT = OFF
+#pragma config CP = OFF
+# 163 "./HW.h"
+typedef unsigned char uint8;
+typedef unsigned int uint16;
+# 17 "./Timer_ZCD.h" 2
+# 45 "./Timer_ZCD.h"
+void TMR_Init(void);
+void TMR_Start(void);
+void TMR_Stop(void);
+uint8 TMR_CheckOverflow(void);
+void TMR0_ISR(void);
 # 13 "Disp.c" 2
 # 22 "Disp.c"
 void Disp_Init(void)
@@ -1806,8 +1815,8 @@ void Disp_Update(void)
 
 
 
-    static uint8 DISP_Time_Counter = 10;
-    DISP_Time_Counter += (5);
+    static uint8 DISP_Time_Counter = 0;
+    DISP_Time_Counter += (10);
 
     if(DISP_Time_Counter != (20))
     {

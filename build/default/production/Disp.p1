@@ -1,23 +1,23 @@
 Version 4.0 HI-TECH Software Intermediate Code
 "25 Disp.c
 [; ;Disp.c: 25:     SSD_Init(SSD_NULL,SSD_FIRST);
-[c E852 0 1 2 3 .. ]
-[n E852 . SSD_L_1 SSD_L_2 SSD_L_3 SSD_NULL  ]
-[c E858 0 1 2 .. ]
-[n E858 . SSD_FIRST SSD_SECOND SSD_THIRD  ]
+[c E850 0 1 2 3 .. ]
+[n E850 . SSD_L_1 SSD_L_2 SSD_L_3 SSD_NULL  ]
+[c E856 0 1 2 .. ]
+[n E856 . SSD_FIRST SSD_SECOND SSD_THIRD  ]
 "57 ./SSD.h
 [; ;./SSD.h: 57: void SSD_Init(SSD_Symbol_t sym,SSD_t ssd);
-[v _SSD_Init `(v ~T0 @X0 0 ef2`E852`E858 ]
+[v _SSD_Init `(v ~T0 @X0 0 ef2`E850`E856 ]
 "58
 [; ;./SSD.h: 58: void SSD_Set_Symbol(SSD_Symbol_t symbol,SSD_t index);
-[v _SSD_Set_Symbol `(v ~T0 @X0 0 ef2`E852`E858 ]
+[v _SSD_Set_Symbol `(v ~T0 @X0 0 ef2`E850`E856 ]
 "60 Disp.c
 [; ;Disp.c: 60:     }
-[c E874 140 90 10 .. ]
-[n E874 . LOW_SPEED MID_SPEED HIGH_SPEED  ]
+[c E872 140 90 10 .. ]
+[n E872 . LOW_SPEED MID_SPEED HIGH_SPEED  ]
 "30 ./Vacuum.h
 [; ;./Vacuum.h: 30: MOTOR_SPEED_t VC_GetSpeed(void);
-[v _VC_GetSpeed `(E874 ~T0 @X0 0 ef ]
+[v _VC_GetSpeed `(E872 ~T0 @X0 0 ef ]
 "54 C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h
 [; ;C:\Program Files (x86)\Microchip\xc8\v2.10\pic\include\pic16f877a.h: 54: __asm("INDF equ 00h");
 [; <" INDF equ 00h ;# ">
@@ -224,13 +224,13 @@ Version 4.0 HI-TECH Software Intermediate Code
 [f ]
 "25
 [; ;Disp.c: 25:     SSD_Init(SSD_NULL,SSD_FIRST);
-[e ( _SSD_Init (2 , . `E852 3 . `E858 0 ]
+[e ( _SSD_Init (2 , . `E850 3 . `E856 0 ]
 "26
 [; ;Disp.c: 26:     SSD_Init(SSD_NULL,SSD_SECOND);
-[e ( _SSD_Init (2 , . `E852 3 . `E858 1 ]
+[e ( _SSD_Init (2 , . `E850 3 . `E856 1 ]
 "27
 [; ;Disp.c: 27:     SSD_Init(SSD_NULL,SSD_THIRD);
-[e ( _SSD_Init (2 , . `E852 3 . `E858 2 ]
+[e ( _SSD_Init (2 , . `E850 3 . `E856 2 ]
 "28
 [; ;Disp.c: 28: }
 [e :UE 95 ]
@@ -244,17 +244,17 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :U _Disp_Update ]
 [f ]
 "34
-[; ;Disp.c: 34:     static uint8 DISP_Time_Counter = 10;
-[v F885 `uc ~T0 @X0 1 s DISP_Time_Counter ]
-[i F885
--> -> 10 `i `uc
+[; ;Disp.c: 34:     static uint8 DISP_Time_Counter = 0;
+[v F890 `uc ~T0 @X0 1 s DISP_Time_Counter ]
+[i F890
+-> -> 0 `i `uc
 ]
 "35
-[; ;Disp.c: 35:     DISP_Time_Counter += (5);
-[e =+ F885 -> -> 5 `i `uc ]
+[; ;Disp.c: 35:     DISP_Time_Counter += (10);
+[e =+ F890 -> -> 10 `i `uc ]
 "37
 [; ;Disp.c: 37:     if(DISP_Time_Counter != (20))
-[e $ ! != -> F885 `i -> 20 `i 97  ]
+[e $ ! != -> F890 `i -> 20 `i 97  ]
 "38
 [; ;Disp.c: 38:     {
 {
@@ -267,7 +267,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :U 97 ]
 "41
 [; ;Disp.c: 41:     DISP_Time_Counter = 0;
-[e = F885 -> -> 0 `i `uc ]
+[e = F890 -> -> 0 `i `uc ]
 "43
 [; ;Disp.c: 43:     switch(VC_GetSpeed())
 [e $U 99  ]
@@ -279,13 +279,13 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :U 100 ]
 "46
 [; ;Disp.c: 46:             SSD_Set_Symbol(SSD_L_3,SSD_THIRD);
-[e ( _SSD_Set_Symbol (2 , . `E852 2 . `E858 2 ]
+[e ( _SSD_Set_Symbol (2 , . `E850 2 . `E856 2 ]
 "47
 [; ;Disp.c: 47:             SSD_Set_Symbol(SSD_L_2,SSD_SECOND);
-[e ( _SSD_Set_Symbol (2 , . `E852 1 . `E858 1 ]
+[e ( _SSD_Set_Symbol (2 , . `E850 1 . `E856 1 ]
 "48
 [; ;Disp.c: 48:             SSD_Set_Symbol(SSD_L_1,SSD_FIRST);
-[e ( _SSD_Set_Symbol (2 , . `E852 0 . `E858 0 ]
+[e ( _SSD_Set_Symbol (2 , . `E850 0 . `E856 0 ]
 "49
 [; ;Disp.c: 49:             break;
 [e $U 98  ]
@@ -294,13 +294,13 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :U 101 ]
 "51
 [; ;Disp.c: 51:             SSD_Set_Symbol(SSD_L_1,SSD_FIRST);
-[e ( _SSD_Set_Symbol (2 , . `E852 0 . `E858 0 ]
+[e ( _SSD_Set_Symbol (2 , . `E850 0 . `E856 0 ]
 "52
 [; ;Disp.c: 52:             SSD_Set_Symbol(SSD_L_2,SSD_SECOND);
-[e ( _SSD_Set_Symbol (2 , . `E852 1 . `E858 1 ]
+[e ( _SSD_Set_Symbol (2 , . `E850 1 . `E856 1 ]
 "53
 [; ;Disp.c: 53:             SSD_Set_Symbol(SSD_NULL,SSD_THIRD);
-[e ( _SSD_Set_Symbol (2 , . `E852 3 . `E858 2 ]
+[e ( _SSD_Set_Symbol (2 , . `E850 3 . `E856 2 ]
 "54
 [; ;Disp.c: 54:             break;
 [e $U 98  ]
@@ -309,13 +309,13 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :U 102 ]
 "56
 [; ;Disp.c: 56:             SSD_Set_Symbol(SSD_L_1,SSD_FIRST);
-[e ( _SSD_Set_Symbol (2 , . `E852 0 . `E858 0 ]
+[e ( _SSD_Set_Symbol (2 , . `E850 0 . `E856 0 ]
 "57
 [; ;Disp.c: 57:             SSD_Set_Symbol(SSD_NULL,SSD_SECOND);
-[e ( _SSD_Set_Symbol (2 , . `E852 3 . `E858 1 ]
+[e ( _SSD_Set_Symbol (2 , . `E850 3 . `E856 1 ]
 "58
 [; ;Disp.c: 58:             SSD_Set_Symbol(SSD_NULL,SSD_THIRD);
-[e ( _SSD_Set_Symbol (2 , . `E852 3 . `E858 2 ]
+[e ( _SSD_Set_Symbol (2 , . `E850 3 . `E856 2 ]
 "59
 [; ;Disp.c: 59:             break;
 [e $U 98  ]
@@ -324,9 +324,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 }
 [e $U 98  ]
 [e :U 99 ]
-[e [\ -> ( _VC_GetSpeed ..  `ui , $ -> . `E874 2 `ui 100
- , $ -> . `E874 1 `ui 101
- , $ -> . `E874 0 `ui 102
+[e [\ -> ( _VC_GetSpeed ..  `ui , $ -> . `E872 2 `ui 100
+ , $ -> . `E872 1 `ui 101
+ , $ -> . `E872 0 `ui 102
  98 ]
 [e :U 98 ]
 "62

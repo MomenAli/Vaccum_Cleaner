@@ -1740,7 +1740,7 @@ extern __bank0 __bit __timeout;
 #pragma config CPD = OFF
 #pragma config WRT = OFF
 #pragma config CP = OFF
-# 162 "./HW.h"
+# 163 "./HW.h"
 typedef unsigned char uint8;
 typedef unsigned int uint16;
 # 10 "VaccumCleaner.c" 2
@@ -1873,11 +1873,27 @@ void TMR0_ISR(void);
 # 1 "./Timer1.h" 1
 # 44 "./Timer1.h"
 void TMR1_Init(void);
-void TMR1_Start(uint8 degree);
+void TMR1_Start(uint16 degree);
 void TMR1_Stop(void);
 uint8 TMR1_CheckOverflow(void);
 void TMR1_ISR(void);
 # 19 "VaccumCleaner.c" 2
+
+# 1 "./Motor.h" 1
+# 20 "./Motor.h"
+typedef enum
+{
+    MO_NORMAL,
+    MO_SWITCHING
+}MOTOR_STATE_t;
+
+
+void Mo_Init(MOTOR_SPEED_t);
+void Mo_SetSpeed(MOTOR_SPEED_t);
+void Mo_Update(void);
+uint8 Mo_Get_Actual_Angle(void);
+void Mo_generate_firing_pulse(void);
+# 20 "VaccumCleaner.c" 2
 
 
 volatile uint8 ISR_FLAG;
@@ -1886,12 +1902,22 @@ void main(void)
 {
     ISR_FLAG = 0;
     VC_Init(MID_SPEED);
+    TMR_Init();
+    TMR_Start();
+    TMR1_Init();
     Disp_Init();
     SW_Init();
+
+
+    GPIO_Init_Pin(&(TRISC),(4),(0));
+
     while(1)
     {
         if(ISR_FLAG)
         {
+
+            (((PORTC))=((PORTC) ^(1<<(4))));
+
 
             SSD_Update();
             SW_Update();

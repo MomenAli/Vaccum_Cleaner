@@ -7,8 +7,9 @@
 
 #include "Vacuum.h"
 #include "SW.h"
-#include "HW.h"
+#include"Timer_ZCD.h"
 #include "Led.h"
+#include "Motor.h"
 
 
 /* periodic tick for update */
@@ -34,7 +35,7 @@ void VC_Init(MOTOR_SPEED_t speed)
     //initialize speed type (enum)  variable
     motor_speed = speed;
     //set initial speed of the motor (MOTOR Module)
-    /* NOT DONE */
+    Mo_Init(speed);
     
     /* initialize alarm led*/
     LED_Init(LED_ALARM,LED_OFF);
@@ -48,7 +49,7 @@ MOTOR_SPEED_t VC_GetSpeed(void)
 }
 void VC_Update(void)
 {
-    static uint8 VC_TICK_COUNTER = 0;
+    static uint8 VC_TICK_COUNTER = 10;
     VC_TICK_COUNTER += OS_TICK;
     //return if not my tick
     if(VC_TICK_COUNTER != VC_UPDATE_TICK)
@@ -67,7 +68,7 @@ void VC_Update(void)
     Switch_Event_Handler();
     
     // set the motor speed at motor module
-    /* NOT DONE */
+    Mo_SetSpeed(motor_speed);
     
 }
 

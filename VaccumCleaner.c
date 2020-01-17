@@ -17,6 +17,7 @@
 #include "Disp.h"
 #include "Timer_ZCD.h"
 #include "Timer1.h"
+#include "Motor.h"
 
 volatile uint8 ISR_FLAG;
 
@@ -24,12 +25,22 @@ void main(void)
 {
     ISR_FLAG = 0;
     VC_Init(MID_SPEED);
+    TMR_Init();
+    TMR_Start();
+    TMR1_Init();
     Disp_Init();
     SW_Init();
+    
+    /*TEST CODE*/
+    GPIO_Init_Pin(&GPIO_PORTC_DIR,PIN_4,GPIO_OUT);
+    /*END TEST CODE*/
     while(1)
     {
         if(ISR_FLAG)
         {
+            /*TEST CODE*/
+            GPIO_Toggle_Pin(GPIO_PORTC_DATA,PIN_4);
+            /*END TEST CODE*/
             //tasks 
             SSD_Update();
             SW_Update();

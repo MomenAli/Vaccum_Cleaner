@@ -1751,7 +1751,22 @@ void VC_Update(void);
 # 8 "Motor.c" 2
 
 # 1 "./Motor.h" 1
-# 20 "./Motor.h"
+# 19 "./Motor.h"
+# 1 "./HW.h" 1
+# 18 "./HW.h"
+#pragma config FOSC = HS
+#pragma config WDTE = OFF
+#pragma config PWRTE = OFF
+#pragma config BOREN = OFF
+#pragma config LVP = OFF
+#pragma config CPD = OFF
+#pragma config WRT = OFF
+#pragma config CP = OFF
+# 163 "./HW.h"
+typedef unsigned char uint8;
+typedef unsigned int uint16;
+# 19 "./Motor.h" 2
+
 typedef enum
 {
     MO_NORMAL,
@@ -1767,21 +1782,6 @@ void Mo_generate_firing_pulse(void);
 # 9 "Motor.c" 2
 
 # 1 "./GPIO.h" 1
-# 17 "./GPIO.h"
-# 1 "./HW.h" 1
-# 18 "./HW.h"
-#pragma config FOSC = HS
-#pragma config WDTE = OFF
-#pragma config PWRTE = OFF
-#pragma config BOREN = OFF
-#pragma config LVP = OFF
-#pragma config CPD = OFF
-#pragma config WRT = OFF
-#pragma config CP = OFF
-# 162 "./HW.h"
-typedef unsigned char uint8;
-typedef unsigned int uint16;
-# 17 "./GPIO.h" 2
 # 42 "./GPIO.h"
 uint8 GPIO_Init_Port(volatile uint8 * DirRegAddress ,uint8 dir );
 uint8 GPIO_Init_Pin(volatile uint8 * DirRegAddress ,uint8 pin_number,uint8 dir );
@@ -1789,8 +1789,17 @@ uint8 GPIO_Init_Pin(volatile uint8 * DirRegAddress ,uint8 pin_number,uint8 dir )
 
 # 1 "./Port.h" 1
 # 11 "Motor.c" 2
-# 30 "Motor.c"
-static soft_switching_counter;
+
+# 1 "./Timer_ZCD.h" 1
+# 45 "./Timer_ZCD.h"
+void TMR_Init(void);
+void TMR_Start(void);
+void TMR_Stop(void);
+uint8 TMR_CheckOverflow(void);
+void TMR0_ISR(void);
+# 12 "Motor.c" 2
+# 31 "Motor.c"
+static uint8 soft_switching_counter;
 
 
 
@@ -1831,7 +1840,13 @@ void Mo_SetSpeed(MOTOR_SPEED_t m)
 void Mo_Update(void)
 {
 
+    static uint8 motor_tick_counter = 0;
 
+    motor_tick_counter += (10);
+
+    if(motor_tick_counter != (20)) return;
+
+    motor_tick_counter = 0;
 
     switch(motor_state)
     {
@@ -1868,7 +1883,7 @@ void Mo_Update(void)
             {
 
 
-                soft_switching_counter += (5);
+                soft_switching_counter += (20);
 
                 if(soft_switching_counter == (40))
                 {

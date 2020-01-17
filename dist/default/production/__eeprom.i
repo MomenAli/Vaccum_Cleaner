@@ -1,4 +1,4 @@
-# 1 "SSD.c"
+# 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\sources\\c90\\pic\\__eeprom.c"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
 # 288 "<built-in>" 3
@@ -6,15 +6,7 @@
 # 1 "<built-in>" 2
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\language_support.h" 1 3
 # 2 "<built-in>" 2
-# 1 "SSD.c" 2
-
-
-
-
-
-
-# 1 "./Port.h" 1
-# 15 "./Port.h"
+# 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\sources\\c90\\pic\\__eeprom.c" 2
 # 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 1 3
 # 18 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
@@ -1728,199 +1720,176 @@ extern __bank0 unsigned char __resetbits;
 extern __bank0 __bit __powerdown;
 extern __bank0 __bit __timeout;
 # 27 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\include\\xc.h" 2 3
-# 15 "./Port.h" 2
+# 1 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\sources\\c90\\pic\\__eeprom.c" 2
 
 
-# 1 "./HW.h" 1
-# 18 "./HW.h"
-#pragma config FOSC = HS
-#pragma config WDTE = OFF
-#pragma config PWRTE = OFF
-#pragma config BOREN = OFF
-#pragma config LVP = OFF
-#pragma config CPD = OFF
-#pragma config WRT = OFF
-#pragma config CP = OFF
-# 163 "./HW.h"
-typedef unsigned char uint8;
-typedef unsigned int uint16;
-# 17 "./Port.h" 2
 
-# 1 "./GPIO.h" 1
-# 42 "./GPIO.h"
-uint8 GPIO_Init_Port(volatile uint8 * DirRegAddress ,uint8 dir );
-uint8 GPIO_Init_Pin(volatile uint8 * DirRegAddress ,uint8 pin_number,uint8 dir );
-# 18 "./Port.h" 2
-# 7 "SSD.c" 2
 
-# 1 "./SSD.h" 1
-# 30 "./SSD.h"
-typedef enum
+void
+__eecpymem(volatile unsigned char *to, __eeprom unsigned char * from, unsigned char size)
 {
-    SSD_L_1 = 0,
-    SSD_L_2,
-    SSD_L_3,
-    SSD_NULL
-}SSD_Symbol_t;
+ volatile unsigned char *cp = to;
 
+ while (EECON1bits.WR) continue;
+ EEADR = (unsigned char)from;
+ while(size--) {
+  while (EECON1bits.WR) continue;
 
+  EECON1 &= 0x7F;
 
-
-
-
-typedef enum
-{
-    SSD_FIRST,
-    SSD_SECOND,
-    SSD_THIRD,
-}SSD_t;
-
-
-typedef enum
-{
-    SSD_OFF = 0,
-    SSD_ON = 1
-}tSSD_State;
-
-void SSD_Init(SSD_Symbol_t sym,SSD_t ssd);
-void SSD_Set_Symbol(SSD_Symbol_t symbol,SSD_t index);
-void SSD_Update(void);
-# 8 "SSD.c" 2
-
-# 1 "./Timer_ZCD.h" 1
-# 45 "./Timer_ZCD.h"
-void TMR_Init(void);
-void TMR_Start(void);
-void TMR_Stop(void);
-uint8 TMR_CheckOverflow(void);
-void TMR0_ISR(void);
-# 9 "SSD.c" 2
-# 25 "SSD.c"
-void SSD_Disable(SSD_t s);
-void SSD_Enable(SSD_t s);
-void SSD_Data_write(void);
-
-
-
-
-static SSD_Symbol_t Buffer[(4)];
-
-
-
-static uint8 currentSSD = 0;
-
-
-
-
-
-
-static uint8 SSD_LOT_ARR[] =
-{
-    0b00001000,
-    0b01001000,
-    0b01001001,
-    0b00000000
-};
-
-
-void SSD_Init(SSD_Symbol_t sym,SSD_t ssd)
-{
-
-    GPIO_Init_Port(&(TRISD),(0));
-
-    switch(ssd)
-    {
-        case SSD_FIRST:
-
-            GPIO_Init_Pin(&(TRISB),(7),(0));
-            (((PORTB))=((PORTB) & ~(1<<(7)))|(SSD_OFF<<(7)));
-            SSD_Set_Symbol(sym,SSD_FIRST);
-            break;
-        case SSD_SECOND:
-
-            GPIO_Init_Pin(&(TRISB),(6),(0));
-            (((PORTB))=((PORTB) & ~(1<<(6)))|(SSD_OFF<<(6)));
-            SSD_Set_Symbol(sym,SSD_SECOND);
-            break;
-        case SSD_THIRD:
-
-            GPIO_Init_Pin(&(TRISB),(5),(0));
-            (((PORTB))=((PORTB) & ~(1<<(5)))|(SSD_OFF<<(5)));
-            SSD_Set_Symbol(sym,SSD_THIRD);
-            break;
-    }
-}
-void SSD_Set_Symbol(SSD_Symbol_t symbol,SSD_t index)
-{
-
-    Buffer[index] = symbol;
-}
-void SSD_Update(void)
-{
-
-
-
-    static uint8 SSD_Time_Counter = 0;
-    SSD_Time_Counter += (10);
-
-    if(SSD_Time_Counter != (10))
-    {
-        return;
-    }
-    SSD_Time_Counter = 0;
-
-
-    SSD_Disable(currentSSD);
-
-    currentSSD++;
-    if(currentSSD > SSD_THIRD)currentSSD = 0;
-
-    SSD_Data_write();
-
-    SSD_Enable(currentSSD);
+  EECON1bits.RD = 1;
+  *cp++ = EEDATA;
+  ++EEADR;
+ }
+# 36 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\sources\\c90\\pic\\__eeprom.c"
 }
 
-void SSD_Disable(SSD_t s)
+void
+__memcpyee(__eeprom unsigned char * to, const unsigned char *from, unsigned char size)
 {
-    switch(s)
-    {
-        case SSD_FIRST:
-            (((PORTB))=((PORTB) & ~(1<<(7)))|(SSD_OFF<<(7)));
-            break;
-        case SSD_SECOND:
-            (((PORTB))=((PORTB) & ~(1<<(6)))|(SSD_OFF<<(6)));
-            break;
-        case SSD_THIRD:
-            (((PORTB))=((PORTB) & ~(1<<(5)))|(SSD_OFF<<(5)));
-            break;
-        default:
-                             ;
-    }
+ const unsigned char *ptr =from;
+
+ while (EECON1bits.WR) continue;
+ EEADR = (unsigned char)to - 1U;
+
+ EECON1 &= 0x7F;
+
+ while(size--) {
+  while (EECON1bits.WR) {
+   continue;
+  }
+  EEDATA = *ptr++;
+  ++EEADR;
+  STATUSbits.CARRY = 0;
+  if (INTCONbits.GIE) {
+   STATUSbits.CARRY = 1;
+  }
+  INTCONbits.GIE = 0;
+  EECON1bits.WREN = 1;
+  EECON2 = 0x55;
+  EECON2 = 0xAA;
+  EECON1bits.WR = 1;
+  EECON1bits.WREN = 0;
+  if (STATUSbits.CARRY) {
+   INTCONbits.GIE = 1;
+  }
+ }
+# 101 "C:\\Program Files (x86)\\Microchip\\xc8\\v2.10\\pic\\sources\\c90\\pic\\__eeprom.c"
 }
 
-void SSD_Enable(SSD_t s)
+unsigned char
+__eetoc(__eeprom void *addr)
 {
-    switch(s)
-    {
-        case SSD_FIRST:
-            (((PORTB))=((PORTB) & ~(1<<(7)))|(SSD_ON<<(7)));
-            break;
-        case SSD_SECOND:
-            (((PORTB))=((PORTB) & ~(1<<(6)))|(SSD_ON<<(6)));
-            break;
-        case SSD_THIRD:
-            (((PORTB))=((PORTB) & ~(1<<(5)))|(SSD_ON<<(5)));
-            break;
-        default:
-                             ;
-    }
+ unsigned char data;
+ __eecpymem((unsigned char *) &data,addr,1);
+ return data;
 }
 
-
-
-void SSD_Data_write(void)
+unsigned int
+__eetoi(__eeprom void *addr)
 {
+ unsigned int data;
+ __eecpymem((unsigned char *) &data,addr,2);
+ return data;
+}
 
-    (((PORTD))=(SSD_LOT_ARR[Buffer[currentSSD]]));
+#pragma warning push
+#pragma warning disable 2040
+__uint24
+__eetom(__eeprom void *addr)
+{
+ __uint24 data;
+ __eecpymem((unsigned char *) &data,addr,3);
+ return data;
+}
+#pragma warning pop
 
+unsigned long
+__eetol(__eeprom void *addr)
+{
+ unsigned long data;
+ __eecpymem((unsigned char *) &data,addr,4);
+ return data;
+}
+
+#pragma warning push
+#pragma warning disable 1516
+unsigned long long
+__eetoo(__eeprom void *addr)
+{
+ unsigned long long data;
+ __eecpymem((unsigned char *) &data,addr,8);
+ return data;
+}
+#pragma warning pop
+
+unsigned char
+__ctoee(__eeprom void *addr, unsigned char data)
+{
+ __memcpyee(addr,(unsigned char *) &data,1);
+ return data;
+}
+
+unsigned int
+__itoee(__eeprom void *addr, unsigned int data)
+{
+ __memcpyee(addr,(unsigned char *) &data,2);
+ return data;
+}
+
+#pragma warning push
+#pragma warning disable 2040
+__uint24
+__mtoee(__eeprom void *addr, __uint24 data)
+{
+ __memcpyee(addr,(unsigned char *) &data,3);
+ return data;
+}
+#pragma warning pop
+
+unsigned long
+__ltoee(__eeprom void *addr, unsigned long data)
+{
+ __memcpyee(addr,(unsigned char *) &data,4);
+ return data;
+}
+
+#pragma warning push
+#pragma warning disable 1516
+unsigned long long
+__otoee(__eeprom void *addr, unsigned long long data)
+{
+ __memcpyee(addr,(unsigned char *) &data,8);
+ return data;
+}
+#pragma warning pop
+
+float
+__eetoft(__eeprom void *addr)
+{
+ float data;
+ __eecpymem((unsigned char *) &data,addr,3);
+ return data;
+}
+
+double
+__eetofl(__eeprom void *addr)
+{
+ double data;
+ __eecpymem((unsigned char *) &data,addr,4);
+ return data;
+}
+
+float
+__fttoee(__eeprom void *addr, float data)
+{
+ __memcpyee(addr,(unsigned char *) &data,3);
+ return data;
+}
+
+double
+__fltoee(__eeprom void *addr, double data)
+{
+ __memcpyee(addr,(unsigned char *) &data,4);
+ return data;
 }

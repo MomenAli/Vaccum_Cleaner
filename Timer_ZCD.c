@@ -20,6 +20,8 @@
 
 static uint16 tempCounter = 0;
 
+extern volatile uint8 ISR_FLAG;
+
 void TMR_Init(void)
 {
     // initialize the timer

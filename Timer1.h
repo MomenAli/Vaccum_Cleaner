@@ -11,7 +11,6 @@
 #ifndef __TIMER_1_H
 #define	__TIMER_1_H
 
-#include <xc.h>
 
 #include "HW.h" // include processor files - each processor file is guarded.  
 
@@ -30,7 +29,8 @@
  * 1 degree = 10 ms / 180 = 55us
  * TMR1 = 65536 - ((DEGREE)* 55)
  */
-#define TMR1_LOAD_REGISTER(DEGREE)		(TMR1_REG = 65536 - ((DEGREE) * 55))
+#define TMR1_LOAD_REGISTER(DEGREE)		(TMR1_REG = (65536 - ((DEGREE) * 55)));
+                                      //  (TMR1H_REG = ((65536 - ((DEGREE) * 55)) / 256))
 
 /*TIMER 1 START AND STOP*/
 #define TMR1_START  (TMR1_START_FLAG = 1) 
@@ -42,7 +42,7 @@
 #define TMR1_CLEAR_FLAG			(TMR1_I_FLAG = 0)
 
 void TMR1_Init(void);
-void TMR1_Start(uint8 degree);
+void TMR1_Start(uint16 degree);
 void TMR1_Stop(void);
 uint8 TMR1_CheckOverflow(void);
 void TMR1_ISR(void);
